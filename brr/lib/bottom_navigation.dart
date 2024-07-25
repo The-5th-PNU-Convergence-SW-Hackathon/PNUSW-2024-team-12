@@ -59,7 +59,7 @@ class MyBottomNavigationBar extends GetView<MyBottomNavigationBarController> {
                       icon: Column(
                         children: [
                           Icon(
-                            Icons.person_outlined,
+                            Icons.home_outlined,
                             color: controller.selectedIndex.value == 1 ? Colors.black : Colors.grey,
                             size: 30.0,
                             semanticLabel: 'Text to announce in accessibility modes',
@@ -71,7 +71,7 @@ class MyBottomNavigationBar extends GetView<MyBottomNavigationBarController> {
                       icon: Column(
                         children: [
                           Icon(
-                            Icons.notifications_none_outlined,
+                            Icons.person_outlined,
                             color: controller.selectedIndex.value == 2 ? Colors.black : Colors.grey,
                             size: 30.0,
                             semanticLabel: 'Text to announce in accessibility modes',

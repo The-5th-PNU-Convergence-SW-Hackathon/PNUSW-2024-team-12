@@ -10,6 +10,7 @@ class MainPageView extends StatelessWidget {
       const SliverAppBar(
           pinned: true,
           backgroundColor: Colors.white,
+          leading: SizedBox(),
           flexibleSpace: FlexibleSpaceBar(
               titlePadding: EdgeInsetsDirectional.only(start: 25.0),
               title: Align(

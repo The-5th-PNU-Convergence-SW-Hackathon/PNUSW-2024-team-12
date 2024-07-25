@@ -3,19 +3,19 @@ import 'package:get/get.dart';
 class MyBottomNavigationBarController extends GetxController {
   static MyBottomNavigationBarController get to => Get.find();
 
-  final RxInt selectedIndex = 0.obs;
+  final RxInt selectedIndex = 1.obs;
 
   void changeIndex(int index) {
     selectedIndex(index);
     switch (index) {
       case 0:
-        Get.toNamed('/main');
+        Get.toNamed('/fastmatch');
         break;
       case 1:
-        Get.toNamed('/main');
+        Get.toNamed('/');
         break;
       case 2:
-        Get.toNamed('/main');
+        Get.toNamed('/mypage');
         break;
     }
   }
