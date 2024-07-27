@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Float, Boolean
 from sqlalchemy.orm import relationship
-from database import user_Base
+from database import user_Base,history_Base
 
 # DB에 저장하는 양식
 class User(user_Base):
@@ -17,14 +17,15 @@ class User(user_Base):
 
 #     taxi_id = Column(Integer, nullable=False)
 
-# class History():
-#     __tablename__ = "historys"
-
-#     boarding_time = Column(DateTime, nullable=False) # 탑승시간
-#     quit_time = Column(DateTime, nullable=False) # 하차시간
-#     amount = Column(Integer, nullable=False) # 금액
-#     depart = Column(Text, nullable=False) # 탑승장소
-#     dest = Column(Text, nullable=False) # 하차장소
+class History():
+    __tablename__ = "historys"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(String, index=True)
+    boarding_time = Column(DateTime, nullable=False) # 탑승시간
+    quit_time = Column(DateTime, nullable=False) # 하차시간
+    amount = Column(Integer, nullable=False) # 금액
+    depart = Column(Text, nullable=False) # 탑승장소
+    dest = Column(Text, nullable=False) # 하차장소
 
 #     # user_key = Column(Integer, ForeignKey("users.id"))
 
