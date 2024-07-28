@@ -9,7 +9,7 @@ class MyBottomNavigationBarController extends GetxController {
     selectedIndex(index);
     switch (index) {
       case 0:
-        Get.toNamed('/fastmatch');
+        Get.toNamed('/matchlist');
         break;
       case 1:
         Get.toNamed('/');

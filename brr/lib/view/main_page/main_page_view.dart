@@ -31,22 +31,9 @@ class MainPageView extends StatelessWidget {
           sliver: SliverList(
             delegate: SliverChildListDelegate([
               const SizedBox(height: 10),
-              Container(
-                padding: const EdgeInsets.all(15.0),
+              buildContainer(
                 height: 150,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
+                color: Colors.blue,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -62,63 +49,18 @@ class MainPageView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.black,
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          icon: const Icon(Icons.link, size: 15),
-                          label: const Text(
-                            "빠른 매칭",
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
+                        buildElevatedButton("빠른 매칭", Icons.link),
                         const SizedBox(width: 10),
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.black,
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          icon: const Icon(Icons.alarm, size: 15),
-                          label: const Text(
-                            "매칭 예약",
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
+                        buildElevatedButton("매칭 예약", Icons.alarm),
                       ],
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 15),
-              Container(
-                width: double.infinity,
+              buildContainer(
                 height: 200,
-                padding: const EdgeInsets.all(15.0),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 243, 248, 255),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
+                color: const Color.fromARGB(255, 243, 248, 255),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -151,22 +93,9 @@ class MainPageView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 15.0),
-              Container(
-                width: double.infinity,
+              buildContainer(
+                color: const Color.fromARGB(255, 243, 248, 255),
                 height: 200,
-                padding: const EdgeInsets.all(15.0),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 243, 248, 255),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -400,5 +329,51 @@ class MainPageView extends StatelessWidget {
             ]),
           ))
     ]));
+  }
+
+  Widget buildContainer({
+    required Widget child,
+    double height = double.infinity,
+    double width = double.infinity,
+    required Color color,
+  }) {
+    return Container(
+      width: width,
+      height: height,
+      padding: const EdgeInsets.all(15.0),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 7,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+
+  Widget buildElevatedButton(String text, IconData icon) {
+    return ElevatedButton.icon(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      icon: Icon(icon, size: 15),
+      label: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 12,
+        ),
+      ),
+    );
   }
 }

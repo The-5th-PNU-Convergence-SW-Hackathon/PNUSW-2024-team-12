@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class FastmatchPageView extends StatefulWidget {
-  const FastmatchPageView({Key? key}) : super(key: key);
+class MatchinglistPageView extends StatefulWidget {
+  const MatchinglistPageView({Key? key}) : super(key: key);
 
   @override
-  _FastmatchPageViewState createState() => _FastmatchPageViewState();
+  _MatchinglistPageView createState() => _MatchinglistPageView();
 }
 
-class _FastmatchPageViewState extends State<FastmatchPageView> {
+class _MatchinglistPageView extends State<MatchinglistPageView> {
   bool isQuickMatch = true;
 
   @override
