@@ -108,12 +108,15 @@ def read_users(db: Session = Depends(get_userdb)):
     data = get_all_user(db)
     return data
 
-# 유저 정보를 불러옴(user_id에 따라)
-@router.get("/user/{user_id}", response_class=JSONResponse)
-def read_user(user_id, db: Session = Depends(get_userdb)):
-    data = get_user(user_id, db)
-   
-    return data
+@router.get("/check_token")
+def check_token(credentials: HTTPAuthorizationCredentials = Security(security)):
+    token = credentials.credentials
+    try:
+        payload = decode_jwt(token)
+        return {"status": "valid", "user_id": payload.get("sub")}
+    except HTTPException as e:
+        return {"status": "invalid", "detail": e.detail}
+
 
 # signin user : 회원가입
 @router.post("/signin", response_model=User)
@@ -178,23 +181,6 @@ def delete_user(user: Login_user, db: Session = Depends(get_userdb)):
         raise HTTPException(status_code=200, detail="회원정보가 삭제되었습니다.")
     else:
         raise HTTPException(status_code=409, detail="비밀번호가 틀렸습니다.")
-
-
-@router.get("/check_token")
-def check_token(credentials: HTTPAuthorizationCredentials = Security(security)):
-    print("hi")
-    token = credentials.credentials
-    try:
-        print("check_token -> try")
-        payload = decode_jwt(token)
-        return {"status": "valid", "user_id": payload.get("sub")}
-    except HTTPException as e:
-        return {"status": "invalid", "detail": e.detail}
-
-
-class UserPwd(BaseModel):
-    password: str
-    new_password: str
 
 
 # 유저 비밀번호 변경 : 기존 비밀번호, 새로운 비밀번호

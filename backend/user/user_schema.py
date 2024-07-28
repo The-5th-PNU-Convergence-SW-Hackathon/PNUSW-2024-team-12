@@ -9,3 +9,9 @@ class User(BaseModel):
 class Login_user(BaseModel):
     user_id: str
     password: str
+
+class modify_password(BaseModel):
+    user_id: str
+    password: str
+    new_password: str
+ 

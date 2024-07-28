@@ -2,11 +2,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-
+from dotenv import load_dotenv
+import os
+load_dotenv()
 # dotenv로 수정하기
-DB_PASSWORD = None
-USER_DB_NAME = None
-HISTORY_DB_NAME = None
+DB_PASSWORD = os.environ.get("DB_PASSWORD")
+USER_DB_NAME = os.environ.get("USER_DB_NAME")
+HISTORY_DB_NAME = os.environ.get("HISTORY_DB_NAME")
 SQLALCHEMY_DATABASE_URL_USER = f"mysql+mysqlconnector://root:{DB_PASSWORD}@localhost:3306/{USER_DB_NAME}"
 SQLALCHEMY_DATABASE_URL_HISTORY = f"mysql+mysqlconnector://root:{DB_PASSWORD}@localhost:3306/{HISTORY_DB_NAME}"
 
