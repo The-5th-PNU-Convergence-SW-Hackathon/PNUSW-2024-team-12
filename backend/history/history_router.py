@@ -1,33 +1,17 @@
 
 
-from fastapi import FastAPI, APIRouter, HTTPException, Depends
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, HTTPException, Depends
 from typing import List
-from database import history_Base, get_historydb, history_engine
+from database import get_historydb
 
 from sqlalchemy.orm import Session
 from database import get_historydb
 from models import History as History
 from history_schema import HistoryCreate, HistoryResponse
 
-# 비밀번호 해싱
-from passlib.context import CryptContext
-from user.user_schema import User, Login_user
-
-bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
-
-
 router = APIRouter(
     prefix="/history",
 )
-
-
-
-
-# signin user : 회원가입
-@router.get("/history_")
-def history():
-    return {"good work"}
 
 @router.post("/", response_model=HistoryResponse, tags=["history"])
 def create_post(history: HistoryCreate, db: Session = Depends(get_historydb)):
