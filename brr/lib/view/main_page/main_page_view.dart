@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:brr/controller/bottom_navigation_controller.dart';
 
 class MainPageView extends StatelessWidget {
-  const MainPageView({super.key});
+  MainPageView({super.key});
+
+  final _bottomNavController = Get.put(MyBottomNavigationBarController());
 
   @override
   Widget build(BuildContext context) {
@@ -229,7 +233,10 @@ class MainPageView extends StatelessWidget {
                           ],
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed("/matchlist");
+                            _bottomNavController.changeIndex(0);
+                          },
                           child: const Text(
                             "더보기",
                             style: TextStyle(

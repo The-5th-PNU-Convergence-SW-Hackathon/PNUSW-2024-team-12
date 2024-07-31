@@ -11,7 +11,7 @@ class MainRouter {
   static final List<GetPage> routes = [
     GetPage(
       name: '/',
-      page: () => const MainLayout(
+      page: () => MainLayout(
         child: MainPageView(),
       ),
     ),
