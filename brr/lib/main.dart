@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Brr',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: "Pretendard"
       ),
       initialRoute: '/',
       getPages: MainRouter.routes,
