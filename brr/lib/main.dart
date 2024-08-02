@@ -15,9 +15,9 @@ class MyApp extends StatelessWidget {
       title: 'Brr',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        fontFamily: "Pretendard"
+        fontFamily: "Pretendard" //기본 폰트 Pretendard로 설정
       ),
-      initialRoute: '/',
+      initialRoute: '/login',
       getPages: MainRouter.routes,
     );
   }

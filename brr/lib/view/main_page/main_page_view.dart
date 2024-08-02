@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/controller/bottom_navigation_controller.dart';
+import 'package:brr/design_materials/design_materials.dart';
 
 class MainPageView extends StatelessWidget {
   MainPageView({super.key});
@@ -11,24 +12,15 @@ class MainPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: CustomScrollView(slivers: [
-      const SliverAppBar(
+          SliverAppBar(
           pinned: true,
           backgroundColor: Colors.white,
-          leading: SizedBox(),
+          leading: const SizedBox(),
           flexibleSpace: FlexibleSpaceBar(
-              titlePadding: EdgeInsetsDirectional.only(start: 25.0),
+              titlePadding: const EdgeInsetsDirectional.only(start: 25.0),
               title: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  'BRR',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic,
-                    letterSpacing: -2.0,
-                  ),
-                ),
+                child: brrLogo()
               ))),
       SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),

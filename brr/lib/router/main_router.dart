@@ -6,6 +6,8 @@ import 'package:brr/layout/main_layout.dart';
 import 'package:brr/view/mypage_page/mypage_page_view.dart';
 import 'package:brr/view/schedule_page/schedule_page_view.dart';
 import 'package:brr/view/matching_page/fast_matching_view_page.dart';
+import 'package:brr/view/sign_up_page/sign_up_view.dart';
+import 'package:brr/view/login_page/login_page_view.dart';
 
 class MainRouter {
   static final List<GetPage> routes = [
@@ -39,5 +41,13 @@ class MainRouter {
         child: FastMatchingPageView(),
       ),
     ),
+    GetPage(
+      name: '/login',
+      page: () => const LoginPageView(),
+    ),
+    GetPage(
+      name: '/signup',
+      page: () => const SignUpView(),
+    )
   ];
 }
