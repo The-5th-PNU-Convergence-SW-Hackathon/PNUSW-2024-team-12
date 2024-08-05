@@ -71,7 +71,9 @@ class _SignUpState extends State<SignUpView> {
               SizedBox(
                   width: 270,
                   child: OutlinedButton(
-                      onPressed:(){},
+                      onPressed:(){
+                        isNormalAcc ? Get.toNamed("/") : Get.toNamed("/drivermain");
+                      },
                       style: OutlinedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)

@@ -8,6 +8,7 @@ import 'package:brr/view/schedule_page/schedule_page_view.dart';
 import 'package:brr/view/matching_page/fast_matching_view_page.dart';
 import 'package:brr/view/sign_up_page/sign_up_view.dart';
 import 'package:brr/view/login_page/login_page_view.dart';
+import 'package:brr/view/main_page/driver_main_page_view.dart';
 
 class MainRouter {
   static final List<GetPage> routes = [
@@ -48,6 +49,12 @@ class MainRouter {
     GetPage(
       name: '/signup',
       page: () => const SignUpView(),
+    ),
+    GetPage(
+      name: '/drivermain',
+      page: () => MainLayout(
+        child: DriverMainPageView()
+      )
     )
   ];
 }
