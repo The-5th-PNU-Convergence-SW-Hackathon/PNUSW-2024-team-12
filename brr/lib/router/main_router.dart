@@ -1,3 +1,4 @@
+import 'package:brr/view/mypage_page/mydata_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/view/main_page/main_page_view.dart';
@@ -9,6 +10,7 @@ import 'package:brr/view/matching_page/fast_matching_view_page.dart';
 import 'package:brr/view/sign_up_page/sign_up_view.dart';
 import 'package:brr/view/login_page/login_page_view.dart';
 import 'package:brr/view/main_page/driver_main_page_view.dart';
+import 'package:brr/view/mypage_page/mydata_page_view.dart';
 
 class MainRouter {
   static final List<GetPage> routes = [
@@ -37,7 +39,7 @@ class MainRouter {
       ),
     ),
     GetPage(
-      name: '/fastmatch',
+      name: '/fastmatching',
       page: () => const MainLayout(
         child: FastMatchingPageView(),
       ),
@@ -50,11 +52,7 @@ class MainRouter {
       name: '/signup',
       page: () => const SignUpView(),
     ),
-    GetPage(
-      name: '/drivermain',
-      page: () => MainLayout(
-        child: DriverMainPageView()
-      )
-    )
+    GetPage(name: '/drivermain', page: () => MainLayout(child: DriverMainPageView())),
+    GetPage(name: '/mydata', page: () => const MainLayout(child: MyDataPageView())),
   ];
 }

@@ -19,8 +19,8 @@ class _SignUpState extends State<SignUpView> {
       home: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: (){
-/*              Navigator.pop(context);*/
+            onPressed: () {
+              Get.back();
             },
             icon: const Icon(Icons.arrow_back_ios),
           ),
@@ -30,87 +30,72 @@ class _SignUpState extends State<SignUpView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               brrLogo(),
-              const SizedBox( height: 34, ),
-
+              const SizedBox(
+                height: 34,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                    onPressed: (){
+                    onPressed: () {
                       setState(() {
                         isNormalAcc = true;
                       });
                     },
-                    child: Text( '회원으로 가입', style: TextStyle( fontSize: 16, fontWeight: FontWeight.w800,
-                        color: isNormalAcc ? Colors.black : Colors.grey ), ),
+                    child: Text(
+                      '회원으로 가입',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: isNormalAcc ? Colors.black : Colors.grey),
+                    ),
                   ),
-
                   Container(
                     width: 1,
                     height: 14.5,
                     color: Colors.black,
                   ),
-
                   TextButton(
-                    onPressed: (){
+                    onPressed: () {
                       setState(() {
                         isNormalAcc = false;
                       });
                     },
-                    child: Text( '택시기사로 가입', style: TextStyle( fontSize: 16, fontWeight: FontWeight.w800,
-                        color: isNormalAcc ? Colors.grey : Colors.black ), ),
+                    child: Text(
+                      '택시기사로 가입',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: isNormalAcc ? Colors.grey : Colors.black),
+                    ),
                   ),
                 ],
               ),
-              const SizedBox( height: 34 ),
-
+              const SizedBox(height: 34),
               isNormalAcc ? const NormalSignUp() : const DriverSignUp(),
-
-              const SizedBox( height: 33 ),
-
+              const SizedBox(height: 33),
               SizedBox(
                   width: 270,
                   child: OutlinedButton(
-                      onPressed:(){
+                      onPressed: () {
                         isNormalAcc ? Get.toNamed("/") : Get.toNamed("/drivermain");
                       },
-                      style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)
-                          )
-                      ),
-                      child: const Text( '가입하기' , style: TextStyle( color: Colors.black ) )
-                  )
-              ),
-              const SizedBox( height: 10 ),
-
+                      style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                      child: const Text('가입하기', style: TextStyle(color: Colors.black)))),
+              const SizedBox(height: 10),
               SizedBox(
                 width: 270,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     TextButton(
-                        onPressed:(){}, child: const Text(
-                      '아이디/비밀번호 찾기',
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Color(0xff767676),
-                          decoration: TextDecoration.underline
-                      ),
-                    )
-                    ),
+                        onPressed: () {},
+                        child: const Text(
+                          '아이디/비밀번호 찾기',
+                          style: TextStyle(fontSize: 12, color: Color(0xff767676), decoration: TextDecoration.underline),
+                        )),
                     TextButton(
-                        onPressed:(){
+                        onPressed: () {
                           Get.toNamed("/login");
-                        }, child: const Text(
-                      '로그인',
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Color(0xff767676),
-                          decoration: TextDecoration.underline
-                      ),
-                    )
-                    )
+                        },
+                        child: const Text(
+                          '로그인',
+                          style: TextStyle(fontSize: 12, color: Color(0xff767676), decoration: TextDecoration.underline),
+                        ))
                   ],
                 ),
               )
@@ -161,42 +146,23 @@ class _DriverSignUpState extends State<DriverSignUp> {
         logInTextField('비밀번호', true),
         logInTextField('비밀번호 확인', true),
         logInTextField('전화번호', false),
-
-        const SizedBox( height: 24 ),
-
-        TextButton(onPressed: (){},
-          style: TextButton.styleFrom(
-            minimumSize: Size.zero
-          ),
-          child: const Text('운수사업자등록번호 확인 >',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight:
-              FontWeight.w700,
-              color: Colors.black
-            ),
-          )
-        ),
-
-        const SizedBox( height: 10 ),
-
-        TextButton(onPressed: (){},
-          style: TextButton.styleFrom(
-            minimumSize: Size.zero
-          ),
-          child: const Text('면허증 인증 >',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight:
-              FontWeight.w700,
-              color: Colors.black
-            ),
-          )
-        ),
+        const SizedBox(height: 24),
+        TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(minimumSize: Size.zero),
+            child: const Text(
+              '운수사업자등록번호 확인 >',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.black),
+            )),
+        const SizedBox(height: 10),
+        TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(minimumSize: Size.zero),
+            child: const Text(
+              '면허증 인증 >',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.black),
+            )),
       ],
     );
   }
 }
-
-
-
