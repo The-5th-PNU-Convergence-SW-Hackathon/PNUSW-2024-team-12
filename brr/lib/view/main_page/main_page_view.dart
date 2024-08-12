@@ -12,16 +12,11 @@ class MainPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: CustomScrollView(slivers: [
-          SliverAppBar(
+      SliverAppBar(
           pinned: true,
           backgroundColor: Colors.white,
           leading: const SizedBox(),
-          flexibleSpace: FlexibleSpaceBar(
-              titlePadding: const EdgeInsetsDirectional.only(start: 25.0),
-              title: Align(
-                alignment: Alignment.centerLeft,
-                child: brrLogo()
-              ))),
+          flexibleSpace: FlexibleSpaceBar(titlePadding: const EdgeInsetsDirectional.only(start: 25.0), title: Align(alignment: Alignment.centerLeft, child: brrLogo()))),
       SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
           sliver: SliverList(
@@ -358,7 +353,9 @@ class MainPageView extends StatelessWidget {
 
   Widget buildElevatedButton(String text, IconData icon) {
     return ElevatedButton.icon(
-      onPressed: () {},
+      onPressed: () {
+        Get.toNamed('/matching');
+      },
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,

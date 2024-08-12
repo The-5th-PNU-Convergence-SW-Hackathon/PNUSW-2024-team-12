@@ -39,9 +39,9 @@ class MainRouter {
       ),
     ),
     GetPage(
-      name: '/fastmatching',
+      name: '/matching',
       page: () => const MainLayout(
-        child: FastMatchingPageView(),
+        child: MatchingPageView(),
       ),
     ),
     GetPage(
