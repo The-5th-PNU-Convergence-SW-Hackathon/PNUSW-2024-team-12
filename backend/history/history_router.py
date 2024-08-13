@@ -7,7 +7,7 @@ from database import get_historydb
 from sqlalchemy.orm import Session
 from database import get_historydb
 from models import History as History
-from history_schema import HistoryCreate, HistoryResponse
+from history.history_schema import HistoryCreate, HistoryResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import jwt
 import os
