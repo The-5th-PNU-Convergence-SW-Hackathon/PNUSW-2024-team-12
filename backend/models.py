@@ -30,12 +30,12 @@ class History():
 #     # user_key = Column(Integer, ForeignKey("users.id"))
 
 
-# class Matching():
-#     __tablename__ = "matching"
+class Matching():
+    __tablename__ = "matching"
 
-#     matching_id = Column(Integer, primary_key=True, index=True)
-#     boarding_time = Column(DateTime, nullable=False) # 탑승시간
-#     depart = Column(Text, nullable=False) # 탑승장소
-#     dest = Column(Text, nullable=False) # 하차장소
-#     member = Column(Integer, nullable=False)
+    matching_id = Column(Integer, primary_key=True, index=True)
+    boarding_time = Column(DateTime, nullable=False) # 탑승시간
+    depart = Column(Text, nullable=False) # 탑승장소
+    dest = Column(Text, nullable=False) # 하차장소
+    member = Column(Integer, nullable=False)
     
