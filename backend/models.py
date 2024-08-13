@@ -21,7 +21,7 @@ class History(history_Base):
     __tablename__ = "history"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(String, index=True)
+    user_id = Column(String(255), index=True)
     boarding_time = Column(DateTime)
     quit_time = Column(DateTime)
     amount = Column(Integer)
