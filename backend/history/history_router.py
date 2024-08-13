@@ -6,7 +6,7 @@ from database import get_historydb
 
 from sqlalchemy.orm import Session
 from database import get_historydb
-from models import History as History
+from models import History as History_model
 from history.history_schema import HistoryCreate, HistoryResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import jwt
@@ -38,7 +38,7 @@ def create_post(history: HistoryCreate,credentials: HTTPAuthorizationCredentials
     token = credentials.credentials
     payload = decode_jwt(token)
     user_id = payload.get("sub")
-    db_history = History(user_id= user_id, boarding_time=history.boarding_time, quit_time = history.quit_time,
+    db_history = History_model(user_id= user_id, boarding_time=history.boarding_time, quit_time = history.quit_time,
                       amount=history.amount,depart=history.depart,dest=history.dest)
     db.add(db_history)
     db.commit()
@@ -47,7 +47,7 @@ def create_post(history: HistoryCreate,credentials: HTTPAuthorizationCredentials
 
 @router.get("/load", response_model=List[HistoryResponse], tags=["history"])
 def read_notice(user_id: str, db: Session = Depends(get_historydb)):
-    db_history = db.query(History).filter(History.user_id == user_id).all()
+    db_history = db.query(History_model).filter(History_model.user_id == user_id).all()
     if db_history is None:
         raise HTTPException(status_code=404, detail="내역을 찾을 수 없음")
     return db_history

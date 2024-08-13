@@ -17,15 +17,17 @@ class User(user_Base):
 
 #     taxi_id = Column(Integer, nullable=False)
 
-class History():
-    __tablename__ = "historys"
+class History(history_Base):
+    __tablename__ = "history"
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(String, index=True)
-    boarding_time = Column(DateTime, nullable=False) # 탑승시간
-    quit_time = Column(DateTime, nullable=False) # 하차시간
-    amount = Column(Integer, nullable=False) # 금액
-    depart = Column(Text, nullable=False) # 탑승장소
-    dest = Column(Text, nullable=False) # 하차장소
+    boarding_time = Column(DateTime)
+    quit_time = Column(DateTime)
+    amount = Column(Integer)
+    depart = Column(String)
+    dest = Column(String)
+
 
 #     # user_key = Column(Integer, ForeignKey("users.id"))
 
