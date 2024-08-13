@@ -2,7 +2,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
+import os
 
+DB_HOST = os.environ.get("DB_HOST")
+DB_PASSWORD = os.environ.get("DB_PASSWORD")
+USER_DB_NAME = os.environ.get("USER_DB_NAME")
+HISTORY_DB_NAME = os.environ.get("HISTORY_DB_NAME")
+DB_PORT = os.environ.get("DB_PORT", 3306)
 
 SQLALCHEMY_DATABASE_URL_USER = f"mysql+mysqlconnector://root:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{USER_DB_NAME}"
 SQLALCHEMY_DATABASE_URL_HISTORY = f"mysql+mysqlconnector://root:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{HISTORY_DB_NAME}"
