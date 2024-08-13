@@ -25,8 +25,8 @@ class History(history_Base):
     boarding_time = Column(DateTime)
     quit_time = Column(DateTime)
     amount = Column(Integer)
-    depart = Column(String)
-    dest = Column(String)
+    depart = Column(String(50))
+    dest = Column(String(50))
 
 
 #     # user_key = Column(Integer, ForeignKey("users.id"))
