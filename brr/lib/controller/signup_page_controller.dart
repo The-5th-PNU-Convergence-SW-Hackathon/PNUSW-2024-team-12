@@ -15,11 +15,16 @@ class SignUpPageController extends GetxController {
   final RegExp idPwdRegExp = RegExp(r'^[a-zA-Z0-9]+$');
   final RegExp generalRegExp = RegExp(r'^[a-zA-Z0-9ㄱ-ㅎ가-힣]+$');
 
-  void signupButton() async {
+  void signupButton(bool userType) async {
     String apiUrl = '${Urls.apiUrl}user/';
     try {
       // 모든 필드가 비어있는 경우 처리
-      if (idController.text.isEmpty || pwdController.text.isEmpty || pwdCheckController.text.isEmpty || phoneNumberController.text.isEmpty || classNumberController.text.isEmpty) {
+      if (idController.text.isEmpty ||
+          pwdController.text.isEmpty ||
+          pwdCheckController.text.isEmpty ||
+          nicknameController.text.isEmpty ||
+          phoneNumberController.text.isEmpty ||
+          classNumberController.text.isEmpty) {
         Get.snackbar(
           '회원가입 실패',
           '모든 칸을 채워주세요.',
@@ -48,22 +53,23 @@ class SignUpPageController extends GetxController {
         return;
       }
 
-      // 학번이 9자리숫자가 아닐 경우 처리
+      // 학번이 9자리 숫자가 아닐 경우 처리
       int? classNumber = int.tryParse(classNumberController.text);
       if (classNumber == null || classNumber.toString().length != 9) {
         Get.snackbar(
           '회원가입 실패',
-          '학번에는 9자리 숫자로 작성해주세요.',
+          '학번은 9자리 숫자로 작성해주세요.',
           snackPosition: SnackPosition.BOTTOM,
         );
         return;
       }
 
+      // 전화번호 유효성 검사
       int? phoneNumber = int.tryParse(phoneNumberController.text);
       if (phoneNumber == null || phoneNumber.toString().length != 11) {
         Get.snackbar(
           '회원가입 실패',
-          '전화번호는 11자리 숫자로, 010########형식을 지켜주세요.',
+          '전화번호는 11자리 숫자로, 010######## 형식을 지켜주세요.',
           snackPosition: SnackPosition.BOTTOM,
         );
         return;
@@ -73,11 +79,12 @@ class SignUpPageController extends GetxController {
         Uri.parse(apiUrl),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          "nickname": nicknameController.text,
           "user_id": idController.text,
           "password": pwdController.text,
-          "phone": phoneNumberController.text,
-          "class": classNumberController.text,
+          "nickname": nicknameController.text,
+          "phone_number": phoneNumberController.text,
+          "student_address": classNumberController.text,
+          "user_type": userType,
         }),
       );
 
@@ -102,14 +109,14 @@ class SignUpPageController extends GetxController {
         // 회원가입 실패 처리
         Get.snackbar(
           '회원가입 실패',
-          '회원가입에 실패했습니다.',
+          '회원가입에 실패했습니다. 코드: ${response.statusCode}',
           snackPosition: SnackPosition.BOTTOM,
         );
       }
     } catch (e) {
       Get.snackbar(
         'Error',
-        'Failed to connect to the server: $e',
+        '서버 연결에 실패했습니다: $e',
         snackPosition: SnackPosition.BOTTOM,
       );
     }
@@ -120,6 +127,7 @@ class SignUpPageController extends GetxController {
     idController.dispose();
     pwdController.dispose();
     pwdCheckController.dispose();
+    nicknameController.dispose();
     phoneNumberController.dispose();
     classNumberController.dispose();
     super.onClose();
