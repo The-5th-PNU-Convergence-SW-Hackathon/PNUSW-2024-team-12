@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/design_materials/design_materials.dart';
 
-class SignUpView extends StatefulWidget {
-  const SignUpView({super.key});
+class SignUpPageView extends StatefulWidget {
+  const SignUpPageView({super.key});
 
   @override
-  State<SignUpView> createState() => _SignUpState();
+  State<SignUpPageView> createState() => _SignUpState();
 }
 
-class _SignUpState extends State<SignUpView> {
+class _SignUpState extends State<SignUpPageView> {
   final _controller = Get.put(SignUpPageController());
 
   bool isNormalAcc = true;

@@ -1,3 +1,4 @@
+import 'package:brr/view/history_page/history_page_view.dart';
 import 'package:brr/view/mypage_page/mydata_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import 'package:brr/view/sign_up_page/sign_up_view.dart';
 import 'package:brr/view/login_page/login_page_view.dart';
 import 'package:brr/view/main_page/driver_main_page_view.dart';
 import 'package:brr/view/mypage_page/mydata_page_view.dart';
+import 'package:brr/view/history_page/history_page_view.dart';
 
 class MainRouter {
   static final List<GetPage> routes = [
@@ -50,9 +52,20 @@ class MainRouter {
     ),
     GetPage(
       name: '/signup',
-      page: () => const SignUpView(),
+      page: () => const SignUpPageView(),
     ),
     GetPage(name: '/drivermain', page: () => MainLayout(child: DriverMainPageView())),
-    GetPage(name: '/mydata', page: () => const MainLayout(child: MyDataPageView())),
+    GetPage(
+      name: '/mydata',
+      page: () => const MainLayout(
+        child: MyDataPageView(),
+      ),
+    ),
+    GetPage(
+      name: '/history',
+      page: () => const MainLayout(
+        child: HistoryPageView(),
+      ),
+    ),
   ];
 }

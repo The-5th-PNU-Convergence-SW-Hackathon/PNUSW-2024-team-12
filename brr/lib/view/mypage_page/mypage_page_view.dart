@@ -46,7 +46,7 @@ class MypagePageView extends StatelessWidget {
                 const SizedBox(height: 20),
                 _buildRow(context, '시간표 등록', '페이지 이동', '/schedule'),
                 _buildRow(context, '선주님의 회원 정보', '회원 정보 수정', '/mydata'),
-                _buildRow(context, '이용 기록 확인', '페이지 이동', '/'),
+                _buildRow(context, '이용 기록 확인', '페이지 이동', '/history'),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
