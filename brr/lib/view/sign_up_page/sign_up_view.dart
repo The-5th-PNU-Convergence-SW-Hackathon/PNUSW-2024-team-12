@@ -134,7 +134,7 @@ class _NormalSignUpState extends State<NormalSignUp> {
             _isPasswordHidden = !_isPasswordHidden;
           });
         }),
-        logInPWTextField('비밀번호', widget.controller.pwdCheckController, _isPasswordHidden, () {
+        logInPWTextField('비밀번호 확인', widget.controller.pwdCheckController, _isPasswordHidden, () {
           setState(() {
             _isPasswordHidden = !_isPasswordHidden;
           });
@@ -169,7 +169,7 @@ class _DriverSignUpState extends State<DriverSignUp> {
             _isPasswordCheckHidden = !_isPasswordCheckHidden;
           });
         }),
-        logInPWTextField('비밀번호', widget.controller.pwdCheckController, _isPasswordCheckHidden, () {
+        logInPWTextField('비밀번호 확인', widget.controller.pwdCheckController, _isPasswordCheckHidden, () {
           setState(() {
             _isPasswordCheckHidden = !_isPasswordCheckHidden;
           });
