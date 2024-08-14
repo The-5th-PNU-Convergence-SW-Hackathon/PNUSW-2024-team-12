@@ -58,7 +58,7 @@ class SignUpPageController extends GetxController {
         return;
       }
 
-      int? phoneNumber = int.tryParse(classNumberController.text);
+      int? phoneNumber = int.tryParse(phoneNumberController.text);
       if (phoneNumber == null || phoneNumber.toString().length != 11) {
         Get.snackbar(
           '회원가입 실패',
