@@ -24,11 +24,13 @@ class History(history_Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(String(255), index=True)
-    boarding_time = Column(DateTime)
-    quit_time = Column(DateTime)
+    date = Column(DateTime)
+    boarding_time = Column(String(6))
+    quit_time = Column(String(6))
     amount = Column(Integer)
     depart = Column(String(50))
     dest = Column(String(50))
+    mate = Column(String(80))
 
 
 #     # user_key = Column(Integer, ForeignKey("users.id"))
