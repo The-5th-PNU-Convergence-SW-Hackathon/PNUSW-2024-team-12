@@ -46,7 +46,10 @@ def create_post(history: HistoryCreate,credentials: HTTPAuthorizationCredentials
     return db_history
 
 @router.get("/load", response_model=List[HistoryResponse], tags=["history"])
-def read_notice(user_id: str, db: Session = Depends(get_historydb)):
+def read_notice(credentials: HTTPAuthorizationCredentials = Security(security), db: Session = Depends(get_historydb)):
+    token = credentials.credentials
+    payload = decode_jwt(token)
+    user_id = payload.get("sub")
     db_history = db.query(History_model).filter(History_model.user_id == user_id).all()
     if db_history is None:
         raise HTTPException(status_code=404, detail="내역을 찾을 수 없음")
