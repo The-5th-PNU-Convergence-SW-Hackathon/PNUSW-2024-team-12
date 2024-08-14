@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 ///
 ///[labelText]: TextField의 labelText 설정
 ///[obscure]: 입력한 문자 숨김 여부 (비밀번호)
-dynamic logInTextField(String labelText, bool obscure) { //로그인, 회원가입 페이지 TextField
+dynamic logInTextField(String labelText, TextEditingController controller) {
+  //로그인, 회원가입 페이지 TextField
   return Container(
       width: 270,
       height: 48,
@@ -14,17 +15,47 @@ dynamic logInTextField(String labelText, bool obscure) { //로그인, 회원가�
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextField(
-          obscureText: obscure,
+          obscureText: false,
+          controller: controller,
           decoration: InputDecoration(
             labelText: labelText,
-            labelStyle: const TextStyle( fontSize: 14 ),
+            labelStyle: const TextStyle(fontSize: 14),
             contentPadding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
             border: InputBorder.none,
-          )
-      )
-  );
+          )));
 }
 
+dynamic logInPWTextField(
+  String labelText,
+  TextEditingController controller,
+  bool isPasswordHidden,
+  VoidCallback onIconPressed,
+) {
+  //로그인, 회원가입 페이지 TextField
+  return Container(
+      width: 270,
+      height: 48,
+      margin: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        color: const Color(0xffCCE0FF),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: TextField(
+          controller: controller,
+          obscureText: isPasswordHidden,
+          decoration: InputDecoration(
+            labelText: labelText,
+            labelStyle: const TextStyle(fontSize: 14),
+            contentPadding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+            border: InputBorder.none,
+            suffixIcon: IconButton(
+              icon: Icon(
+                isPasswordHidden ? Icons.visibility_off : Icons.visibility,
+              ),
+              onPressed: onIconPressed,
+            ),
+          )));
+}
 
 ///BRR Logo
 ///
@@ -45,14 +76,7 @@ dynamic brrLogo({double size = 36}) {
               ..color = Colors.black,
           ),
         ),
-        Text(
-            'BRR',
-            style: TextStyle(
-                fontSize: size,
-                fontWeight: FontWeight.w900,
-                fontFamily: 'AnonymousPro-BoldItalic'
-            )
-        )
+        Text('BRR', style: TextStyle(fontSize: size, fontWeight: FontWeight.w900, fontFamily: 'AnonymousPro-BoldItalic'))
       ],
     ),
   );

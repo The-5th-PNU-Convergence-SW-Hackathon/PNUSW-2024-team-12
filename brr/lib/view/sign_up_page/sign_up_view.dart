@@ -1,3 +1,4 @@
+import 'package:brr/controller/signup_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/design_materials/design_materials.dart';
@@ -10,6 +11,8 @@ class SignUpView extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUpView> {
+  final _controller = Get.put(SignUpPageController());
+
   bool isNormalAcc = true;
 
   @override
@@ -72,7 +75,9 @@ class _SignUpState extends State<SignUpView> {
                   width: 270,
                   child: OutlinedButton(
                       onPressed: () {
-                        isNormalAcc ? Get.toNamed("/") : Get.toNamed("/drivermain");
+                        _controller.signupButton();
+                        // isNormalAcc ? Get.toNamed("/") : Get.toNamed("/drivermain");
+                        Get.toNamed("/login");
                       },
                       style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                       child: const Text('가입하기', style: TextStyle(color: Colors.black)))),
@@ -115,15 +120,17 @@ class NormalSignUp extends StatefulWidget {
 }
 
 class _NormalSignUpState extends State<NormalSignUp> {
+  final _controller = Get.put(SignUpPageController());
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        logInTextField('아이디', false),
-        logInTextField('비밀번호', true),
-        logInTextField('비밀번호 확인', true),
-        logInTextField('전화번호', false),
-        logInTextField('학번', false),
+        logInTextField('아이디', _controller.idController),
+        logInTextField('비밀번호', _controller.pwdController),
+        logInTextField('비밀번호확인', _controller.pwdCheckController),
+        logInTextField('전화번호', _controller.phoneNumberController),
+        logInTextField('학번', _controller.classNumberController),
       ],
     );
   }
@@ -137,15 +144,17 @@ class DriverSignUp extends StatefulWidget {
 }
 
 class _DriverSignUpState extends State<DriverSignUp> {
+  final _controller = Get.put(SignUpPageController());
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        logInTextField('아이디', false),
-        logInTextField('비밀번호', true),
-        logInTextField('비밀번호 확인', true),
-        logInTextField('전화번호', false),
+        logInTextField('아이디', _controller.idController),
+        logInTextField('비밀번호', _controller.pwdController),
+        logInTextField('비밀번호 확인', _controller.pwdCheckController),
+        logInTextField('전화번호', _controller.phoneNumberController),
         const SizedBox(height: 24),
         TextButton(
             onPressed: () {},
