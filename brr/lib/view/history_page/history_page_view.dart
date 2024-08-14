@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:brr/controller/history_page_controller.dart';
+import 'package:brr/model/history_model.dart';  // History 모델 임포트
 
 class HistoryPageView extends StatelessWidget {
   const HistoryPageView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final HistoryPageController historyController = Get.put(HistoryPageController());
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 45.0),
@@ -21,17 +24,22 @@ class HistoryPageView extends StatelessWidget {
             ),
             const SizedBox(height: 35.0),
             Expanded(
-              child: ListView.builder(
-                itemCount: 4, // 실제 데이터 개수로 대체
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey.shade300),
-                        ),
-                        child: Padding(
+              child: Obx(() {
+                if (historyController.historys.isEmpty) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  return ListView.builder(
+                    itemCount: historyController.historys.length,
+                    itemBuilder: (context, index) {
+                      final history = historyController.historys[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.grey.shade300),
+                          ),
+                          child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,23 +59,32 @@ class HistoryPageView extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(width: 10.0),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text('부산 12바 1234', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                                    const SizedBox(height: 8.0),
-                                    detailText('날짜', '24.08.02'),
-                                    detailText('시간', '14:40 ~ 14:47'),
-                                    detailText('출발', '부산대학교 정문'),
-                                    detailText('도착', '부산대학교 조형관'),
-                                    detailText('금액', '4800원'),
-                                  ],
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        history.car_num,
+                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(height: 8.0),
+                                      detailText('날짜', history.date.toLocal().toString().split(' ')[0]), // 날짜
+                                      detailText('시간', '${history.boarding_time} ~ ${history.quit_time}'), // 시간
+                                      detailText('출발', history.depart), // 출발지
+                                      detailText('도착', history.dest), // 도착지
+                                      detailText('금액', '${history.amount}원'), // 금액
+                                    ],
+                                  ),
                                 ),
                               ],
-                            ))),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   );
-                },
-              ),
+                }
+              }),
             ),
           ],
         ),
@@ -85,9 +102,12 @@ class HistoryPageView extends StatelessWidget {
             style: const TextStyle(fontSize: 12, color: Colors.grey),
           ),
           const SizedBox(width: 10.0),
-          Text(
-            content,
-            style: const TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
+          Expanded(
+            child: Text(
+              content,
+              style: const TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis,  // 길어질 경우 줄임표 처리
+            ),
           ),
         ],
       ),
