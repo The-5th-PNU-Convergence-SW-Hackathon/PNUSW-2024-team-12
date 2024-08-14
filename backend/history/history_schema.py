@@ -12,7 +12,7 @@ class HistoryCreate(BaseModel):
     mate: str
 
 class HistoryResponse(BaseModel):
-    id: str
+    id: int
     user_id: str
     car_num: str
     date: datetime
