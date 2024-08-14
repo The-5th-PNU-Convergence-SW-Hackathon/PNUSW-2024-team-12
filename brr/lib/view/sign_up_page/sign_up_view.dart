@@ -112,41 +112,69 @@ class _SignUpState extends State<SignUpPageView> {
   }
 }
 
-class NormalSignUp extends StatelessWidget {
+class NormalSignUp extends StatefulWidget {
   final SignUpPageController controller;
 
   const NormalSignUp({required this.controller, super.key});
+  @override
+  State<NormalSignUp> createState() => _NormalSignUpState();
+}
+
+class _NormalSignUpState extends State<NormalSignUp> {
+  bool _isPasswordHidden = true;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        logInTextField('이름', controller.nicknameController),
-        logInTextField('아이디', controller.idController),
-        logInTextField('비밀번호', controller.pwdController),
-        logInTextField('비밀번호확인', controller.pwdCheckController),
-        logInTextField('전화번호', controller.phoneNumberController),
-        logInTextField('학번', controller.classNumberController),
+        logInTextField('이름', widget.controller.nicknameController),
+        logInTextField('아이디', widget.controller.idController),
+        logInPWTextField('비밀번호', widget.controller.pwdController, _isPasswordHidden, () {
+          setState(() {
+            _isPasswordHidden = !_isPasswordHidden;
+          });
+        }),
+        logInPWTextField('비밀번호', widget.controller.pwdCheckController, _isPasswordHidden, () {
+          setState(() {
+            _isPasswordHidden = !_isPasswordHidden;
+          });
+        }),
+        logInTextField('전화번호', widget.controller.phoneNumberController),
+        logInTextField('학번', widget.controller.classNumberController),
       ],
     );
   }
 }
 
-class DriverSignUp extends StatelessWidget {
+class DriverSignUp extends StatefulWidget {
   final SignUpPageController controller;
 
   const DriverSignUp({required this.controller, super.key});
+  @override
+  State<DriverSignUp> createState() => _DriverSignUpState();
+}
+
+class _DriverSignUpState extends State<DriverSignUp> {
+  bool _isPasswordCheckHidden = true;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        logInTextField('이름', controller.nicknameController),
-        logInTextField('아이디', controller.idController),
-        logInTextField('비밀번호', controller.pwdController),
-        logInTextField('비밀번호 확인', controller.pwdCheckController),
-        logInTextField('전화번호', controller.phoneNumberController),
+        logInTextField('이름', widget.controller.nicknameController),
+        logInTextField('아이디', widget.controller.idController),
+        logInPWTextField('비밀번호', widget.controller.pwdController, _isPasswordCheckHidden, () {
+          setState(() {
+            _isPasswordCheckHidden = !_isPasswordCheckHidden;
+          });
+        }),
+        logInPWTextField('비밀번호', widget.controller.pwdCheckController, _isPasswordCheckHidden, () {
+          setState(() {
+            _isPasswordCheckHidden = !_isPasswordCheckHidden;
+          });
+        }),
+        logInTextField('전화번호', widget.controller.phoneNumberController),
         const SizedBox(height: 24),
         TextButton(
           onPressed: () {},
