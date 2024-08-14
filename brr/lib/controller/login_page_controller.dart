@@ -22,13 +22,11 @@ class LoginPageController extends GetxController {
           'password': pwTextController.text,
         }),
       );
-
       if (response.statusCode == 200) {
         // 로그인 성공 처리
         var data = jsonDecode(response.body);
         var accessToken = data['access_token'];
-        var refreshToken = data['refresh_token'];
-        await saveTokens(accessToken, refreshToken);
+        await saveTokens(accessToken);
         Get.offAllNamed('/main');
       } else {
         // 로그인 실패 처리
@@ -56,8 +54,7 @@ class LoginPageController extends GetxController {
   }
 }
 
-Future<void> saveTokens(String accessToken, String refreshToken) async {
+Future<void> saveTokens(String accessToken) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString('access_token', accessToken);
-  await prefs.setString('refresh_token', refreshToken);
 }
