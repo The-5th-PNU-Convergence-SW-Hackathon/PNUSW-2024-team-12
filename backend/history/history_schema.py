@@ -15,6 +15,7 @@ class HistoryResponse(BaseModel):
     id: str
     user_id: str
     car_num: str
+    date: datetime
     boarding_time: str
     quit_time: str
     amount: int
