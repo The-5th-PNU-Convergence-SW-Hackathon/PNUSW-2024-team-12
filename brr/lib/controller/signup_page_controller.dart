@@ -16,7 +16,7 @@ class SignUpPageController extends GetxController {
   final RegExp generalRegExp = RegExp(r'^[a-zA-Z0-9ㄱ-ㅎ가-힣]+$');
 
   void signupButton(bool userType) async {
-    String apiUrl = '${Urls.apiUrl}user/';
+    String apiUrl = '${Urls.apiUrl}user/signin';
     try {
       // 모든 필드가 비어있는 경우 처리
       if (idController.text.isEmpty ||
@@ -65,8 +65,8 @@ class SignUpPageController extends GetxController {
       }
 
       // 전화번호 유효성 검사
-      int? phoneNumber = int.tryParse(phoneNumberController.text);
-      if (phoneNumber == null || phoneNumber.toString().length != 11) {
+      String? phoneNumber = phoneNumberController.text;
+      if (phoneNumber == null || phoneNumber.length != 11) {
         Get.snackbar(
           '회원가입 실패',
           '전화번호는 11자리 숫자로, 010######## 형식을 지켜주세요.',
