@@ -157,7 +157,7 @@ def login_user(user: Login_user, response: Response, db: Session = Depends(get_u
         )
         response.set_cookie(key="access_token", value=access_token, expires=access_token_expires, httponly=True)
 
-        return Token(access_token=access_token , token_type="bearer")
+        return {"access_token": access_token, "token_type": "bearer"}
 
 # 로그아웃
 @router.post("/logout")
