@@ -76,8 +76,6 @@ class _SignUpState extends State<SignUpPageView> {
                   child: OutlinedButton(
                       onPressed: () {
                         _controller.signupButton();
-                        // isNormalAcc ? Get.toNamed("/") : Get.toNamed("/drivermain");
-                        Get.toNamed("/login");
                       },
                       style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                       child: const Text('가입하기', style: TextStyle(color: Colors.black)))),

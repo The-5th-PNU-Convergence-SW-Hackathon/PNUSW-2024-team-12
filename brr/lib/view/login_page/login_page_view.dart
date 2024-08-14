@@ -40,8 +40,7 @@ class _LoginPageViewState extends State<LoginPageView> {
                   width: 270,
                   child: OutlinedButton(
                       onPressed: () {
-                        Get.toNamed("/");
-                        //_controller.loginButton();
+                        _controller.loginButton();
                       },
                       style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                       child: const Text('로그인', style: TextStyle(color: Colors.black)))),

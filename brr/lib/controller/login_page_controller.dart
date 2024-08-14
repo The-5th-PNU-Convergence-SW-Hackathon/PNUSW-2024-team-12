@@ -12,7 +12,7 @@ class LoginPageController extends GetxController {
   var isPasswordVisible = false.obs;
 
   void loginButton() async {
-    String apiUrl = '${Urls.apiUrl}users/login';
+    String apiUrl = '${Urls.apiUrl}user/login';
     try {
       var response = await http.post(
         Uri.parse(apiUrl),

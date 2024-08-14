@@ -15,7 +15,7 @@ class SignUpPageController extends GetxController {
   final RegExp generalRegExp = RegExp(r'^[a-zA-Z0-9ㄱ-ㅎ가-힣]+$');
 
   void signupButton() async {
-    String apiUrl = '${Urls.apiUrl}users/';
+    String apiUrl = '${Urls.apiUrl}user/';
     try {
       // 모든 필드가 비어있는 경우 처리
       if (idController.text.isEmpty || pwdController.text.isEmpty || pwdCheckController.text.isEmpty || phoneNumberController.text.isEmpty || classNumberController.text.isEmpty) {
