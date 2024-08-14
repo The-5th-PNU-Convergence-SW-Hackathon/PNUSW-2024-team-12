@@ -12,8 +12,8 @@ class HistoryCreate(BaseModel):
 
 class HistoryResponse(BaseModel):
     user_id: str
-    boarding_time: datetime
-    quit_time: datetime
+    boarding_time: str
+    quit_time: str
     amount: int
     depart: str
     dest: str
