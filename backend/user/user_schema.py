@@ -4,7 +4,10 @@ class User(BaseModel):
     user_id: str
     password: str
     nickname: str
+    phone_number: str
+    student_address: str
     user_type: bool
+
 
 class Login_user(BaseModel):
     user_id: str

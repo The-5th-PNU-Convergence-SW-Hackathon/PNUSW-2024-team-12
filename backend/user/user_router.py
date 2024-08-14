@@ -130,6 +130,8 @@ def signin_user(user: User, db: Session = Depends(get_userdb)):
     create_user = User_model(user_id=user.user_id, 
                    password=get_hash_password(user.password),
                    nickname=user.nickname, 
+                   phone_number=user.phone_number,
+                   student_address=user.student_address,
                    user_type=user.user_type)
     db.add(create_user)
     db.commit()
