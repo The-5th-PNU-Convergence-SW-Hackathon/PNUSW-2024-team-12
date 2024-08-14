@@ -8,6 +8,7 @@ class SignUpPageController extends GetxController {
   final idController = TextEditingController();
   final pwdController = TextEditingController();
   final pwdCheckController = TextEditingController();
+  final nicknameController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final classNumberController = TextEditingController();
 
@@ -72,6 +73,7 @@ class SignUpPageController extends GetxController {
         Uri.parse(apiUrl),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
+          "nickname": nicknameController.text,
           "user_id": idController.text,
           "password": pwdController.text,
           "phone": phoneNumberController.text,

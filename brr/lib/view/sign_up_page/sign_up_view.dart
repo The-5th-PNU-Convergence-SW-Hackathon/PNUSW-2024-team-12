@@ -124,6 +124,7 @@ class _NormalSignUpState extends State<NormalSignUp> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        logInTextField('이름', _controller.nicknameController),
         logInTextField('아이디', _controller.idController),
         logInTextField('비밀번호', _controller.pwdController),
         logInTextField('비밀번호확인', _controller.pwdCheckController),
@@ -149,6 +150,7 @@ class _DriverSignUpState extends State<DriverSignUp> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        logInTextField('이름', _controller.nicknameController),
         logInTextField('아이디', _controller.idController),
         logInTextField('비밀번호', _controller.pwdController),
         logInTextField('비밀번호 확인', _controller.pwdCheckController),
