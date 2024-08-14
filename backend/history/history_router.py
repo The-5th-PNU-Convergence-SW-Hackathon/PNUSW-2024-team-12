@@ -38,8 +38,8 @@ def create_post(history: HistoryCreate,credentials: HTTPAuthorizationCredentials
     token = credentials.credentials
     payload = decode_jwt(token)
     user_id = payload.get("sub")
-    db_history = History_model(user_id= user_id, boarding_time=history.boarding_time, quit_time = history.quit_time,
-                      amount=history.amount,depart=history.depart,dest=history.dest)
+    db_history = History_model(user_id= user_id, car_num= history.car_num, boarding_time=history.boarding_time, quit_time = history.quit_time,
+                      amount=history.amount,depart=history.depart,dest=history.dest,mate = history.mate)
     db.add(db_history)
     db.commit()
     db.refresh(db_history)

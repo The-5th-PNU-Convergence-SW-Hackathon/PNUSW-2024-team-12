@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from datetime import datetime  
 
 class HistoryCreate(BaseModel):
+    car_num : str
     date : datetime
     boarding_time: str
     quit_time: str
@@ -11,7 +12,9 @@ class HistoryCreate(BaseModel):
     mate: str
 
 class HistoryResponse(BaseModel):
+    id: str
     user_id: str
+    car_num: str
     boarding_time: str
     quit_time: str
     amount: int

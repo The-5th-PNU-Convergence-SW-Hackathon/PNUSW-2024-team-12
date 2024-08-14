@@ -24,6 +24,7 @@ class History(history_Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(String(255), index=True)
+    car_num = Column(String(30))
     date = Column(DateTime)
     boarding_time = Column(String(6))
     quit_time = Column(String(6))
