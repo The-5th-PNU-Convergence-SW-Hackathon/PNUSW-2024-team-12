@@ -155,7 +155,6 @@ def login_user(user: Login_user, response: Response, db: Session = Depends(get_u
         access_token = create_access_token(
             data={"sub": user.user_id}, expires_delta=access_token_expires
         )
-        response.set_cookie(key="access_token", value=access_token, expires=access_token_expires, httponly=True)
 
         return {"access_token": access_token, "token_type": "bearer"}
 
