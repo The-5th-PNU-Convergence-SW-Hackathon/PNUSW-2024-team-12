@@ -55,10 +55,8 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     return encoded_jwt
 
 def decode_jwt(token: str):
-    print("decode_jwt")
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        print(f"Decoded payload: {payload}")  
         return payload
     except jwt.ExpiredSignatureError:
         print("Token has expired")
@@ -69,11 +67,8 @@ def decode_jwt(token: str):
 
 def get_current_user(credentials: HTTPAuthorizationCredentials = Security(security), db: Session = Depends(get_userdb)):
     token = credentials.credentials
-    print(f"Received Token: {token}")  # 디버그 프린트
     payload = decode_jwt(token)
-    print(f"Payload: {payload}")  # 디버그 프린트
     user_id: str = payload.get("sub")
-    print(f"User ID from Token: {user_id}")  # 디버그 프린트
     if user_id is None:
         raise HTTPException(status_code=401, detail="Invalid token")
     user = get_user(user_id, db)
@@ -82,14 +77,10 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Security(securi
     return user
 
 
-# 모든 유저를 불러옴
-def get_all_user(db: Session):
-    return db.query(User_model).order_by(User_model.id.desc()).all() # model의 class를 들고와야함
 
 # user_id가 일치한 값을 불러옴 
 def get_user(user_id, db: Session):
     user = db.query(User_model).filter(User_model.user_id == user_id).first()
-    print(user)
     if user:
         return user # -> check_user : id중복확인
     else:
@@ -101,12 +92,6 @@ def verify_password(password, db_password):
 # hasg 설정
 def get_hash_password(password):
     return bcrypt_context.hash(password)
-
-# 모든 유저를 불러옴
-@router.get("/users", response_class=JSONResponse)
-def read_users(db: Session = Depends(get_userdb)):
-    data = get_all_user(db)
-    return data
 
 @router.get("/check_token")
 def check_token(credentials: HTTPAuthorizationCredentials = Security(security)):
@@ -122,7 +107,6 @@ def check_token(credentials: HTTPAuthorizationCredentials = Security(security)):
 @router.post("/signin", response_model=User)
 def signin_user(user: User, db: Session = Depends(get_userdb)):
     check_user = get_user(user.user_id, db) # user가 table에 있는지 확인
-    print(check_user)
     if check_user:
         raise HTTPException(status_code=409, detail="해당 아이디는 이미 존재합니다")
     
@@ -158,16 +142,6 @@ def login_user(user: Login_user, response: Response, db: Session = Depends(get_u
 
         return {"access_token": access_token, "token_type": "bearer"}
 
-# 로그아웃
-@router.post("/logout")
-def logout_user(response: Response, requset: Request):
-    access_token = requset.cookies.get("access_token")
-
-    # 쿠키 삭제
-    response.delete_cookie(key="access_token")
-    
-    return HTTPException(status_code=200, detail="로그아웃 성공")
-
 # 유저 정보 삭제 : 아이디와 비밀번호 입력
 @router.delete("/delete_user")
 def delete_user(user: Login_user, db: Session = Depends(get_userdb)):
@@ -190,7 +164,6 @@ def modify_pw_(user: modify_password,
               credentials: HTTPAuthorizationCredentials = Security(security), 
               db: Session = Depends(get_userdb)):
     token = credentials.credentials
-    print("token :", 1)
     
     try:
         payload = decode_jwt(token)
