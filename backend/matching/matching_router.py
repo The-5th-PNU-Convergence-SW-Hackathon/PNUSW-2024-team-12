@@ -22,14 +22,14 @@ def get_current_user(credentials: HTTPAuthorizationCredentials, db: Session):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-@router.post("/matching/", response_model=MatchingResponse)
+@router.post("/", response_model=MatchingResponse)
 def create_matching(
     matching: MatchingCreate,
     credentials: HTTPAuthorizationCredentials = Security(security),
     user_db: Session = Depends(get_userdb),
     match_db: Session = Depends(get_matchdb)
 ):
-    user = get_current_user(credentials, user_db)
+    user = get_current_user(credentials, match_db)
 
     # Matching 생성
     db_matching = MatchingModel(
@@ -38,27 +38,28 @@ def create_matching(
         depart=matching.depart,
         dest=matching.dest,
         max_member=matching.max_member,
-        current_member=1  
+        current_member=1,  # 유저가 처음 들어가기 때문에 1로 설정
+        created_by=user.user_id  # 매칭 생성자 user_id 저장
     )
     match_db.add(db_matching)
     match_db.commit()
     match_db.refresh(db_matching)
 
-    # Lobby 생성, created_by에 유저 ID 저장
+    # Lobby 생성
     db_lobby = LobbyModel(
         depart=matching.depart,
         dest=matching.dest,
         max_member=matching.max_member,
-        current_member=1, 
-        matching_id=db_matching.id,  
-        created_by=user.id  
+        current_member=1,  # 유저가 처음 들어가기 때문에 1로 설정
+        matching_id=db_matching.id,  # 매칭과 연결
+        created_by=user.user_id  # 방 생성자 user_id 저장
     )
     match_db.add(db_lobby)
     match_db.commit()
     match_db.refresh(db_lobby)
 
     # 유저를 생성된 대기실에 추가
-    lobby_user = LobbyUserModel(user_id=user.id, lobby_id=db_lobby.id)
+    lobby_user = LobbyUserModel(user_id=user.user_id, lobby_id=db_lobby.id)
     match_db.add(lobby_user)
     match_db.commit()
     match_db.refresh(lobby_user)
