@@ -72,8 +72,8 @@ def join_lobby(
 ):
     user = get_current_user(credentials, user_db)
 
-    # 유저가 이미 다른 대기실에 있는지 확인
-    if user.lobby_user is not None:
+    existing_lobby_user = match_db.query(LobbyUserModel).filter(LobbyUserModel.user_id == user.user_id).first()
+    if existing_lobby_user is not None:
         raise HTTPException(status_code=400, detail="유저가 이미 다른 대기실에 존재합니다")
 
     lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
