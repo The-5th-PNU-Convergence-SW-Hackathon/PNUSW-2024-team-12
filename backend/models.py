@@ -45,6 +45,7 @@ class Matching(match_Base):
 
     lobby = relationship("Lobby", back_populates="matching")
 
+
 class Lobby(match_Base):
     __tablename__ = "lobbies"
     id = Column(Integer, primary_key=True, index=True)
@@ -54,7 +55,7 @@ class Lobby(match_Base):
     current_member = Column(Integer, nullable=False, default=0)
     created_by = Column(String(255), nullable=False)  
 
-    matching_id = Column(Integer, nullable=False)
+    matching_id = Column(Integer, ForeignKey('matching.id'), nullable=False)
     matching = relationship("Matching", back_populates="lobby")
 
     users = relationship("LobbyUser", back_populates="lobby")
@@ -63,9 +64,8 @@ class Lobby(match_Base):
 class LobbyUser(match_Base):
     __tablename__ = "lobby_users"
     id = Column(Integer, primary_key=True, index=True)
-    lobby_id = Column(Integer, nullable=False)
-    user_id = Column(String(255) ,nullable=False)  
+    lobby_id = Column(Integer, ForeignKey('lobbies.id'), nullable=False)
+    user_id = Column(String(255), nullable=False)  
     joined_at = Column(DateTime, default=datetime.utcnow)
 
     lobby = relationship("Lobby", back_populates="users")
-    user = relationship("User", back_populates="lobby_user", foreign_keys=[user_id])
