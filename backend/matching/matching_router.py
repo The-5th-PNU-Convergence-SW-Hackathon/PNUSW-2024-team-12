@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends,Security
+from fastapi import APIRouter, HTTPException, Depends, Security
 from database import get_matchdb, get_userdb
 from sqlalchemy.orm import Session
 from models import Matching as MatchingModel, Lobby as LobbyModel, LobbyUser as LobbyUserModel, User as UserModel
@@ -6,11 +6,8 @@ from matching.matching_schema import MatchingCreate, MatchingResponse, LobbyResp
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from matching.matching_crud import decode_jwt
 
-
 security = HTTPBearer()
-router = APIRouter(
-    prefix="/matching",
-)
+router = APIRouter(prefix="/matching")
 
 def get_current_user(credentials: HTTPAuthorizationCredentials, db: Session):
     token = credentials.credentials
@@ -38,7 +35,7 @@ def create_matching(
         depart=matching.depart,
         dest=matching.dest,
         max_member=matching.max_member,
-        current_member=1,  # 유저가 처음 들어가기 때문에 1로 설정
+        current_member=1,
         created_by=user.user_id  # 매칭 생성자 user_id 저장
     )
     match_db.add(db_matching)
@@ -50,8 +47,8 @@ def create_matching(
         depart=matching.depart,
         dest=matching.dest,
         max_member=matching.max_member,
-        current_member=1,  # 유저가 처음 들어가기 때문에 1로 설정
-        matching_id=db_matching.id,  # 매칭과 연결
+        current_member=1,
+        matching_id=db_matching.id,
         created_by=user.user_id  # 방 생성자 user_id 저장
     )
     match_db.add(db_lobby)
@@ -87,14 +84,13 @@ def join_lobby(
         raise HTTPException(status_code=400, detail="대기실이 인원이 가득 찼습니다.")
 
     # LobbyUser 생성
-    lobby_user = LobbyUserModel(user_id=user.id, lobby_id=lobby_id)
+    lobby_user = LobbyUserModel(user_id=user.user_id, lobby_id=lobby_id)
     lobby.current_member += 1
     match_db.add(lobby_user)
     match_db.commit()
     match_db.refresh(lobby_user)
 
     # Lobby 업데이트
-    match_db.commit()
     match_db.refresh(lobby)
 
     return lobby
@@ -108,9 +104,9 @@ def leave_lobby(
 ):
     user = get_current_user(credentials, user_db)
 
-    lobby_user = match_db.query(LobbyUserModel).filter(LobbyUserModel.user_id == user.id, LobbyUserModel.lobby_id == lobby_id).first()
+    lobby_user = match_db.query(LobbyUserModel).filter(LobbyUserModel.user_id == user.user_id, LobbyUserModel.lobby_id == lobby_id).first()
     if not lobby_user:
-        raise HTTPException(status_code=404, detail="해당유저는 대기실에 들어가있지 않습니다.")
+        raise HTTPException(status_code=404, detail="해당 유저는 대기실에 들어가 있지 않습니다.")
 
     lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
     if not lobby:
@@ -141,11 +137,10 @@ def list_lobbies_by_matching_type(matching_type: int, match_db: Session = Depend
                 dest=lobby.dest,
                 max_member=lobby.max_member,
                 current_member=lobby.current_member,
-                created_by=lobby.created_by  # 방 생성자 ID 포함
+                created_by=lobby.created_by
             ))
 
     return LobbyListResponse(lobbies=lobbies)
-
 
 @router.post("/lobbies/{lobby_id}/complete", response_model=dict)
 def complete_matching(
@@ -162,8 +157,8 @@ def complete_matching(
         raise HTTPException(status_code=404, detail="대기실을 찾을 수 없음")
 
     # 방 생성자가 맞는지 확인
-    if lobby.created_by != user.id:
-        raise HTTPException(status_code=403, detail="오직 방생성자만 매칭완료를 실행할 수 있습니다.")
+    if lobby.created_by != user.user_id:
+        raise HTTPException(status_code=403, detail="오직 방 생성자만 매칭 완료를 실행할 수 있습니다.")
 
     # 대기실에 있는 모든 유저 정보 삭제
     match_db.query(LobbyUserModel).filter(LobbyUserModel.lobby_id == lobby_id).delete()
@@ -172,4 +167,4 @@ def complete_matching(
     match_db.delete(lobby)
     match_db.commit()
 
-    return {"message": "정상적으로 매칭완료가 실행되었습니다."}
+    return {"message": "정상적으로 매칭 완료가 실행되었습니다."}
