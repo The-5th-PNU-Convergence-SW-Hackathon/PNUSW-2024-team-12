@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/controller/history_page_controller.dart';
-import 'package:brr/model/history_model.dart';  // History 모델 임포트
+import 'package:brr/model/history_model.dart'; // History 모델 임포트
 
 class HistoryPageView extends StatelessWidget {
-  const HistoryPageView({Key? key}) : super(key: key);
+  const HistoryPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,13 @@ class HistoryPageView extends StatelessWidget {
             Expanded(
               child: Obx(() {
                 if (historyController.historys.isEmpty) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(
+                    child: Text('최근 이용 기록이 없습니다',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        )),
+                  );
                 } else {
                   return ListView.builder(
                     itemCount: historyController.historys.length,
@@ -106,7 +112,7 @@ class HistoryPageView extends StatelessWidget {
             child: Text(
               content,
               style: const TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
-              overflow: TextOverflow.ellipsis,  // 길어질 경우 줄임표 처리
+              overflow: TextOverflow.ellipsis, // 길어질 경우 줄임표 처리
             ),
           ),
         ],
