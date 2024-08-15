@@ -44,7 +44,7 @@ class Matching(match_Base):
     dest = Column(Text, nullable=False)
     max_member = Column(Integer, nullable=False)
     current_member = Column(Integer, nullable=False)
-    created_by = Column(String(255), nullable=False)  # 매칭 생성자 user_id를 저장
+    created_by = Column(String(255), nullable=False)  
 
     lobby = relationship("Lobby", back_populates="matching")
 
@@ -55,7 +55,7 @@ class Lobby(match_Base):
     dest = Column(Text, nullable=False)
     max_member = Column(Integer, nullable=False)
     current_member = Column(Integer, nullable=False, default=0)
-    created_by = Column(String(255), nullable=False)  # 방을 만든 사람의 user_id를 저장
+    created_by = Column(String(255), nullable=False)  
 
     matching_id = Column(Integer, nullable=False)
     matching = relationship("Matching", back_populates="lobby")
@@ -66,8 +66,8 @@ class Lobby(match_Base):
 class LobbyUser(match_Base):
     __tablename__ = "lobby_users"
     id = Column(Integer, primary_key=True, index=True)
-    lobby_id = Column(Integer, ForeignKey('lobbies.id'), nullable=False)
-    user_id = Column(String(255), ForeignKey('user_info.user_id'), nullable=False)  # user_info.user_id 참조
+    lobby_id = Column(Integer, nullable=False)
+    user_id = Column(String(255) ,nullable=False)  
     joined_at = Column(DateTime, default=datetime.utcnow)
 
     lobby = relationship("Lobby", back_populates="users")
