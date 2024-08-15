@@ -27,7 +27,7 @@ class LobbyResponse(BaseModel):
     dest: str
     max_member: int
     current_member: int
-    created_by: int  # 방을 만든 사람의 ID
+    created_by: str  # 방을 만든 사람의 ID
 
     class Config:
         orm_mode = True
