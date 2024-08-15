@@ -53,7 +53,7 @@ class Lobby(match_Base):
     dest = Column(Text, nullable=False)
     max_member = Column(Integer, nullable=False)
     current_member = Column(Integer, nullable=False, default=0)
-    created_by = Column(Integer, ForeignKey('user_info.id'), nullable=False)  # 방을 만든 사람의 ID
+    created_by = Column(Integer, ForeignKey('user_info.user_id'), nullable=False)  # 방을 만든 사람의 ID
 
     matching_id = Column(Integer, ForeignKey('matching.id'))
     matching = relationship("Matching", back_populates="lobby")
@@ -65,7 +65,7 @@ class LobbyUser(match_Base):
     __tablename__ = "lobby_users"
     id = Column(Integer, primary_key=True, index=True)
     lobby_id = Column(Integer, ForeignKey('lobbies.id'), nullable=False)
-    user_id = Column(Integer, ForeignKey('user_info.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey('user_info.user_id'), nullable=False)
     joined_at = Column(DateTime, default=datetime.utcnow)
 
     lobby = relationship("Lobby", back_populates="users")
