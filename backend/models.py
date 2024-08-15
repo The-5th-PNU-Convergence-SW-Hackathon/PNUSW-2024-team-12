@@ -64,7 +64,7 @@ class Lobby(match_Base):
 class LobbyUser(match_Base):
     __tablename__ = "lobby_users"
     id = Column(Integer, primary_key=True, index=True)
-    lobby_id = Column(Integer, ForeignKey('lobbies.id'), nullable=False)
+    lobby_id = Column(Integer, nullable=False)
     user_id = Column(String(255), nullable=False)  
     joined_at = Column(DateTime, default=datetime.utcnow)
 

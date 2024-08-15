@@ -84,7 +84,7 @@ def join_lobby(
         raise HTTPException(status_code=400, detail="대기실이 인원이 가득 찼습니다.")
 
     # LobbyUser 생성
-    lobby_user = LobbyUserModel(user_id=user.user_id, lobby_id=lobby_id)
+    lobby_user = LobbyUserModel(lobby_id=lobby_id, user_id=user.user_id)
     lobby.current_member += 1
     match_db.add(lobby_user)
     match_db.commit()
