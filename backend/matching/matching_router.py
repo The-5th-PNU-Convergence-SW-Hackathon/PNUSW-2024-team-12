@@ -29,7 +29,7 @@ def create_matching(
     user_db: Session = Depends(get_userdb),
     match_db: Session = Depends(get_matchdb)
 ):
-    user = get_current_user(credentials, match_db)
+    user = get_current_user(credentials, user_db)
 
     # Matching 생성
     db_matching = MatchingModel(
@@ -70,9 +70,10 @@ def create_matching(
 def join_lobby(
     lobby_id: int,
     credentials: HTTPAuthorizationCredentials = Security(security),
+    user_db: Session = Depends(get_userdb),
     match_db: Session = Depends(get_matchdb)
 ):
-    user = get_current_user(credentials, match_db)
+    user = get_current_user(credentials, user_db)
 
     # 유저가 이미 다른 대기실에 있는지 확인
     if user.lobby_user is not None:
@@ -102,9 +103,10 @@ def join_lobby(
 def leave_lobby(
     lobby_id: int,
     credentials: HTTPAuthorizationCredentials = Security(security),
+    user_db: Session = Depends(get_userdb),
     match_db: Session = Depends(get_matchdb)
 ):
-    user = get_current_user(credentials, match_db)
+    user = get_current_user(credentials, user_db)
 
     lobby_user = match_db.query(LobbyUserModel).filter(LobbyUserModel.user_id == user.id, LobbyUserModel.lobby_id == lobby_id).first()
     if not lobby_user:
@@ -149,9 +151,10 @@ def list_lobbies_by_matching_type(matching_type: int, match_db: Session = Depend
 def complete_matching(
     lobby_id: int,
     credentials: HTTPAuthorizationCredentials = Security(security),
+    user_db: Session = Depends(get_userdb),
     match_db: Session = Depends(get_matchdb)
 ):
-    user = get_current_user(credentials, match_db)
+    user = get_current_user(credentials, user_db)
 
     # 대기실 정보 가져오기
     lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
