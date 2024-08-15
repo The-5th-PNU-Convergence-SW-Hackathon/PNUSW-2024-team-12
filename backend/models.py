@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Float, Boolean
 from sqlalchemy.orm import relationship
-from database import user_Base,history_Base
+from database import user_Base,history_Base,match_Base
 
 # DB에 저장하는 양식
 class User(user_Base):
@@ -37,12 +37,13 @@ class History(history_Base):
 #     # user_key = Column(Integer, ForeignKey("users.id"))
 
 
-class Matching():
+class Matching(match_Base):
     __tablename__ = "matching"
-
-    matching_id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
+    matching_type = Column(Integer, index=True)
     boarding_time = Column(DateTime, nullable=False) # 탑승시간
     depart = Column(Text, nullable=False) # 탑승장소
     dest = Column(Text, nullable=False) # 하차장소
-    member = Column(Integer, nullable=False)
+    max_member = Column(Integer, nullable=False)
+    current_member = Column(Integer, nullable=False)
     

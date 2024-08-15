@@ -8,19 +8,24 @@ DB_HOST = os.environ.get("DB_HOST")
 DB_PASSWORD = os.environ.get("DB_PASSWORD")
 USER_DB_NAME = os.environ.get("USER_DB_NAME")
 HISTORY_DB_NAME = os.environ.get("HISTORY_DB_NAME")
+MATCH_DB_NAME = os.environ.get("MATCH_DB_NAME")
 DB_PORT = os.environ.get("DB_PORT", 3306)
 
 SQLALCHEMY_DATABASE_URL_USER = f"mysql+mysqlconnector://root:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{USER_DB_NAME}"
 SQLALCHEMY_DATABASE_URL_HISTORY = f"mysql+mysqlconnector://root:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{HISTORY_DB_NAME}"
+SQLALCHEMY_DATABASE_URL_MATCH = f"mysql+mysqlconnector://root:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{MATCH_DB_NAME}"
 
 user_engine = create_engine(SQLALCHEMY_DATABASE_URL_USER)
 history_engine = create_engine(SQLALCHEMY_DATABASE_URL_HISTORY)
+match_engine = create_engine(SQLALCHEMY_DATABASE_URL_MATCH)
 
 user_SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=user_engine)
 history_SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=history_engine)
+match_SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=match_engine)
 
 user_Base = declarative_base()
 history_Base = declarative_base()
+match_Base = declarative_base()
 
 def get_userdb():
     db = user_SessionLocal()
@@ -31,6 +36,13 @@ def get_userdb():
 
 def get_historydb():
     db = history_SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+def get_matchdb():
+    db = match_SessionLocal()
     try:
         yield db
     finally:

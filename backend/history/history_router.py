@@ -3,9 +3,7 @@
 from fastapi import APIRouter, HTTPException, Depends,Security
 from typing import List
 from database import get_historydb
-
 from sqlalchemy.orm import Session
-from database import get_historydb
 from models import History as History_model
 from history.history_schema import HistoryCreate, HistoryResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -33,7 +31,7 @@ def decode_jwt(token: str):
         raise HTTPException(status_code=401, detail="인식되지 않는 토큰입니다.")
     
 
-@router.post("/", response_model=HistoryResponse, tags=["history"])
+@router.post("/", response_model=HistoryResponse)
 def create_post(history: HistoryCreate,credentials: HTTPAuthorizationCredentials = Security(security), db: Session = Depends(get_historydb)):
     token = credentials.credentials
     payload = decode_jwt(token)
@@ -45,7 +43,7 @@ def create_post(history: HistoryCreate,credentials: HTTPAuthorizationCredentials
     db.refresh(db_history)
     return db_history
 
-@router.get("/load", response_model=List[HistoryResponse], tags=["history"])
+@router.get("/load", response_model=List[HistoryResponse])
 def read_notice(credentials: HTTPAuthorizationCredentials = Security(security), db: Session = Depends(get_historydb)):
     token = credentials.credentials
     payload = decode_jwt(token)
