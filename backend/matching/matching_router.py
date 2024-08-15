@@ -17,7 +17,7 @@ def get_current_user(credentials: HTTPAuthorizationCredentials, db: Session):
     payload = decode_jwt(token)
     user_id = payload.get("sub")
 
-    user = db.query(UserModel).filter(UserModel.id == user_id).first()
+    user = db.query(UserModel).filter(UserModel.user_id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user
