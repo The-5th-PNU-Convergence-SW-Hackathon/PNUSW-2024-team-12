@@ -8,15 +8,12 @@ class User(user_Base):
     __tablename__ = "user_info"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(String(255), unique=True, nullable=False, index=True)
+    user_id = Column(String(255), unique=True, nullable=False, index=True)  
     password = Column(String(255), nullable=False)
     nickname = Column(String(30), unique=True, nullable=False)
     phone_number = Column(String(30), unique=True, nullable=False)
     student_address = Column(String(30), unique=True, nullable=False)
     user_type = Column(Boolean, nullable=False)
-
-    lobby_user = relationship("LobbyUser", back_populates="user", uselist=False)
-    created_lobbies = relationship("Lobby", back_populates="creator")
 
 
 # 다른 모델 정의
