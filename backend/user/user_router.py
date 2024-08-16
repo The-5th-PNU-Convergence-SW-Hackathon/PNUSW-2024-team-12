@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
 ALGORITHM = os.environ.get("ALGORITHM")
 
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES"))
-# REFRESH_TOKEN_EXPIRE_MINUTES = int(os.environ.get("REFRESH_TOKEN_EXPIRE_MINUTES"))
+REFRESH_TOKEN_EXPIRE_MINUTES = int(os.environ.get("REFRESH_TOKEN_EXPIRE_MINUTES"))
 
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
@@ -39,10 +39,8 @@ router = APIRouter(
 )
 
 
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
+class TokenRefreshRequest(BaseModel):
+    refresh_token: str
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
@@ -52,7 +50,18 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
         expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    print(f"Encoded JWT: {encoded_jwt}") 
+    print(f"create access token : {encoded_jwt}") 
+    return encoded_jwt
+
+def create_refresh_token(data: dict, expires_delta: Optional[timedelta] = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    print(f"create refresh token: {encoded_jwt}") 
     return encoded_jwt
 
 def decode_jwt(token: str):
@@ -134,14 +143,51 @@ def login_user(user: Login_user, response: Response, db: Session = Depends(get_u
     elif not verify_password(user.password, check_user.password):  # 비밀번호 검증(입력 pw, db pw)
         raise HTTPException(status_code=410, detail="비밀번호가 틀렸습니다.")
     else:
-        # 토근 생성
-
+        # access 토근 생성
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(
             data={"sub": user.user_id}, expires_delta=access_token_expires
         )
+        # refresh 토큰 생성
+        refresh_token_expires = timedelta(minutes=REFRESH_TOKEN_EXPIRE_MINUTES)
+        refresh_token = create_refresh_token(
+            data={"sub": user.user_id}, expires_delta=refresh_token_expires
+        )
 
-        return {"access_token": access_token, "token_type": "bearer"}
+        return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
+
+
+
+@router.post("/token/refresh")
+def refresh_token(request: TokenRefreshRequest):
+    # 리프레시 토큰 검증
+    try:
+        payload = decode_jwt(request.refresh_token)
+    except HTTPException:
+        raise HTTPException(status_code=401, detail="인식되지 않는 토큰입니다.")
+    
+    user_id = payload.get("sub")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Invalid token payload")
+    
+    # 새 액세스 토큰 발급
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    new_access_token = create_access_token(
+        data={"sub": user_id}, expires_delta=access_token_expires
+    )
+    
+    # 새 리프레시 토큰 발급 (선택 사항, 기존 리프레시 토큰을 유지하고 싶다면 이 부분은 생략 가능)
+    refresh_token_expires = timedelta(minutes=REFRESH_TOKEN_EXPIRE_MINUTES)
+    new_refresh_token = create_refresh_token(
+        data={"sub": user_id}, expires_delta=refresh_token_expires
+    )
+    
+    return {
+        "access_token": new_access_token,
+        "refresh_token": new_refresh_token,
+        "token_type": "bearer"
+    }
+
 
 # 유저 정보 삭제 : 아이디와 비밀번호 입력
 @router.delete("/delete_user")
