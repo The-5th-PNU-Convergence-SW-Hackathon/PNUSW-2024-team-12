@@ -3,7 +3,7 @@ import 'package:brr/view/mypage_page/mydata_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/view/main_page/main_page_view.dart';
-import 'package:brr/view/list_match_page/match_list_view.dart';
+import 'package:brr/view/match_list_page/match_list_view.dart';
 import 'package:brr/layout/main_layout.dart';
 import 'package:brr/view/mypage_page/mypage_page_view.dart';
 import 'package:brr/view/schedule_page/schedule_page_view.dart';
@@ -13,6 +13,7 @@ import 'package:brr/view/login_page/login_page_view.dart';
 import 'package:brr/view/main_page/driver_main_page_view.dart';
 import 'package:brr/view/mypage_page/mydata_page_view.dart';
 import 'package:brr/view/history_page/history_page_view.dart';
+import 'package:brr/view/loading_page/match_loading_page_view.dart';
 
 class MainRouter {
   static final List<GetPage> routes = [
@@ -67,5 +68,11 @@ class MainRouter {
         child: HistoryPageView(),
       ),
     ),
+    GetPage(
+      name: '/matchloading',
+      page: () => const MainLayout(
+        child: matchLoadingPageView(),
+      ),
+    )
   ];
 }

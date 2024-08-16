@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:brr/controller/quickmatch_list_controller.dart';
 
 class MatchinglistPageView extends StatefulWidget {
   const MatchinglistPageView({super.key});
@@ -9,6 +10,7 @@ class MatchinglistPageView extends StatefulWidget {
 }
 
 class _MatchinglistPageView extends State<MatchinglistPageView> {
+  final QuickMatchController quickMatchController = Get.put(QuickMatchController());
   bool isQuickMatch = true;
 
   @override
@@ -162,58 +164,63 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
               ),
             ),
             const SizedBox(height: 20.0),
-            Expanded(
-                child: ListView.builder(
-                    itemCount: isQuickMatch ? 5 : 6,
-                    itemBuilder: (context, index) {
-                      if (isQuickMatch) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5.0),
-                          child: ElevatedButton(
-                            style: buttonStyle(),
-                            onPressed: () {},
-                            child: Row(
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    locationRow(circleContainer, "출발지", "서브웨이 부산대점"),
-                                    const SizedBox(height: 5.0),
-                                    locationRow(rectangularContainer, "도착지", "부산대학교"),
-                                  ],
-                                ),
-                                const Spacer(),
-                                boardingInfo("14:00"),
-                              ],
-                            ),
+            Expanded(child: Obx(() {
+              if (quickMatchController.quickMatches.isEmpty && isQuickMatch) {
+                return const Center(child: Text("빠른 매칭이 없습니다."));
+              }
+              return ListView.builder(
+                  itemCount: isQuickMatch ? quickMatchController.quickMatches.length : 6,
+                  itemBuilder: (context, index) {
+                    if (isQuickMatch) {
+                      final quickMatch = quickMatchController.quickMatches[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: ElevatedButton(
+                          style: buttonStyle(),
+                          onPressed: () {},
+                          child: Row(
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  locationRow(circleContainer, "출발지", quickMatch.depart),
+                                  const SizedBox(height: 5.0),
+                                  locationRow(rectangularContainer, "도착지", quickMatch.dest),
+                                ],
+                              ),
+                              const Spacer(),
+                              boardingInfo("14:00"),
+                            ],
                           ),
-                        );
-                      } else {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5.0),
-                          child: ElevatedButton(
-                            style: buttonStyle(),
-                            onPressed: () {},
-                            child: Row(
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    locationRow(circleContainer, "출발지", "서브웨이 부산대점"),
-                                    const SizedBox(height: 5.0),
-                                    locationRow(rectangularContainer, "도착지", "부산대학교"),
-                                  ],
-                                ),
-                                const Spacer(),
-                                boardingInfo("12:00"),
-                              ],
-                            ),
+                        ),
+                      );
+                    } else {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: ElevatedButton(
+                          style: buttonStyle(),
+                          onPressed: () {},
+                          child: Row(
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  locationRow(circleContainer, "출발지", "서브웨이 부산대점"),
+                                  const SizedBox(height: 5.0),
+                                  locationRow(rectangularContainer, "도착지", "부산대학교"),
+                                ],
+                              ),
+                              const Spacer(),
+                              boardingInfo("12:00"),
+                            ],
                           ),
-                        );
-                      }
-                    }))
+                        ),
+                      );
+                    }
+                  });
+            }))
           ],
         ),
       ),

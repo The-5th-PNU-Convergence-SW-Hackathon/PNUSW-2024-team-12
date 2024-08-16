@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MatchingPageView extends StatelessWidget {
   const MatchingPageView({super.key});
@@ -60,10 +61,10 @@ class MatchingPageView extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  _matchpeopleButton('2인 이상', '5500원 이상'),
-                                  _matchpeopleButton('3인 이상', '3700원 이상'),
-                                  _matchpeopleButton('4인 ', '2850원 이상'),
-                                  _matchpeopleButton('상관\n없음', ''),
+                                  _matchpeopleButton('2인 이상', '5500원 이상', '/matchloading'),
+                                  _matchpeopleButton('3인 이상', '3700원 이상', '/matchloading'),
+                                  _matchpeopleButton('4인 ', '2850원 이상', '/matchloading'),
+                                  _matchpeopleButton('상관\n없음', '', '/matchloading'),
                                 ],
                               ),
                               const SizedBox(height: 15),
@@ -162,7 +163,7 @@ class MatchingPageView extends StatelessWidget {
     ));
   }
 
-  Widget _matchpeopleButton(String text, String subtext) {
+  Widget _matchpeopleButton(String text, String subtext, String routeName) {
     return Padding(
         padding: const EdgeInsets.all(5),
         child: SizedBox(
@@ -175,7 +176,9 @@ class MatchingPageView extends StatelessWidget {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 padding: EdgeInsets.zero,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(routeName);
+              },
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
