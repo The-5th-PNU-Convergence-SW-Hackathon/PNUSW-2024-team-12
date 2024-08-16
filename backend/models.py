@@ -1,7 +1,8 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
-from database import user_Base, history_Base, match_Base
+from database import user_Base, history_Base, match_Base, taxi_Base
 from datetime import datetime
+
 
 # User 모델 정의
 class User(user_Base):
@@ -14,6 +15,8 @@ class User(user_Base):
     phone_number = Column(String(30), unique=True, nullable=False)
     student_address = Column(String(30), unique=True, nullable=False)
     user_type = Column(Boolean, nullable=False)
+    # brr_cash = Column(Integer)
+
 
 
 # 다른 모델 정의
@@ -70,3 +73,12 @@ class LobbyUser(match_Base):
     joined_at = Column(DateTime, default=datetime.utcnow)
 
     lobby = relationship("Lobby", back_populates="users")
+
+class Taxi(taxi_Base):
+    __tablename__ = "taxes"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(String(255), unique=True, nullable=False, index=True) 
+    driver_name = Column(String(30), unique=True, nullable=False)
+    car_num = Column(String(30), unique=True)
+    car_model = Column(String(55))
+

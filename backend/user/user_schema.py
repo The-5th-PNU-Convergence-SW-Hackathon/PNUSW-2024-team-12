@@ -1,4 +1,7 @@
 from pydantic import BaseModel
+from typing import Optional
+
+
 # 입력받는 양식
 class User(BaseModel):
     user_id: str
@@ -8,7 +11,13 @@ class User(BaseModel):
     student_address: str
     user_type: bool
 
+class Taxi(User):
+    # 택시 관련정보
+    car_num : Optional[str]
+    car_model : Optional[str]
 
+
+    
 class Login_user(BaseModel):
     user_id: str
     password: str

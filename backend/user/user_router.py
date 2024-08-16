@@ -10,15 +10,14 @@ from pydantic import BaseModel
 from typing import Optional, List
 
 from sqlalchemy.orm import Session
-from database import get_userdb
-from models import User as User_model
+from database import get_userdb, get_taxidb
+from models import User as User_model, Taxi as Taxi_model
 import os
 
 # 비밀번호 해싱
 from passlib.context import CryptContext
-from user.user_schema import User, Login_user, modify_password
-
-
+from user.user_schema import User, Taxi, Login_user, modify_password
+from typing import Union
 from datetime import datetime, timedelta
 
 import jwt
@@ -99,7 +98,7 @@ def get_user(user_id, db: Session):
 def verify_password(password, db_password):
     return bcrypt_context.verify(password, db_password)
 
-# hasg 설정
+# hash 설정
 def get_hash_password(password):
     return bcrypt_context.hash(password)
 
@@ -114,22 +113,43 @@ def check_token(credentials: HTTPAuthorizationCredentials = Security(security)):
 
 
 # signin user : 회원가입
-@router.post("/signin", response_model=User)
-def signin_user(user: User, db: Session = Depends(get_userdb)):
-    check_user = get_user(user.user_id, db) # user가 table에 있는지 확인
+@router.post("/signin", response_model=Union[User, Taxi])
+def signin_user(user: Taxi, 
+                user_db: Session = Depends(get_userdb),
+                taxi_db: Session = Depends(get_taxidb)):
+    check_user = get_user(user.user_id, user_db) # user가 table에 있는지 확인
     if check_user:
         raise HTTPException(status_code=409, detail="해당 아이디는 이미 존재합니다")
     
     # db에 user를 추가
-    create_user = User_model(user_id=user.user_id, 
+    if user.user_type == 1: # 유저
+        create_user = User_model(user_id=user.user_id, 
                    password=get_hash_password(user.password),
                    nickname=user.nickname, 
                    phone_number=user.phone_number,
                    student_address=user.student_address,
                    user_type=user.user_type)
-    db.add(create_user)
-    db.commit()
-    db.refresh(create_user)
+
+    elif user.user_type == 0: # 택시 기사
+        create_user = User_model(user_id=user.user_id, 
+                   password=get_hash_password(user.password),
+                   nickname=user.nickname, 
+                   phone_number=user.phone_number,
+                   student_address=user.student_address,
+                   user_type=user.user_type)
+        
+        create_taxi = Taxi_model(user_id = user.user_id,
+                                 driver_name = user.nickname,
+                                 car_num = user.car_num,
+                                 car_model = user.car_model)
+                   
+        taxi_db.add(create_taxi)
+        taxi_db.commit()
+        taxi_db.refresh(create_taxi)
+        
+    user_db.add(create_user)
+    user_db.commit()
+    user_db.refresh(create_user)
     
     return create_user
 
@@ -233,3 +253,5 @@ def modify_pw_(user: modify_password,
     db.refresh(user_info)
     
     return {"status": "success", "detail": "정상적으로 비밀번호가 변경되었습니다."}
+
+
