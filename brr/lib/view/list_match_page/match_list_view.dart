@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MatchinglistPageView extends StatefulWidget {
-  const MatchinglistPageView({Key? key}) : super(key: key);
+  const MatchinglistPageView({super.key});
 
   @override
   _MatchinglistPageView createState() => _MatchinglistPageView();
@@ -88,14 +88,7 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                           onPressed: () {},
                           child: Row(
                             children: [
-                              Container(
-                                width: 8,
-                                height: 8,
-                                decoration: const BoxDecoration(
-                                  color: Color.fromARGB(255, 182, 232, 255),
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
+                              circleContainer,
                               const SizedBox(width: 10.0),
                               const Text(
                                 "출발지",
@@ -127,14 +120,7 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                           onPressed: () {},
                           child: Row(
                             children: [
-                              Container(
-                                width: 8,
-                                height: 8,
-                                decoration: const BoxDecoration(
-                                  color: Colors.blue,
-                                  shape: BoxShape.rectangle,
-                                ),
-                              ),
+                              rectangularContainer,
                               const SizedBox(width: 10.0),
                               const Text(
                                 "도착지",
@@ -184,86 +170,21 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 5.0),
                           child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: Colors.black,
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                            ),
+                            style: buttonStyle(),
                             onPressed: () {},
                             child: Row(
                               children: [
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 8,
-                                          height: 8,
-                                          decoration: const BoxDecoration(
-                                            color: Color.fromARGB(255, 182, 232, 255),
-                                            shape: BoxShape.circle,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10.0),
-                                        const Text(
-                                          "출발지",
-                                          style: TextStyle(
-                                            fontSize: 10.0,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10.0),
-                                        const Text(
-                                          "서브웨이 부산대점",
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    locationRow(circleContainer, "출발지", "서브웨이 부산대점"),
                                     const SizedBox(height: 5.0),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 8,
-                                          height: 8,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.blue,
-                                            shape: BoxShape.rectangle,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10.0),
-                                        const Text(
-                                          "출발지",
-                                          style: TextStyle(
-                                            fontSize: 10.0,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10.0),
-                                        const Text(
-                                          "서브웨이 부산대점",
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    locationRow(rectangularContainer, "도착지", "부산대학교"),
                                   ],
                                 ),
                                 const Spacer(),
-                                const Text(
-                                  "오늘 12:00 탑승 예정",
-                                  style: TextStyle(
-                                    fontSize: 10.0,
-                                  ),
-                                )
+                                boardingInfo("14:00"),
                               ],
                             ),
                           ),
@@ -272,86 +193,21 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 5.0),
                           child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: Colors.black,
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                            ),
+                            style: buttonStyle(),
                             onPressed: () {},
                             child: Row(
                               children: [
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 8,
-                                          height: 8,
-                                          decoration: const BoxDecoration(
-                                            color: Color.fromARGB(255, 182, 232, 255),
-                                            shape: BoxShape.circle,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10.0),
-                                        const Text(
-                                          "출발지",
-                                          style: TextStyle(
-                                            fontSize: 10.0,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10.0),
-                                        const Text(
-                                          "서브웨이 부산대점",
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    locationRow(circleContainer, "출발지", "서브웨이 부산대점"),
                                     const SizedBox(height: 5.0),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 8,
-                                          height: 8,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.blue,
-                                            shape: BoxShape.rectangle,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10.0),
-                                        const Text(
-                                          "출발지",
-                                          style: TextStyle(
-                                            fontSize: 10.0,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10.0),
-                                        const Text(
-                                          "서브웨이 부산대점",
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    locationRow(rectangularContainer, "도착지", "부산대학교"),
                                   ],
                                 ),
                                 const Spacer(),
-                                const Text(
-                                  "오늘 12:00 탑승 예정",
-                                  style: TextStyle(
-                                    fontSize: 10.0,
-                                  ),
-                                )
+                                boardingInfo("12:00"),
                               ],
                             ),
                           ),
@@ -360,6 +216,68 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                     }))
           ],
         ),
+      ),
+    );
+  }
+
+  final Widget circleContainer = Container(
+    width: 8,
+    height: 8,
+    decoration: const BoxDecoration(
+      color: Color.fromARGB(255, 182, 232, 255),
+      shape: BoxShape.circle,
+    ),
+  );
+
+  final Widget rectangularContainer = Container(
+    width: 8,
+    height: 8,
+    decoration: const BoxDecoration(
+      color: Colors.blue,
+      shape: BoxShape.rectangle,
+    ),
+  );
+
+  ButtonStyle buttonStyle() {
+    return ElevatedButton.styleFrom(
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+    );
+  }
+
+  Widget locationRow(Widget icon, String label, String text) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        icon,
+        const SizedBox(width: 10.0),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 10.0,
+          ),
+        ),
+        const SizedBox(width: 10.0),
+        Text(
+          text,
+          style: const TextStyle(
+            fontSize: 12.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget boardingInfo(String boardingTime) {
+    return Text(
+      "오늘 $boardingTime 탑승 예정",
+      style: const TextStyle(
+        fontSize: 10.0,
       ),
     );
   }
