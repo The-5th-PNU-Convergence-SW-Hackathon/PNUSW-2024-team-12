@@ -8,6 +8,7 @@ class MatchingCreate(BaseModel):
     depart: str
     dest: str
     max_member: int
+    mate: str
 
 class MatchingResponse(BaseModel):
     id: int

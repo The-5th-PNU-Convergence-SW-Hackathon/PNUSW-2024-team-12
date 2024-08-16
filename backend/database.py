@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 import os
+load_dotenv()
 
 DB_HOST = os.environ.get("DB_HOST")
 DB_PASSWORD = os.environ.get("DB_PASSWORD")

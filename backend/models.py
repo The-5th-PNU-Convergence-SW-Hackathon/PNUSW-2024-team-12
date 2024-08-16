@@ -42,7 +42,7 @@ class Matching(match_Base):
     max_member = Column(Integer, nullable=False)
     current_member = Column(Integer, nullable=False)
     created_by = Column(String(255), nullable=False)  
-
+    mate = Column(String(50), nullable=False)  
     lobby = relationship("Lobby", back_populates="matching")
 
 

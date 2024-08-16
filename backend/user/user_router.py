@@ -3,7 +3,8 @@
 from fastapi import FastAPI, APIRouter, HTTPException, Depends, Response, Request,Security
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-
+from dotenv import load_dotenv
+load_dotenv()
 
 from pydantic import BaseModel
 from typing import Optional, List

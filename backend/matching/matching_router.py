@@ -1,10 +1,13 @@
 from fastapi import APIRouter, HTTPException, Depends, Security
-from database import get_matchdb, get_userdb
+from database import get_matchdb, get_userdb, get_historydb
 from sqlalchemy.orm import Session
 from models import Matching as MatchingModel, Lobby as LobbyModel, LobbyUser as LobbyUserModel, User as UserModel
 from matching.matching_schema import MatchingCreate, MatchingResponse, LobbyResponse, LobbyListResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from matching.matching_crud import decode_jwt
+from history.history_schema import HistoryCreate
+from history.history_router import create_history
+from datetime import datetime
 
 security = HTTPBearer()
 router = APIRouter(prefix="/matching")
@@ -28,7 +31,6 @@ def create_matching(
 ):
     user = get_current_user(credentials, user_db)
 
-    # Matching 생성
     db_matching = MatchingModel(
         matching_type=matching.matching_type,
         boarding_time=matching.boarding_time,
@@ -36,7 +38,8 @@ def create_matching(
         dest=matching.dest,
         max_member=matching.max_member,
         current_member=1,
-        created_by=user.user_id  # 매칭 생성자 user_id 저장
+        created_by=user.user_id,  
+        mate=str(user.user_id)  
     )
     match_db.add(db_matching)
     match_db.commit()
@@ -49,7 +52,7 @@ def create_matching(
         max_member=matching.max_member,
         current_member=1,
         matching_id=db_matching.id,
-        created_by=user.user_id  # 방 생성자 user_id 저장
+        created_by=user.user_id  
     )
     match_db.add(db_lobby)
     match_db.commit()
@@ -62,6 +65,7 @@ def create_matching(
     match_db.refresh(lobby_user)
 
     return db_matching
+
 
 @router.post("/lobbies/{lobby_id}/join", response_model=LobbyResponse)
 def join_lobby(
@@ -143,7 +147,7 @@ def list_lobbies_by_matching_type(matching_type: int, match_db: Session = Depend
     return LobbyListResponse(lobbies=lobbies)
 
 @router.post("/lobbies/{lobby_id}/complete", response_model=dict)
-def complete_matching(
+def complete_lobby(
     lobby_id: int,
     credentials: HTTPAuthorizationCredentials = Security(security),
     user_db: Session = Depends(get_userdb),
@@ -160,11 +164,59 @@ def complete_matching(
     if lobby.created_by != user.user_id:
         raise HTTPException(status_code=403, detail="오직 방 생성자만 매칭 완료를 실행할 수 있습니다.")
 
-    # 대기실에 있는 모든 유저 정보 삭제
+    # 대기실에 있는 모든 유저 정보를 매칭 테이블에 저장
+    lobby_users = match_db.query(LobbyUserModel).filter(LobbyUserModel.lobby_id == lobby_id).all()
+    mate_ids = ",".join([str(user.user_id) for user in lobby_users])
+
+    # 매칭 정보 업데이트
+    matching = match_db.query(MatchingModel).filter(MatchingModel.id == lobby.matching_id).first()
+    if matching:
+        matching.mate = mate_ids
+        match_db.commit()
+
     match_db.query(LobbyUserModel).filter(LobbyUserModel.lobby_id == lobby_id).delete()
 
-    # 대기실 삭제
     match_db.delete(lobby)
     match_db.commit()
 
-    return {"message": "정상적으로 매칭 완료가 실행되었습니다."}
+    return {"message": "대기실이 정상적으로 완료되었습니다."}
+
+
+@router.post("/matchings/{matching_id}/complete", response_model=dict)
+def complete_drive(
+    matching_id: int,
+    credentials: HTTPAuthorizationCredentials = Security(security),
+    user_db: Session = Depends(get_userdb),
+    match_db: Session = Depends(get_matchdb),
+    history_db: Session = Depends(get_historydb)
+):
+    user = get_current_user(credentials, user_db)
+
+    # 매칭 정보 가져오기
+    matching = match_db.query(MatchingModel).filter(MatchingModel.id == matching_id).first()
+    if not matching:
+        raise HTTPException(status_code=404, detail="매칭을 찾을 수 없음")
+
+    lobbies = match_db.query(LobbyModel).filter(LobbyModel.matching_id == matching_id).all()
+    if lobbies:
+        raise HTTPException(status_code=400, detail="매칭에 연관된 대기실이 아직 존재합니다. 먼저 모든 대기실을 완료하세요.")
+
+    # History에 저장할 데이터 생성
+    history_data = HistoryCreate(
+        car_num="차량번호",
+        date=datetime.now(), 
+        boarding_time=matching.boarding_time.strftime("%H:%M"),  
+        quit_time=datetime.now().strftime("%H:%M"),  
+        amount=10000, 
+        depart=matching.depart,
+        dest=matching.dest,
+        mate=matching.mate  
+    )
+
+    create_history(history=history_data, credentials=credentials, db=history_db)
+
+    # 매칭 삭제
+    match_db.delete(matching)
+    match_db.commit()
+
+    return {"message": "운행이 완료되어 매칭 정보가 기록되었습니다."}
