@@ -28,6 +28,7 @@ class LobbyResponse(BaseModel):
     dest: str
     max_member: int
     current_member: int
+    boarding_time: datetime
     created_by: str  # 방을 만든 사람의 ID
 
     class Config:

@@ -49,6 +49,7 @@ def create_matching(
     db_lobby = LobbyModel(
         depart=matching.depart,
         dest=matching.dest,
+        boarding_time=matching.boarding_time,
         max_member=matching.max_member,
         current_member=1,
         matching_id=db_matching.id,
@@ -143,6 +144,7 @@ def list_lobbies_by_matching_type(matching_type: int, match_db: Session = Depend
                 dest=lobby.dest,
                 max_member=lobby.max_member,
                 current_member=lobby.current_member,
+                boarding_time=lobby.boarding_time,
                 created_by=lobby.created_by
             ))
 

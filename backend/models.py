@@ -51,6 +51,7 @@ class Lobby(match_Base):
     id = Column(Integer, primary_key=True, index=True)
     depart = Column(Text, nullable=False)
     dest = Column(Text, nullable=False)
+    boarding_time = Column(DateTime, nullable=False)
     max_member = Column(Integer, nullable=False)
     current_member = Column(Integer, nullable=False, default=0)
     created_by = Column(String(255), nullable=False)  
