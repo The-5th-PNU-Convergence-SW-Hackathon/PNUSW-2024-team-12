@@ -8,7 +8,7 @@ from matching.matching_crud import decode_jwt
 from history.history_schema import HistoryCreate
 from history.history_router import create_history
 from datetime import datetime
-
+from typing import List
 security = HTTPBearer()
 router = APIRouter(prefix="/matching")
 
@@ -124,13 +124,15 @@ def leave_lobby(
 
     return lobby
 
-@router.get("/lobbies/{matching_type}/", response_model=LobbyListResponse)
+@router.get("/lobbies/{matching_type}/", response_model=List[LobbyResponse])
 def list_lobbies_by_matching_type(matching_type: int, match_db: Session = Depends(get_matchdb)):
+    # 주어진 matching_type에 해당하는 매칭들을 찾습니다.
     matchings = match_db.query(MatchingModel).filter(MatchingModel.matching_type == matching_type).all()
 
     if not matchings:
         raise HTTPException(status_code=404, detail="해당 매칭에 관련된 대기실이 존재하지 않습니다.")
 
+    # 매칭들에 연결된 로비들을 수집합니다.
     lobbies = []
     for matching in matchings:
         matching_lobbies = match_db.query(LobbyModel).filter(LobbyModel.matching_id == matching.id).all()
@@ -144,7 +146,8 @@ def list_lobbies_by_matching_type(matching_type: int, match_db: Session = Depend
                 created_by=lobby.created_by
             ))
 
-    return LobbyListResponse(lobbies=lobbies)
+    # 수집한 로비 리스트를 반환합니다.
+    return lobbies
 
 @router.post("/lobbies/{lobby_id}/complete", response_model=dict)
 def complete_lobby(
