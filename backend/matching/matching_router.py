@@ -22,7 +22,7 @@ def get_current_user(credentials: HTTPAuthorizationCredentials, db: Session):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-@router.post("/", response_model=MatchingResponse)
+@router.post("/create", response_model=MatchingResponse)
 def create_matching(
     matching: MatchingCreate,
     credentials: HTTPAuthorizationCredentials = Security(security),
