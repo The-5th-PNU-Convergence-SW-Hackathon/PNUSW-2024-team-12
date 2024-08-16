@@ -190,7 +190,7 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                                 ],
                               ),
                               const Spacer(),
-                              boardingInfo("14:00"),
+                              boardingInfo(quickMatch.boardingTime.toString().substring(11, 16)),
                             ],
                           ),
                         ),
