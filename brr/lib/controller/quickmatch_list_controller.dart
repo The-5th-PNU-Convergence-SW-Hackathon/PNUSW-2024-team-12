@@ -26,7 +26,7 @@ class QuickMatchController extends GetxController {
         return;
       }
 
-      final url = '${Urls.apiUrl}matching';
+      final url = '${Urls.apiUrl}matching/lobbies/0/';
       final headers = {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $accessToken',
