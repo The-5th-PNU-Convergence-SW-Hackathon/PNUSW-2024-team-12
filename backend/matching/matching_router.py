@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends, Security
+from fastapi import APIRouter, HTTPException, Depends, Security, WebSocket, WebSocketDisconnect
 from database import get_matchdb, get_userdb, get_historydb
 from sqlalchemy.orm import Session
 from models import Matching as MatchingModel, Lobby as LobbyModel, LobbyUser as LobbyUserModel, User as UserModel
@@ -8,9 +8,10 @@ from matching.matching_crud import decode_jwt
 from history.history_schema import HistoryCreate
 from history.history_router import create_history
 from datetime import datetime
-from typing import List
+from typing import List,Dict
 security = HTTPBearer()
 router = APIRouter(prefix="/matching")
+active_connections = {}
 
 def get_current_user(credentials: HTTPAuthorizationCredentials, db: Session):
     token = credentials.credentials
@@ -21,6 +22,45 @@ def get_current_user(credentials: HTTPAuthorizationCredentials, db: Session):
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user
+class LobbyManager:
+    def __init__(self):
+        self.active_connections: Dict[int, List[WebSocket]] = {}
+
+    async def connect(self, lobby_id: int, websocket: WebSocket):
+        await websocket.accept()
+        if lobby_id not in self.active_connections:
+            self.active_connections[lobby_id] = []
+        self.active_connections[lobby_id].append(websocket)
+        # 새 유저 입장 시 현재 인원 상태를 모든 클라이언트에게 방송
+        await self.broadcast(lobby_id, f"A new user has joined! Current members: {len(self.active_connections[lobby_id])}")
+
+    def disconnect(self, lobby_id: int, websocket: WebSocket):
+        self.active_connections[lobby_id].remove(websocket)
+        if not self.active_connections[lobby_id]:
+            del self.active_connections[lobby_id]
+
+    async def broadcast(self, lobby_id: int, message: str):
+        if lobby_id in self.active_connections:
+            for connection in self.active_connections[lobby_id]:
+                await connection.send_text(message)
+lobby_manager = LobbyManager()
+
+# WebSocket 엔드포인트
+@router.websocket("/lobbies/{lobby_id}/ws")
+async def websocket_endpoint(websocket: WebSocket, lobby_id: int, match_db: Session = Depends(get_matchdb)):
+    await lobby_manager.connect(lobby_id, websocket)
+    try:
+        while True:
+            data = await websocket.receive_text()
+            lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
+            if lobby:
+                await lobby_manager.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
+            else:
+                await websocket.send_text("Lobby not found")
+    except WebSocketDisconnect:
+        lobby_manager.disconnect(lobby_id, websocket)
+        await lobby_manager.broadcast(lobby_id, f"현재 {len(lobby_manager.active_connections.get(lobby_id, []))}/4 모집중")
+
 
 @router.post("/create", response_model=MatchingResponse)
 def create_matching(
@@ -36,7 +76,7 @@ def create_matching(
         boarding_time=matching.boarding_time,
         depart=matching.depart,
         dest=matching.dest,
-        max_member=matching.max_member,
+        min_member=matching.min_member,  
         current_member=1,
         created_by=user.user_id,  
         mate=str(user.user_id)  
@@ -49,8 +89,8 @@ def create_matching(
     db_lobby = LobbyModel(
         depart=matching.depart,
         dest=matching.dest,
-        boarding_time=matching.boarding_time,
-        max_member=matching.max_member,
+        boarding_time=matching.boarding_time,  
+        min_member=matching.min_member,  
         current_member=1,
         matching_id=db_matching.id,
         created_by=user.user_id  
@@ -77,15 +117,18 @@ def join_lobby(
 ):
     user = get_current_user(credentials, user_db)
 
+    # 이미 다른 대기실에 있는지 확인
     existing_lobby_user = match_db.query(LobbyUserModel).filter(LobbyUserModel.user_id == user.user_id).first()
     if existing_lobby_user is not None:
         raise HTTPException(status_code=400, detail="유저가 이미 다른 대기실에 존재합니다")
 
+    # 대기실 정보 가져오기
     lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
     if not lobby:
         raise HTTPException(status_code=404, detail="대기실을 찾을 수 없음")
 
-    if lobby.current_member >= lobby.max_member:
+    # 현재 멤버 수가 최대 멤버 수보다 많거나 같으면 입장 불가
+    if lobby.current_member >= 4:
         raise HTTPException(status_code=400, detail="대기실이 인원이 가득 찼습니다.")
 
     # LobbyUser 생성
@@ -98,7 +141,11 @@ def join_lobby(
     # Lobby 업데이트
     match_db.refresh(lobby)
 
+    # 연결된 WebSocket 클라이언트들에게 업데이트된 인원 수를 알림
+    lobby_manager.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
+
     return lobby
+
 
 @router.post("/lobbies/{lobby_id}/leave", response_model=LobbyResponse)
 def leave_lobby(
@@ -123,6 +170,9 @@ def leave_lobby(
     match_db.commit()
     match_db.refresh(lobby)
 
+    # 연결된 WebSocket 클라이언트들에게 업데이트된 인원 수를 알림
+    lobby_manager.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
+
     return lobby
 
 @router.get("/lobbies/{matching_type}/", response_model=List[LobbyResponse])
@@ -142,7 +192,7 @@ def list_lobbies_by_matching_type(matching_type: int, match_db: Session = Depend
                 id=lobby.id,
                 depart=lobby.depart,
                 dest=lobby.dest,
-                max_member=lobby.max_member,
+                min_member=lobby.min_member,
                 current_member=lobby.current_member,
                 boarding_time=lobby.boarding_time,
                 created_by=lobby.created_by
@@ -169,6 +219,10 @@ def complete_lobby(
     if lobby.created_by != user.user_id:
         raise HTTPException(status_code=403, detail="오직 방 생성자만 매칭 완료를 실행할 수 있습니다.")
 
+    # 현재 멤버 수가 최소 멤버 수 이상인지 확인
+    if lobby.current_member < lobby.min_member:
+        raise HTTPException(status_code=400, detail=f"최소 {lobby.min_member}명의 인원이 필요합니다.")
+
     # 대기실에 있는 모든 유저 정보를 매칭 테이블에 저장
     lobby_users = match_db.query(LobbyUserModel).filter(LobbyUserModel.lobby_id == lobby_id).all()
     mate_ids = ",".join([str(user.user_id) for user in lobby_users])
@@ -185,7 +239,6 @@ def complete_lobby(
     match_db.commit()
 
     return {"message": "대기실이 정상적으로 완료되었습니다."}
-
 
 @router.post("/matchings/{matching_id}/complete", response_model=dict)
 def complete_drive(
@@ -205,6 +258,10 @@ def complete_drive(
     lobbies = match_db.query(LobbyModel).filter(LobbyModel.matching_id == matching_id).all()
     if lobbies:
         raise HTTPException(status_code=400, detail="매칭에 연관된 대기실이 아직 존재합니다. 먼저 모든 대기실을 완료하세요.")
+
+    # 현재 멤버 수가 최소 멤버 수 이상인지 확인
+    if matching.current_member < matching.min_member:
+        raise HTTPException(status_code=400, detail=f"최소 {matching.min_member}명의 인원이 필요합니다.")
 
     # History에 저장할 데이터 생성
     history_data = HistoryCreate(

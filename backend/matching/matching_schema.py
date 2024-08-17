@@ -7,7 +7,7 @@ class MatchingCreate(BaseModel):
     boarding_time: datetime
     depart: str
     dest: str
-    max_member: int
+    min_member: int
     mate: str
 
 class MatchingResponse(BaseModel):
@@ -16,7 +16,7 @@ class MatchingResponse(BaseModel):
     boarding_time: datetime
     depart: str
     dest: str
-    max_member: int
+    min_member: int
     current_member: int
 
     class Config:
@@ -26,7 +26,7 @@ class LobbyResponse(BaseModel):
     id: int
     depart: str
     dest: str
-    max_member: int
+    min_member: int
     current_member: int
     boarding_time: datetime
     created_by: str  # 방을 만든 사람의 ID

@@ -42,7 +42,7 @@ class Matching(match_Base):
     boarding_time = Column(DateTime, nullable=False)
     depart = Column(Text, nullable=False)
     dest = Column(Text, nullable=False)
-    max_member = Column(Integer, nullable=False)
+    min_member = Column(Integer, nullable=False)
     current_member = Column(Integer, nullable=False)
     created_by = Column(String(255), nullable=False)  
     mate = Column(String(50), nullable=False)  
@@ -55,7 +55,7 @@ class Lobby(match_Base):
     depart = Column(Text, nullable=False)
     dest = Column(Text, nullable=False)
     boarding_time = Column(DateTime, nullable=False)
-    max_member = Column(Integer, nullable=False)
+    min_member = Column(Integer, nullable=False)
     current_member = Column(Integer, nullable=False, default=0)
     created_by = Column(String(255), nullable=False)  
 
