@@ -4,11 +4,9 @@ from datetime import datetime
 
 class MatchingCreate(BaseModel):
     matching_type: int
-    boarding_time: datetime
     depart: str
     dest: str
     min_member: int
-    mate: str
 
 class MatchingResponse(BaseModel):
     id: int

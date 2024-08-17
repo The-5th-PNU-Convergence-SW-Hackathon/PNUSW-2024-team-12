@@ -73,7 +73,7 @@ def create_matching(
 
     db_matching = MatchingModel(
         matching_type=matching.matching_type,
-        boarding_time=matching.boarding_time,
+        boarding_time=datetime.now(),
         depart=matching.depart,
         dest=matching.dest,
         min_member=matching.min_member,  
@@ -89,7 +89,7 @@ def create_matching(
     db_lobby = LobbyModel(
         depart=matching.depart,
         dest=matching.dest,
-        boarding_time=matching.boarding_time,  
+        boarding_time=datetime.now(),  
         min_member=matching.min_member,  
         current_member=1,
         matching_id=db_matching.id,
