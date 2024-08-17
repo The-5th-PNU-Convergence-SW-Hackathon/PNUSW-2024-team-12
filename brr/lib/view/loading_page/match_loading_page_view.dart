@@ -1,9 +1,9 @@
+import 'package:brr/design_materials/design_materials.dart';
 import 'package:flutter/material.dart';
 import 'package:brr/view/loading_circle/loading_circle.dart';
-import 'package:get/get.dart';
 
-class matchLoadingPageView extends StatelessWidget {
-  const matchLoadingPageView({super.key});
+class MatchLoadingPageView extends StatelessWidget {
+  const MatchLoadingPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -99,27 +99,7 @@ class matchLoadingPageView extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
-            top: 50.0,
-            left: 30.0,
-            child: SizedBox(
-              width: 35.0,
-              height: 35.0,
-              child: FloatingActionButton(
-                onPressed: () {
-                  Get.back();
-                },
-                shape: const CircleBorder(),
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.blue,
-                elevation: 4.0,
-                child: const Icon(
-                  Icons.arrow_back,
-                  size: 20.0,
-                ),
-              ),
-            ),
-          )
+          Positioned(top: 50.0, left: 30.0, child: gobackButton())
         ],
       ),
     );

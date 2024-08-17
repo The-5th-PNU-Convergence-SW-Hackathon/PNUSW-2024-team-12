@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/controller/quickmatch_list_controller.dart';
+import 'package:brr/design_materials/design_materials.dart';
 
 class MatchinglistPageView extends StatefulWidget {
   const MatchinglistPageView({super.key});
@@ -226,24 +227,6 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
       ),
     );
   }
-
-  final Widget circleContainer = Container(
-    width: 8,
-    height: 8,
-    decoration: const BoxDecoration(
-      color: Color.fromARGB(255, 182, 232, 255),
-      shape: BoxShape.circle,
-    ),
-  );
-
-  final Widget rectangularContainer = Container(
-    width: 8,
-    height: 8,
-    decoration: const BoxDecoration(
-      color: Colors.blue,
-      shape: BoxShape.rectangle,
-    ),
-  );
 
   ButtonStyle buttonStyle() {
     return ElevatedButton.styleFrom(
