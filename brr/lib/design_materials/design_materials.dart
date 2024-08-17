@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 ///로그인, 회원가입 페이지 TextField
 ///
@@ -78,6 +79,44 @@ dynamic brrLogo({double size = 36}) {
         ),
         Text('BRR', style: TextStyle(fontSize: size, fontWeight: FontWeight.w900, fontFamily: 'AnonymousPro-BoldItalic'))
       ],
+    ),
+  );
+}
+
+final Widget circleContainer = Container(
+  width: 8,
+  height: 8,
+  decoration: const BoxDecoration(
+    color: Color.fromARGB(255, 182, 232, 255),
+    shape: BoxShape.circle,
+  ),
+);
+
+final Widget rectangularContainer = Container(
+  width: 8,
+  height: 8,
+  decoration: const BoxDecoration(
+    color: Colors.blue,
+    shape: BoxShape.rectangle,
+  ),
+);
+
+Widget gobackButton() {
+  return SizedBox(
+    width: 35.0,
+    height: 35.0,
+    child: FloatingActionButton(
+      onPressed: () {
+        Get.back();
+      },
+      shape: const CircleBorder(),
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.blue,
+      elevation: 4.0,
+      child: const Icon(
+        Icons.arrow_back,
+        size: 20.0,
+      ),
     ),
   );
 }

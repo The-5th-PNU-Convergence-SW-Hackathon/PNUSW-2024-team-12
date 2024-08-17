@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:brr/design_materials/design_materials.dart';
+import 'package:brr/controller/location_controller.dart';
 
 class MatchingPageView extends StatelessWidget {
   const MatchingPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final LocationController locationController = Get.put(LocationController());
+
     return Scaffold(
         body: Stack(
       children: [
@@ -158,7 +162,44 @@ class MatchingPageView extends StatelessWidget {
                           )),
                     ],
                   ));
-            })
+            }),
+        Positioned(
+          top: 50.0,
+          left: 30.0,
+          child: Row(
+            children: [
+              gobackButton(),
+              const SizedBox(width: 10.0),
+              ElevatedButton(
+                onPressed: () {
+                  Get.toNamed('/writelocation');
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  elevation: 5,
+                  shadowColor: Colors.black.withOpacity(0.1),
+                ),
+                child: SizedBox(
+                  width: 270.0,
+                  height: 70,
+                  child: Obx(() => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          locationRow(circleContainer, '출발지', locationController.startLocation.value.isEmpty ? '서브웨이 부산대점' : locationController.startLocation.value),
+                          const SizedBox(height: 5.0),
+                          locationRow(rectangularContainer, '도착지', locationController.endLocation.value.isEmpty ? '부산대학교' : locationController.endLocation.value),
+                        ],
+                      )),
+                ),
+              )
+            ],
+          ),
+        )
       ],
     ));
   }
@@ -190,5 +231,30 @@ class MatchingPageView extends StatelessWidget {
                 ),
               )),
         ));
+  }
+
+  Widget locationRow(Widget icon, String title, String subtitle) {
+    return Row(
+      children: [
+        icon,
+        const SizedBox(width: 10.0),
+        Text(
+          title,
+          style: const TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
+          ),
+        ),
+        const SizedBox(width: 5.0),
+        Text(
+          subtitle,
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:brr/view/location_write_page/location_write_page_view.dart';
 import 'package:brr/view/history_page/history_page_view.dart';
 import 'package:brr/view/mypage_page/mydata_page_view.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:brr/view/main_page/driver_main_page_view.dart';
 import 'package:brr/view/mypage_page/mydata_page_view.dart';
 import 'package:brr/view/history_page/history_page_view.dart';
 import 'package:brr/view/loading_page/match_loading_page_view.dart';
+import 'package:brr/view/location_write_page/location_write_page_view.dart';
 
 class MainRouter {
   static final List<GetPage> routes = [
@@ -71,8 +73,14 @@ class MainRouter {
     GetPage(
       name: '/matchloading',
       page: () => const MainLayout(
-        child: matchLoadingPageView(),
+        child: MatchLoadingPageView(),
       ),
-    )
+    ),
+    GetPage(
+      name: '/writelocation',
+      page: () => MainLayout(
+        child: WriteLocationPageView(),
+      ),
+    ),
   ];
 }
