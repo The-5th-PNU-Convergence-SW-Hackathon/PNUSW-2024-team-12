@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends, Security, WebSocket, WebS
 from database import get_matchdb, get_userdb, get_historydb
 from sqlalchemy.orm import Session
 from models import Matching as MatchingModel, Lobby as LobbyModel, LobbyUser as LobbyUserModel, User as UserModel
-from matching.matching_schema import MatchingCreate, MatchingResponse, LobbyResponse, LobbyListResponse
+from matching.matching_schema import MatchingCreate, MatchingResponse, LobbyResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from matching.matching_crud import decode_jwt
 from history.history_schema import HistoryCreate
@@ -107,6 +107,33 @@ def create_matching(
 
     return db_matching
 
+@router.delete("/matchings/{matching_id}/cancel", response_model=dict)
+def cancel_matching(
+    matching_id: int,
+    credentials: HTTPAuthorizationCredentials = Security(security),
+    user_db: Session = Depends(get_userdb),
+    match_db: Session = Depends(get_matchdb)
+):
+    user = get_current_user(credentials, user_db)
+
+    # 매칭 정보 가져오기
+    matching = match_db.query(MatchingModel).filter(MatchingModel.id == matching_id).first()
+    if not matching:
+        raise HTTPException(status_code=404, detail="매칭을 찾을 수 없음")
+
+    if matching.created_by != user.user_id:
+        raise HTTPException(status_code=403, detail="오직 방 생성자만 매칭을 취소할 수 있습니다.")
+
+    # 해당 매칭과 연관된 대기실과 유저들 모두 삭제
+    lobbies = match_db.query(LobbyModel).filter(LobbyModel.matching_id == matching_id).all()
+    for lobby in lobbies:
+        match_db.query(LobbyUserModel).filter(LobbyUserModel.lobby_id == lobby.id).delete()
+        match_db.delete(lobby)
+
+    match_db.delete(matching)
+    match_db.commit()
+
+    return {"message": "매칭과 관련된 대기실 및 모든 유저가 정상적으로 삭제되었습니다."}
 
 @router.post("/lobbies/{lobby_id}/join", response_model=LobbyResponse)
 def join_lobby(
@@ -132,7 +159,6 @@ def join_lobby(
     if lobby.current_member >= 4:
         raise HTTPException(status_code=400, detail="대기실이 인원이 가득 찼습니다.")
 
-    # LobbyUser 생성
     lobby_user = LobbyUserModel(lobby_id=lobby_id, user_id=user.user_id)
     
     lobby.current_member += 1
@@ -141,7 +167,6 @@ def join_lobby(
     match_db.commit()
     match_db.refresh(lobby_user)
 
-    # Lobby 업데이트
     match_db.refresh(lobby)
 
     # 연결된 WebSocket 클라이언트들에게 업데이트된 인원 수를 알림
@@ -182,13 +207,11 @@ def leave_lobby(
 
 @router.get("/lobbies/{matching_type}/", response_model=List[LobbyResponse])
 def list_lobbies_by_matching_type(matching_type: int, match_db: Session = Depends(get_matchdb)):
-    # 주어진 matching_type에 해당하는 매칭들을 찾습니다.
     matchings = match_db.query(MatchingModel).filter(MatchingModel.matching_type == matching_type).all()
 
     if not matchings:
         raise HTTPException(status_code=404, detail="해당 매칭에 관련된 대기실이 존재하지 않습니다.")
 
-    # 매칭들에 연결된 로비들을 수집합니다.
     lobbies = []
     for matching in matchings:
         matching_lobbies = match_db.query(LobbyModel).filter(LobbyModel.matching_id == matching.id).all()
@@ -203,7 +226,6 @@ def list_lobbies_by_matching_type(matching_type: int, match_db: Session = Depend
                 created_by=lobby.created_by
             ))
 
-    # 수집한 로비 리스트를 반환합니다.
     return lobbies
 
 @router.post("/lobbies/{lobby_id}/complete", response_model=dict)
@@ -220,7 +242,6 @@ def complete_lobby(
     if not lobby:
         raise HTTPException(status_code=404, detail="대기실을 찾을 수 없음")
 
-    # 방 생성자가 맞는지 확인
     if lobby.created_by != user.user_id:
         raise HTTPException(status_code=403, detail="오직 방 생성자만 매칭 완료를 실행할 수 있습니다.")
 
@@ -228,11 +249,9 @@ def complete_lobby(
     if lobby.current_member < lobby.min_member:
         raise HTTPException(status_code=400, detail=f"최소 {lobby.min_member}명의 인원이 필요합니다.")
 
-    # 대기실에 있는 모든 유저 정보를 매칭 테이블에 저장
     lobby_users = match_db.query(LobbyUserModel).filter(LobbyUserModel.lobby_id == lobby_id).all()
     mate_ids = ",".join([str(user.user_id) for user in lobby_users])
 
-    # 매칭 정보 업데이트
     matching = match_db.query(MatchingModel).filter(MatchingModel.id == lobby.matching_id).first()
     if matching:
         matching.mate = mate_ids
@@ -268,7 +287,6 @@ def complete_drive(
     if matching.current_member < matching.min_member:
         raise HTTPException(status_code=400, detail=f"최소 {matching.min_member}명의 인원이 필요합니다.")
 
-    # History에 저장할 데이터 생성
     history_data = HistoryCreate(
         car_num="차량번호",
         date=datetime.now(), 
