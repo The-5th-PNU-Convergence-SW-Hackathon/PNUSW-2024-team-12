@@ -124,6 +124,7 @@ def join_lobby(
 
     # 대기실 정보 가져오기
     lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
+    match = match_db.query(MatchingModel).filter(MatchingModel.id == lobby_id).first()
     if not lobby:
         raise HTTPException(status_code=404, detail="대기실을 찾을 수 없음")
 
@@ -133,7 +134,9 @@ def join_lobby(
 
     # LobbyUser 생성
     lobby_user = LobbyUserModel(lobby_id=lobby_id, user_id=user.user_id)
+    
     lobby.current_member += 1
+    match.current_member += 1
     match_db.add(lobby_user)
     match_db.commit()
     match_db.refresh(lobby_user)
@@ -161,12 +164,14 @@ def leave_lobby(
         raise HTTPException(status_code=404, detail="해당 유저는 대기실에 들어가 있지 않습니다.")
 
     lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
+    match = match_db.query(MatchingModel).filter(MatchingModel.id == lobby_id).first()
     if not lobby:
         raise HTTPException(status_code=404, detail="대기실을 찾을 수 없음")
 
     # LobbyUser 삭제
     match_db.delete(lobby_user)
     lobby.current_member -= 1
+    match.current_member -= 1
     match_db.commit()
     match_db.refresh(lobby)
 
