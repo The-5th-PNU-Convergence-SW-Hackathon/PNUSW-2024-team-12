@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/location_controller.dart';
+import 'package:brr/controller/add_match_list_controller.dart';
 
 class MatchingPageView extends StatelessWidget {
   const MatchingPageView({super.key});
@@ -65,10 +66,10 @@ class MatchingPageView extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  _matchpeopleButton('2인 이상', '5500원 이상', '/matchloading'),
-                                  _matchpeopleButton('3인 이상', '3700원 이상', '/matchloading'),
-                                  _matchpeopleButton('4인 ', '2850원 이상', '/matchloading'),
-                                  _matchpeopleButton('상관\n없음', '', '/matchloading'),
+                                  _matchpeopleButton('2인 이상', '5500원 이상', 2),
+                                  _matchpeopleButton('3인 이상', '3700원 이상', 3),
+                                  _matchpeopleButton('4인 ', '2850원 이상', 4),
+                                  _matchpeopleButton('상관\n없음', '', 1),
                                 ],
                               ),
                               const SizedBox(height: 15),
@@ -190,9 +191,9 @@ class MatchingPageView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          locationRow(circleContainer, '출발지', locationController.startLocation.value.isEmpty ? '서브웨이 부산대점' : locationController.startLocation.value),
+                          locationRow(circleContainer, '출발지', locationController.startLocation.value.isEmpty ? '' : locationController.startLocation.value),
                           const SizedBox(height: 5.0),
-                          locationRow(rectangularContainer, '도착지', locationController.endLocation.value.isEmpty ? '부산대학교' : locationController.endLocation.value),
+                          locationRow(rectangularContainer, '도착지', locationController.endLocation.value.isEmpty ? '' : locationController.endLocation.value),
                         ],
                       )),
                 ),
@@ -204,7 +205,7 @@ class MatchingPageView extends StatelessWidget {
     ));
   }
 
-  Widget _matchpeopleButton(String text, String subtext, String routeName) {
+  Widget _matchpeopleButton(String text, String subtext, int minMember) {
     return Padding(
         padding: const EdgeInsets.all(5),
         child: SizedBox(
@@ -218,7 +219,9 @@ class MatchingPageView extends StatelessWidget {
                 padding: EdgeInsets.zero,
               ),
               onPressed: () {
-                Get.toNamed(routeName);
+                final AddMatchListController addMatchListController = Get.put(AddMatchListController());
+                addMatchListController.sendMatchData(minMember);
+                Get.toNamed('/matchloading');
               },
               child: Center(
                 child: Column(
