@@ -49,7 +49,6 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
         expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    print(f"create access token : {encoded_jwt}") 
     return encoded_jwt
 
 def create_refresh_token(data: dict, expires_delta: Optional[timedelta] = None):
@@ -60,7 +59,6 @@ def create_refresh_token(data: dict, expires_delta: Optional[timedelta] = None):
         expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    print(f"create refresh token: {encoded_jwt}") 
     return encoded_jwt
 
 def decode_jwt(token: str):
@@ -68,10 +66,8 @@ def decode_jwt(token: str):
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         return payload
     except jwt.ExpiredSignatureError:
-        print("Token has expired")
         raise HTTPException(status_code=401, detail="토큰이 만료되었습니다.")
     except jwt.PyJWTError:
-        print("Invalid token")  
         raise HTTPException(status_code=401, detail="인식되지 않는 토큰입니다.")
 
 def get_current_user(credentials: HTTPAuthorizationCredentials = Security(security), db: Session = Depends(get_userdb)):
