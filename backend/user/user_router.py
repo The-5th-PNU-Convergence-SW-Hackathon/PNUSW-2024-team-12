@@ -1,5 +1,3 @@
-
-
 from fastapi import FastAPI, APIRouter, HTTPException, Depends, Response, Request,Security
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials

@@ -9,6 +9,8 @@ from history.history_schema import HistoryCreate
 from history.history_router import create_history
 from datetime import datetime
 from typing import List,Dict
+from taxi.taxi_router import calling_taxi
+
 security = HTTPBearer()
 router = APIRouter(prefix="/matching")
 active_connections = {}
@@ -43,6 +45,7 @@ class LobbyManager:
         if lobby_id in self.active_connections:
             for connection in self.active_connections[lobby_id]:
                 await connection.send_text(message)
+
 lobby_manager = LobbyManager()
 
 # WebSocket 엔드포인트
@@ -228,8 +231,10 @@ def list_lobbies_by_matching_type(matching_type: int, match_db: Session = Depend
 
     return lobbies
 
+
+# 인원이 모이면 매칭을 완료
 @router.post("/lobbies/{lobby_id}/complete", response_model=dict)
-def complete_lobby(
+async def complete_lobby(
     lobby_id: int,
     credentials: HTTPAuthorizationCredentials = Security(security),
     user_db: Session = Depends(get_userdb),
@@ -252,6 +257,9 @@ def complete_lobby(
     lobby_users = match_db.query(LobbyUserModel).filter(LobbyUserModel.lobby_id == lobby_id).all()
     mate_ids = ",".join([str(user.user_id) for user in lobby_users])
 
+    matchings = match_db.query(MatchingModel).all()
+    await calling_taxi(matchings)
+
     matching = match_db.query(MatchingModel).filter(MatchingModel.id == lobby.matching_id).first()
     if matching:
         matching.mate = mate_ids
@@ -264,6 +272,7 @@ def complete_lobby(
 
     return {"message": "대기실이 정상적으로 완료되었습니다."}
 
+# 운행이 완료된 상태
 @router.post("/matchings/{matching_id}/complete", response_model=dict)
 def complete_drive(
     matching_id: int,
