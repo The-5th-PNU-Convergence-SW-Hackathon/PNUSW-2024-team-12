@@ -28,7 +28,7 @@ class LobbyManager:
     def __init__(self):
         self.active_connections: Dict[int, List[WebSocket]] = {}
 
-    async def connect(self, lobby_id: int, websocket: WebSocket, match_db: Session):
+    async def connect(self, lobby_id: int, websocket: WebSocket, match_db: Session = Depends(get_matchdb)):
         await websocket.accept()
         if lobby_id not in self.active_connections:
             self.active_connections[lobby_id] = []
@@ -39,7 +39,7 @@ class LobbyManager:
         else:
             await websocket.send_text("로비를 찾을 수 없음")
 
-    async def disconnect(self, lobby_id: int, websocket: WebSocket, match_db: Session):
+    async def disconnect(self, lobby_id: int, websocket: WebSocket, match_db: Session = Depends(get_matchdb)):
         self.active_connections[lobby_id].remove(websocket)
         if not self.active_connections[lobby_id]:
             del self.active_connections[lobby_id]
