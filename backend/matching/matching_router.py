@@ -28,7 +28,7 @@ class LobbyManager:
     def __init__(self):
         self.active_connections: Dict[int, List[WebSocket]] = {}
 
-    async def connect(self, lobby_id: int, websocket: WebSocket, match_db: Session = Depends(get_matchdb)):
+    async def connect(self, lobby_id: int, websocket: WebSocket, match_db: Session):
         await websocket.accept()
         if lobby_id not in self.active_connections:
             self.active_connections[lobby_id] = []
@@ -39,7 +39,7 @@ class LobbyManager:
         else:
             await websocket.send_text("로비를 찾을 수 없음")
 
-    async def disconnect(self, lobby_id: int, websocket: WebSocket, match_db: Session = Depends(get_matchdb)):
+    async def disconnect(self, lobby_id: int, websocket: WebSocket, match_db: Session):
         self.active_connections[lobby_id].remove(websocket)
         if not self.active_connections[lobby_id]:
             del self.active_connections[lobby_id]
@@ -58,7 +58,7 @@ lobby_manager = LobbyManager()
 # WebSocket 엔드포인트
 @router.websocket("/lobbies/{lobby_id}/ws")
 async def websocket_endpoint(websocket: WebSocket, lobby_id: int, match_db: Session = Depends(get_matchdb)):
-    await lobby_manager.connect(lobby_id, websocket)
+    await lobby_manager.connect(lobby_id, websocket, match_db)
     try:
         while True:
             data = await websocket.receive_text()
@@ -66,10 +66,13 @@ async def websocket_endpoint(websocket: WebSocket, lobby_id: int, match_db: Sess
             if lobby:
                 await lobby_manager.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
             else:
-                await websocket.send_text("Lobby not found")
+                await websocket.send_text("로비를 찾을 수 없음")
     except WebSocketDisconnect:
-        lobby_manager.disconnect(lobby_id, websocket)
-        await lobby_manager.broadcast(lobby_id, f"현재 {len(lobby_manager.active_connections.get(lobby_id, []))}/4 모집중")
+        await lobby_manager.disconnect(lobby_id, websocket, match_db)
+        lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
+        if lobby:
+            await lobby_manager.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
+
 
 
 @router.post("/create", response_model=MatchingResponse)
