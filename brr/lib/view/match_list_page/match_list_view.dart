@@ -79,67 +79,117 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor: Colors.black,
-                            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
+                        Container(
+                          width: double.infinity,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.blue[50],
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          onPressed: () {},
-                          child: Row(
-                            children: [
-                              circleContainer,
-                              const SizedBox(width: 10.0),
-                              const Text(
-                                "출발지",
-                                style: TextStyle(
-                                  fontSize: 10.0,
-                                ),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: Colors.black,
+                              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              const SizedBox(width: 10.0),
-                              const Text(
-                                "서브웨이 부산대점",
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.bold,
+                            ),
+                            onPressed: () {},
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                circleContainer,
+                                const SizedBox(width: 10.0),
+                                const Text(
+                                  "출발지",
+                                  style: TextStyle(
+                                    fontSize: 10.0,
+                                  ),
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 10.0),
+                                const Expanded(
+                                  child: TextField(
+                                    cursorColor: Colors.black,
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    decoration: InputDecoration(
+                                      hintText: "출발지를 입력해주세요",
+                                      hintStyle: TextStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.transparent),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.transparent),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         const SizedBox(height: 5.0),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor: Colors.black,
-                            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
+                        Container(
+                          width: double.infinity,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.blue[50],
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          onPressed: () {},
-                          child: Row(
-                            children: [
-                              rectangularContainer,
-                              const SizedBox(width: 10.0),
-                              const Text(
-                                "도착지",
-                                style: TextStyle(
-                                  fontSize: 10.0,
-                                ),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: Colors.black,
+                              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              const SizedBox(width: 10.0),
-                              const Text(
-                                "부산대학교",
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.bold,
+                            ),
+                            onPressed: () {},
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                rectangularContainer,
+                                const SizedBox(width: 10.0),
+                                const Text(
+                                  "도착지",
+                                  style: TextStyle(
+                                    fontSize: 10.0,
+                                  ),
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 10.0),
+                                const Expanded(
+                                  child: TextField(
+                                    cursorColor: Colors.black,
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    decoration: InputDecoration(
+                                      hintText: "도착지를 입력해주세요",
+                                      hintStyle: TextStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.transparent),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.transparent),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

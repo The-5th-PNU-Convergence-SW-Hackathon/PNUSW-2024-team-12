@@ -60,7 +60,9 @@ class _WriteLocationPageViewState extends State<WriteLocationPageView> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _saveLocations,
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,

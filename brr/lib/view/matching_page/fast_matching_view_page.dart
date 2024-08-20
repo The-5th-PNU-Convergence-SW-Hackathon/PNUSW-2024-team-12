@@ -26,9 +26,9 @@ class MatchingPageView extends StatelessWidget {
           ),
         ),
         DraggableScrollableSheet(
-            initialChildSize: 0.55,
+            initialChildSize: 0.57,
             minChildSize: 0.12,
-            maxChildSize: 0.55,
+            maxChildSize: 0.65,
             builder: (context, scrollController) {
               return Container(
                   decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
@@ -159,6 +159,40 @@ class MatchingPageView extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 20),
+                              SizedBox(
+                                width: double.infinity,
+                                height: 50,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.blue,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    final AddMatchListController addMatchListController = Get.put(AddMatchListController());
+
+                                    if (addMatchListController.selectedMinMember.value == 0 && locationController.startLocation.value == '' && locationController.endLocation.value == '') {
+                                      Get.snackbar('Error', '매칭 조건(출발지/도착지/인원)을 모두 채워주세요.');
+                                    } else if (locationController.startLocation.value == '' || locationController.endLocation.value == '') {
+                                      Get.snackbar('Error', '출발지와 도착지를 채워주세요.');
+                                    } else if (addMatchListController.selectedMinMember.value == 0) {
+                                      Get.snackbar('Error', '매칭 할 인원을 선택해주세요.');
+                                    } else {
+                                      addMatchListController.sendMatchData(addMatchListController.selectedMinMember.value);
+                                      Get.toNamed('/matchloading');
+                                    }
+                                  },
+                                  child: const Text(
+                                    '매칭 시작하기',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
                             ],
                           )),
                     ],
@@ -169,7 +203,7 @@ class MatchingPageView extends StatelessWidget {
           left: 30.0,
           child: Row(
             children: [
-              gobackButton(),
+              goBackButton(),
               const SizedBox(width: 10.0),
               ElevatedButton(
                 onPressed: () {
@@ -206,34 +240,58 @@ class MatchingPageView extends StatelessWidget {
   }
 
   Widget _matchpeopleButton(String text, String subtext, int minMember) {
+    final AddMatchListController addMatchListController = Get.put(AddMatchListController());
+
     return Padding(
-        padding: const EdgeInsets.all(5),
-        child: SizedBox(
-          width: 80,
-          height: 60,
-          child: ElevatedButton(
+      padding: const EdgeInsets.all(5),
+      child: Obx(() => SizedBox(
+            width: 80,
+            height: 60,
+            child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.blue,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                foregroundColor: addMatchListController.selectedMinMember.value == minMember ? Colors.blue : Colors.white,
+                backgroundColor: addMatchListController.selectedMinMember.value == minMember ? Colors.white : Colors.blue,
+                side: addMatchListController.selectedMinMember.value == minMember ? const BorderSide(color: Colors.blue, width: 2) : BorderSide.none,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 padding: EdgeInsets.zero,
               ),
               onPressed: () {
-                final AddMatchListController addMatchListController = Get.put(AddMatchListController());
-                addMatchListController.sendMatchData(minMember);
-                Get.toNamed('/matchloading');
+                if (addMatchListController.selectedMinMember.value == minMember) {
+                  addMatchListController.selectedMinMember.value = 0;
+                } else {
+                  addMatchListController.selectedMinMember.value = minMember;
+                }
               },
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                    subtext == '' ? Container() : Text(subtext, style: const TextStyle(fontSize: 12)),
+                    Text(
+                      text,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: addMatchListController.selectedMinMember.value == minMember ? Colors.blue : Colors.white,
+                      ),
+                    ),
+                    subtext == ''
+                        ? Container()
+                        : Text(
+                            subtext,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: addMatchListController.selectedMinMember.value == minMember ? Colors.blue : Colors.white,
+                            ),
+                          ),
                   ],
                 ),
-              )),
-        ));
+              ),
+            ),
+          )),
+    );
   }
 
   Widget locationRow(Widget icon, String title, String subtitle) {
@@ -258,6 +316,32 @@ class MatchingPageView extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget goBackButton() {
+    return SizedBox(
+      width: 35.0,
+      height: 35.0,
+      child: FloatingActionButton(
+        onPressed: () {
+          final AddMatchListController addMatchListController = Get.find<AddMatchListController>();
+          final LocationController locationController = Get.find<LocationController>();
+
+          addMatchListController.selectedMinMember.value = 0;
+          locationController.startLocation.value = '';
+          locationController.endLocation.value = '';
+          Get.back();
+        },
+        shape: const CircleBorder(),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.blue,
+        elevation: 4.0,
+        child: const Icon(
+          Icons.arrow_back,
+          size: 20.0,
+        ),
+      ),
     );
   }
 }

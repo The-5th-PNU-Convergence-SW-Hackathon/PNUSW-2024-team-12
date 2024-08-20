@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AddMatchListController extends GetxController {
   final LocationController locationController = Get.find<LocationController>();
+  RxInt selectedMinMember = 0.obs;
 
   Future<void> sendMatchData(int minMember) async {
     final prefs = await SharedPreferences.getInstance();
