@@ -9,7 +9,7 @@ String dayDropDownValue = '';
 String startTimeDropDownValue = '9:00';
 String endTimeDropDownValue = '17:00';
 
-List<String> generateTimeList(String strStartTime, String strEndTime) { //ㅆㅣ발뭔가존나어려운길로돌아가고있는거같은데
+List<String> generateTimeList(String strStartTime, String strEndTime) {
   List<String> listStartTime = strStartTime.split(":");
   List<String> listEndTime = strEndTime.split(":");
 
@@ -33,9 +33,7 @@ List<String> generateTimeList(String strStartTime, String strEndTime) { //ㅆㅣ
       if(i==0) { timeList.add('$endHour:00'); continue; }
       timeList.add('$endHour:$i');
     }
-  }
-
-  if(endHour == 17) { timeList.add('17:00'); }
+  } else { timeList.add('17:00'); }
   return timeList;
 }
 
