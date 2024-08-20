@@ -71,3 +71,9 @@ def read_history(credentials: HTTPAuthorizationCredentials = Security(security),
         raise HTTPException(status_code=404, detail="내역을 찾을 수 없음")
     
     return db_history
+
+@router.get("/load_info/{history.id}")
+def read_history_info(credentials: HTTPAuthorizationCredentials = Security(security), db: Session = Depends(get_historydb)):
+    token = credentials.credentials
+    payload = decode_jwt(token)
+    user_id = payload.get("sub")

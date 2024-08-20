@@ -44,6 +44,7 @@ class LobbyManager:
     async def broadcast(self, lobby_id: int, message: str):
         if lobby_id in self.active_connections:
             for connection in self.active_connections[lobby_id]:
+                print("메세지보냄")
                 await connection.send_text(message)
 
 lobby_manager = LobbyManager()
@@ -139,7 +140,7 @@ def cancel_matching(
     return {"message": "매칭과 관련된 대기실 및 모든 유저가 정상적으로 삭제되었습니다."}
 
 @router.post("/lobbies/{lobby_id}/join", response_model=LobbyResponse)
-def join_lobby(
+async def join_lobby(
     lobby_id: int,
     credentials: HTTPAuthorizationCredentials = Security(security),
     user_db: Session = Depends(get_userdb),
@@ -173,13 +174,13 @@ def join_lobby(
     match_db.refresh(lobby)
 
     # 연결된 WebSocket 클라이언트들에게 업데이트된 인원 수를 알림
-    lobby_manager.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
+    await lobby_manager.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
 
     return lobby
 
 
 @router.post("/lobbies/{lobby_id}/leave", response_model=LobbyResponse)
-def leave_lobby(
+async def leave_lobby(
     lobby_id: int,
     credentials: HTTPAuthorizationCredentials = Security(security),
     user_db: Session = Depends(get_userdb),
@@ -204,7 +205,7 @@ def leave_lobby(
     match_db.refresh(lobby)
 
     # 연결된 WebSocket 클라이언트들에게 업데이트된 인원 수를 알림
-    lobby_manager.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
+    await lobby_manager.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
 
     return lobby
 
@@ -256,7 +257,7 @@ async def complete_lobby(
 
     lobby_users = match_db.query(LobbyUserModel).filter(LobbyUserModel.lobby_id == lobby_id).all()
     mate_ids = ",".join([str(user.user_id) for user in lobby_users])
-
+    # 택시기사에게 매칭리스트 호출
     matchings = match_db.query(MatchingModel).all()
     await calling_taxi(matchings)
 
