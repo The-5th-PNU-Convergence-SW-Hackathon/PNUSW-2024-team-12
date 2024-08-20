@@ -6,5 +6,6 @@ class BaseUrl {
 }
 
 class Urls {
-  static final String apiUrl = '${BaseUrl.baseUrl}/';
+  static final String apiUrl = 'https://${BaseUrl.baseUrl}/';
+  static final String wsUrl = '${BaseUrl.baseUrl}/';
 }

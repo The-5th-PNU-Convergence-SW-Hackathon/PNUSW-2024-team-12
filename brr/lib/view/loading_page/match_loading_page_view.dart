@@ -1,12 +1,16 @@
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:brr/view/loading_circle/loading_circle.dart';
+import 'package:brr/controller/add_match_list_controller.dart'; // AddMatchListController 가져오기
 
 class MatchLoadingPageView extends StatelessWidget {
   const MatchLoadingPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final AddMatchListController controller = Get.find<AddMatchListController>();
+
     return Scaffold(
       body: Stack(
         children: [
@@ -24,13 +28,13 @@ class MatchLoadingPageView extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  '현재 3/4 모집중',
-                  style: TextStyle(
+                Obx(() => Text(  // currentMemberStatus의 변화를 감지하여 업데이트
+                  controller.currentMemberStatus.value,
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.black,
                   ),
-                ),
+                )),
                 const SizedBox(height: 30),
                 const Text(
                   '현재 인원으로 출발하기를 원하시면\n아래의 출발해요 버튼을 눌러주세요',
@@ -69,8 +73,17 @@ class MatchLoadingPageView extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        onPressed: () {},
-                        child: const Text('출발해요!', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                        onPressed: () {
+                          // 출발 버튼 클릭 시 행동 정의
+                        },
+                        child: const Text(
+                          '출발해요!',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 20),
@@ -90,8 +103,17 @@ class MatchLoadingPageView extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        onPressed: () {},
-                        child: const Text('매칭 취소', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black)),
+                        onPressed: () {
+                          controller.leaveLobby(); // 매칭 취소 시 WebSocket 연결 해제
+                        },
+                        child: const Text(
+                          '매칭 취소',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
                       ),
                     ),
                   ],

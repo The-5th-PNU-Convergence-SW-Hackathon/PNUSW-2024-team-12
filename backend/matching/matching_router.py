@@ -28,23 +28,29 @@ class LobbyManager:
     def __init__(self):
         self.active_connections: Dict[int, List[WebSocket]] = {}
 
-    async def connect(self, lobby_id: int, websocket: WebSocket):
+    async def connect(self, lobby_id: int, websocket: WebSocket, match_db: Session):
         await websocket.accept()
         if lobby_id not in self.active_connections:
             self.active_connections[lobby_id] = []
         self.active_connections[lobby_id].append(websocket)
-        # 새 유저 입장 시 현재 인원 상태를 모든 클라이언트에게 방송
-        await self.broadcast(lobby_id, f"A new user has joined! Current members: {len(self.active_connections[lobby_id])}")
+        lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
+        if lobby:
+            await self.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
+        else:
+            await websocket.send_text("로비를 찾을 수 없음")
 
-    def disconnect(self, lobby_id: int, websocket: WebSocket):
+    async def disconnect(self, lobby_id: int, websocket: WebSocket, match_db: Session):
         self.active_connections[lobby_id].remove(websocket)
         if not self.active_connections[lobby_id]:
             del self.active_connections[lobby_id]
-
+        lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
+        if lobby:
+            await self.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
+        else:
+            print("로비를 찾을 수 없음")
     async def broadcast(self, lobby_id: int, message: str):
         if lobby_id in self.active_connections:
             for connection in self.active_connections[lobby_id]:
-                print("메세지보냄")
                 await connection.send_text(message)
 
 lobby_manager = LobbyManager()
