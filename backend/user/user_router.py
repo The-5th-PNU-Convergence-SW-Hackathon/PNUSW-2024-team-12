@@ -134,9 +134,9 @@ def signin_user(user: Taxi,
         
         create_taxi = Taxi_model(user_id = user.user_id,
                                  driver_name = user.nickname,
-                                 car_num = user.car_num,
-                                 car_model = user.car_model)
-                   
+                                 car_num = user.car_num, 
+                                 car_model = user.car_model) 
+            
         taxi_db.add(create_taxi)
         taxi_db.commit()
         taxi_db.refresh(create_taxi)

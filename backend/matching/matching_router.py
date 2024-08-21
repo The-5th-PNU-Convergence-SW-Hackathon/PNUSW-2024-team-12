@@ -266,9 +266,9 @@ async def complete_lobby(
 
     lobby_users = match_db.query(LobbyUserModel).filter(LobbyUserModel.lobby_id == lobby_id).all()
     mate_ids = ",".join([str(user.user_id) for user in lobby_users])
+    
     # 택시기사에게 매칭리스트 호출
-    matchings = match_db.query(MatchingModel).all()
-    await calling_taxi(matchings)
+    await calling_taxi(0, match_db) 
 
     matching = match_db.query(MatchingModel).filter(MatchingModel.id == lobby.matching_id).first()
     if matching:

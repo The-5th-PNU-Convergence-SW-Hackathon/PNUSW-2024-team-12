@@ -46,6 +46,7 @@ class Matching(match_Base):
     current_member = Column(Integer, nullable=False)
     created_by = Column(String(255), nullable=False)  
     mate = Column(String(50), nullable=False)  
+    matching_taxi = Column(Boolean, nullable=True)
     lobby = relationship("Lobby", back_populates="matching")
 
 
