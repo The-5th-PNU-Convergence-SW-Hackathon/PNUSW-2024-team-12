@@ -92,7 +92,8 @@ def create_matching(
         min_member=matching.min_member,  
         current_member=1,
         created_by=user.user_id,  
-        mate=str(user.user_id)  
+        mate=str(user.user_id),
+        matching_taxi=0
     )
     match_db.add(db_matching)
     match_db.commit()

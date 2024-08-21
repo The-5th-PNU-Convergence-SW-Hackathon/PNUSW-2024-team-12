@@ -74,7 +74,7 @@ async def calling_taxi(call_type:int = None,
                        match_db: Session = None):
     print("calling_taxi success")
     if call_type == 1:
-        matchings = match_db.query(MatchingModel).filter(MatchingModel.matching_taxi == None).all()
+        matchings = match_db.query(MatchingModel).filter(MatchingModel.matching_taxi == 0).all()
     else:
         matchings = match_db.query(MatchingModel).all()
     
