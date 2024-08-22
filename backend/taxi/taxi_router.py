@@ -5,6 +5,9 @@ from models import Matching as MatchingModel, Lobby as LobbyModel, LobbyUser as 
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from matching.matching_crud import decode_jwt
 from typing import List,Dict
+from history.history_schema import HistoryCreate
+from history.history_router import create_history
+from datetime import datetime
 import json
 security = HTTPBearer()
 router = APIRouter(
@@ -120,3 +123,51 @@ async def catch_call(
     await connection_manager.broadcast(taxi_room_id=matching_id, message=json.dumps(taxi_data))
     await calling_taxi(1, match_db)
     return taxi_data
+
+
+# 운행이 완료된 상태
+@router.post("/{matching_id}/complete", response_model=dict)
+def complete_drive(
+    matching_id: int,
+    credentials: HTTPAuthorizationCredentials = Security(security),
+    user_db: Session = Depends(get_userdb),
+    match_db: Session = Depends(get_matchdb),
+    history_db: Session = Depends(get_historydb)
+):
+    user = get_current_user(credentials, user_db)
+
+    # 매칭 정보 가져오기
+    matching = match_db.query(MatchingModel).filter(MatchingModel.id == matching_id).first()
+    if not matching:
+        raise HTTPException(status_code=404, detail="매칭을 찾을 수 없음")
+
+    lobbies = match_db.query(LobbyModel).filter(LobbyModel.matching_id == matching_id).all()
+    if lobbies:
+        raise HTTPException(status_code=400, detail="매칭에 연관된 대기실이 아직 존재합니다. 먼저 모든 대기실을 완료하세요.")
+
+    # 현재 멤버 수가 최소 멤버 수 이상인지 확인
+    if matching.current_member < matching.min_member:
+        raise HTTPException(status_code=400, detail=f"최소 {matching.min_member}명의 인원이 필요합니다.")
+
+    matching_mate = [name.strip() for name in matching.mate.split(",")]
+    
+    print(matching_mate)
+    # history detail 추가하기 : 택시 데이터 추가
+    history_data = HistoryCreate(
+        car_num="차량번호",
+        date=datetime.now(), 
+        boarding_time=matching.boarding_time.strftime("%H:%M"),  
+        quit_time=datetime.now().strftime("%H:%M"),  
+        amount=10000, 
+        depart=matching.depart,
+        dest=matching.dest,
+        mate=matching.mate  
+    )
+
+    create_history(history=history_data, credentials=credentials, db=history_db)
+
+    # 매칭 삭제
+    match_db.delete(matching)
+    match_db.commit()
+
+    return {"message": "운행이 완료되어 매칭 정보가 기록되었습니다."}
