@@ -39,5 +39,5 @@ class LobbyListResponse(BaseModel):
     class Config:
         orm_mode = True
     
-class MatchingJoin(BaseModel):
+class MatchingDo(BaseModel):
     lobby_id : int
