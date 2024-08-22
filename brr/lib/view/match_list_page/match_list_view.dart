@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/controller/quickmatch_list_controller.dart';
 import 'package:brr/design_materials/design_materials.dart';
+import 'package:brr/controller/reservation_match_list_controller.dart';
 
 class MatchinglistPageView extends StatefulWidget {
   const MatchinglistPageView({super.key});
@@ -12,6 +13,7 @@ class MatchinglistPageView extends StatefulWidget {
 
 class _MatchinglistPageView extends State<MatchinglistPageView> {
   final QuickMatchController quickMatchController = Get.put(QuickMatchController());
+  final ReservationMatchController reservationMatchController = Get.put(ReservationMatchController());
   bool isQuickMatch = true;
 
   @override
@@ -75,124 +77,61 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
               child: Row(
                 children: [
                   Flexible(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.blue[50],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: Colors.black,
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                            ),
-                            onPressed: () {},
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                circleContainer,
-                                const SizedBox(width: 10.0),
-                                const Text(
-                                  "출발지",
-                                  style: TextStyle(
-                                    fontSize: 10.0,
-                                  ),
-                                ),
-                                const SizedBox(width: 10.0),
-                                const Expanded(
-                                  child: TextField(
-                                    cursorColor: Colors.black,
-                                    style: TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    decoration: InputDecoration(
-                                      hintText: "출발지를 입력해주세요",
-                                      hintStyle: TextStyle(
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.transparent),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.transparent),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                    child: Container(
+                      width: double.infinity,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.blue[50],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black,
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
-                        const SizedBox(height: 5.0),
-                        Container(
-                          width: double.infinity,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.blue[50],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: Colors.black,
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
+                        onPressed: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            rectangularContainer,
+                            const SizedBox(width: 10.0),
+                            const Text(
+                              "도착지",
+                              style: TextStyle(
+                                fontSize: 10.0,
                               ),
                             ),
-                            onPressed: () {},
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                rectangularContainer,
-                                const SizedBox(width: 10.0),
-                                const Text(
-                                  "도착지",
-                                  style: TextStyle(
-                                    fontSize: 10.0,
+                            const SizedBox(width: 10.0),
+                            const Expanded(
+                              child: TextField(
+                                cursorColor: Colors.black,
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                decoration: InputDecoration(
+                                  hintText: "도착지를 입력해주세요",
+                                  hintStyle: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.transparent),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.transparent),
                                   ),
                                 ),
-                                const SizedBox(width: 10.0),
-                                const Expanded(
-                                  child: TextField(
-                                    cursorColor: Colors.black,
-                                    style: TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    decoration: InputDecoration(
-                                      hintText: "도착지를 입력해주세요",
-                                      hintStyle: TextStyle(
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.transparent),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.transparent),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                   const SizedBox(width: 20.0),
@@ -220,7 +159,7 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                 return const Center(child: Text("빠른 매칭이 없습니다."));
               }
               return ListView.builder(
-                  itemCount: isQuickMatch ? quickMatchController.quickMatches.length : 6,
+                  itemCount: isQuickMatch ? quickMatchController.quickMatches.length : reservationMatchController.ReservationMatches.length,
                   itemBuilder: (context, index) {
                     if (isQuickMatch) {
                       final quickMatch = quickMatchController.quickMatches[index];
@@ -247,6 +186,7 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                         ),
                       );
                     } else {
+                      final reservationMatch = reservationMatchController.ReservationMatches[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: ElevatedButton(
@@ -258,13 +198,13 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  locationRow(circleContainer, "출발지", "서브웨이 부산대점"),
+                                  locationRow(circleContainer, "출발지", reservationMatch.depart),
                                   const SizedBox(height: 5.0),
-                                  locationRow(rectangularContainer, "도착지", "부산대학교"),
+                                  locationRow(rectangularContainer, "도착지", reservationMatch.dest),
                                 ],
                               ),
                               const Spacer(),
-                              boardingInfo("12:00"),
+                              boardingInfo(reservationMatch.boardingTime.toString().substring(11, 16)),
                             ],
                           ),
                         ),
