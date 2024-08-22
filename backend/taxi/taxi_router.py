@@ -129,6 +129,7 @@ async def catch_call(
 @router.post("/{matching_id}/complete", response_model=dict)
 def complete_drive(
     matching_id: int,
+    amount: int,
     credentials: HTTPAuthorizationCredentials = Security(security),
     user_db: Session = Depends(get_userdb),
     match_db: Session = Depends(get_matchdb),
@@ -150,8 +151,13 @@ def complete_drive(
         raise HTTPException(status_code=400, detail=f"최소 {matching.min_member}명의 인원이 필요합니다.")
 
     matching_mate = [name.strip() for name in matching.mate.split(",")]
-    
-    print(matching_mate)
+    n_amount = amount / matching.current_member
+    for name in matching_mate:
+        user_mate = user_db.query(UserModel).filter(UserModel.nickname == name).first()
+        user_mate_brr_cash = user_mate.brr_cash
+        user_mate.brr_cash =  user_mate_brr_cash - n_amount
+        user_db.commit()
+
     # history detail 추가하기 : 택시 데이터 추가
     history_data = HistoryCreate(
         car_num="차량번호",
