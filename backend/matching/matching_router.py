@@ -35,7 +35,7 @@ class LobbyManager:
         self.active_connections[lobby_id].append(websocket)
         lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
         if lobby:
-            await self.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
+            await self.broadcast(lobby_id, f"{lobby.current_member}")
         else:
             await websocket.send_text("로비를 찾을 수 없음")
 
@@ -45,7 +45,7 @@ class LobbyManager:
             del self.active_connections[lobby_id]
         lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
         if lobby:
-            await self.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
+            await self.broadcast(lobby_id, f"{lobby.current_member}")
         else:
             print("로비를 찾을 수 없음")
     async def broadcast(self, lobby_id: int, message: str):
@@ -64,14 +64,14 @@ async def websocket_endpoint(websocket: WebSocket, lobby_id: int, match_db: Sess
             data = await websocket.receive_text()
             lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
             if lobby:
-                await lobby_manager.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
+                await lobby_manager.broadcast(lobby_id, f"{lobby.current_member}")
             else:
                 await websocket.send_text("로비를 찾을 수 없음")
     except WebSocketDisconnect:
         await lobby_manager.disconnect(lobby_id, websocket, match_db)
         lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
         if lobby:
-            await lobby_manager.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
+            await lobby_manager.broadcast(lobby_id, f"{lobby.current_member}")
 
 
 
@@ -215,7 +215,7 @@ async def leave_lobby(
     match_db.refresh(lobby)
 
     # 연결된 WebSocket 클라이언트들에게 업데이트된 인원 수를 알림
-    await lobby_manager.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
+    await lobby_manager.broadcast(lobby_id, f"{lobby.current_member}")
 
     return lobby
 
