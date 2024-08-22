@@ -9,6 +9,7 @@ from history.history_schema import HistoryCreate
 from history.history_router import create_history
 from datetime import datetime
 import json
+from matching.matching_router import lobby_manager
 security = HTTPBearer()
 router = APIRouter(
     prefix="/taxi"
@@ -87,7 +88,7 @@ async def calling_taxi(call_type:int = None,
     ]
     print("matching_dicts : ", matching_dicts)
     # JSON으로 직렬화하여 웹소켓을 통해 방송합니다.
-    await connection_manager.broadcast(taxi_room_id=0, message=json.dumps(matching_dicts))
+    await lobby_manager.broadcast(taxi_room_id=0, message=json.dumps(matching_dicts))
     return matching_dicts
 
 # 택시기사가 콜을 잡을 때
