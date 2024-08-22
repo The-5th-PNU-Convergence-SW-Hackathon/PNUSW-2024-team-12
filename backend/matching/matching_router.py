@@ -121,7 +121,7 @@ def create_matching(
 
     return db_matching
 
-@router.delete("/matchings/{matching_id}/cancel", response_model=dict)
+@router.delete("/matchings/cancel", response_model=dict)
 def cancel_matching(
     matching_id: int,
     credentials: HTTPAuthorizationCredentials = Security(security),
@@ -149,7 +149,7 @@ def cancel_matching(
 
     return {"message": "매칭과 관련된 대기실 및 모든 유저가 정상적으로 삭제되었습니다."}
 
-@router.post("/lobbies/{lobby_id}/join", response_model=LobbyResponse)
+@router.post("/lobbies/join", response_model=LobbyResponse)
 async def join_lobby(
     lobby_id: int,
     credentials: HTTPAuthorizationCredentials = Security(security),
@@ -189,7 +189,7 @@ async def join_lobby(
     return lobby
 
 
-@router.post("/lobbies/{lobby_id}/leave", response_model=LobbyResponse)
+@router.post("/lobbies/leave", response_model=LobbyResponse)
 async def leave_lobby(
     lobby_id: int,
     credentials: HTTPAuthorizationCredentials = Security(security),
