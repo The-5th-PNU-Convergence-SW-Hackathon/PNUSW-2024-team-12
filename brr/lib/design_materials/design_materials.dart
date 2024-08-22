@@ -120,3 +120,25 @@ Widget gobackButton() {
     ),
   );
 }
+
+Widget BRRcashIcon() {
+  return Container(
+    width: 50,
+    height: 50,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      shape: BoxShape.circle,
+    ),
+    child: Center(
+      child: Text(
+        "B",
+        style: TextStyle(
+          fontSize: 30,
+          color: Colors.blue,
+          fontWeight: FontWeight.bold,
+          fontStyle: FontStyle.italic,
+        ),
+      ),
+    ),
+  );
+}
