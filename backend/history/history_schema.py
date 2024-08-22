@@ -33,3 +33,4 @@ class HistoryDetailResponse(BaseModel):
     depart: str
     dest: str
     amount: int
+    mate: str

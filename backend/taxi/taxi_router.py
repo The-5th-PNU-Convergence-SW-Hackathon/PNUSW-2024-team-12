@@ -158,7 +158,16 @@ def complete_drive(
         user_mate_brr_cash = user_mate.brr_cash
         user_mate.brr_cash =  user_mate_brr_cash - n_amount
         user_db.commit()
+
+
     taxi = taxi_db.query(TaxiModel).filter(TaxiModel.user_id == user.user_id).first()
+    taxi_user = user_db.query(UserModel).filter(UserModel.user_id == taxi.user_id).first()
+    if taxi_user:
+        current_amout = taxi_user.brr_cash 
+        taxi_user.brr_cash  = current_amout + amount
+        user_db.commit()
+
+
     # history detail 추가하기 : 택시 데이터 추가
     history_data = HistoryCreate(
         car_num=taxi.car_num,
@@ -171,7 +180,7 @@ def complete_drive(
         mate=matching.mate  
     )
 
-    create_history(history=history_data, credentials=credentials, db=history_db)
+    create_history(history=history_data, user_id=matching.created_by, db=history_db)
 
     # 매칭 삭제
     match_db.delete(matching)

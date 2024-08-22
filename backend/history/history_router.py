@@ -33,10 +33,8 @@ def cleanup_old_history(db: Session = Depends(get_historydb)):
 
 # history detail 추가하기 : 택시 데이터 추가
 @router.post("/", response_model=HistoryResponse)
-def create_history(history: HistoryCreate, credentials: HTTPAuthorizationCredentials = Security(security), db: Session = Depends(get_historydb)):
-    token = credentials.credentials
-    payload = decode_jwt(token)
-    user_id = payload.get("sub")
+def create_history(history: HistoryCreate, user_id: str, db: Session = Depends(get_historydb)):
+
     db_history = History_model(
         user_id=user_id, 
         car_num=history.car_num, 
@@ -104,7 +102,8 @@ def read_history_info(
         quit_time= history.quit_time,
         depart=history.depart,
         dest=history.dest,
-        amount=history.amount
+        amount=history.amount,
+        mate=history.mate
     )
 
 
