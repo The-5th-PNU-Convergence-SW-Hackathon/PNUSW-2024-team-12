@@ -52,6 +52,8 @@ class LobbyManager:
         if lobby_id in self.active_connections:
             for connection in self.active_connections[lobby_id]:
                 await connection.send_text(message)
+        else:
+            print(f"No active connections for lobby_id {lobby_id}")
 
 lobby_manager = LobbyManager()
 
