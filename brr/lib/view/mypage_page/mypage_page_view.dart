@@ -1,6 +1,7 @@
 import 'package:brr/view/main_page/main_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:brr/design_materials/design_materials.dart';
 
 class MypagePageView extends StatelessWidget {
   const MypagePageView({Key? key}) : super(key: key);
@@ -43,94 +44,75 @@ class MypagePageView extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 50),
                 _buildRow(context, '시간표 등록', '페이지 이동', '/schedule'),
                 _buildRow(context, '선주님의 회원 정보', '회원 정보 수정', '/mydata'),
                 _buildRow(context, '이용 기록 확인', '페이지 이동', '/history'),
+                _buildLogout(context, '로그아웃', '/login'),
                 const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      '카드 등록',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Row(
+                Container(
+                  height: 180,
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blue[50],
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(Icons.add, size: 15, color: Colors.blue),
-                          SizedBox(width: 3),
                           Text(
-                            '추가하기',
+                            "부르릉 캐시",
                             style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.grey,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: Row(
+                              children: [
+                                Icon(Icons.add, size: 15, color: Colors.blue),
+                                SizedBox(width: 3),
+                                Text(
+                                  '충전하기',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  height: 140,
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
-                  decoration: BoxDecoration(
-                    color: Colors.blue[50],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.arrow_back_ios, size: 16),
-                      Container(
-                        width: 150,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      const Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '라이언 치즈 체크카드',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                              ),
+                      SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          BRRcashIcon(),
+                          SizedBox(width: 10),
+                          Text(
+                            "15,800 캐시",
+                            style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.blue,
                             ),
-                            Text(
-                              'NH농협카드',
-                              style: TextStyle(
-                                fontSize: 8,
-                                color: Colors.grey,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      const Icon(Icons.arrow_forward_ios, size: 16),
+                          ),
+                        ],
+                      )
                     ],
                   ),
-                )
+                ),
               ],
             )));
   }
 
   Widget _buildRow(BuildContext context, String title, String buttonText, String routeName) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 3.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -156,6 +138,36 @@ class MypagePageView extends StatelessWidget {
                 ),
                 const SizedBox(width: 3),
                 const Icon(Icons.arrow_forward_ios, size: 15, color: Colors.grey),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLogout(BuildContext context, String buttonText, String routeName) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Spacer(),
+          TextButton(
+            onPressed: () {
+              Get.toNamed(routeName);
+            },
+            child: Row(
+              children: [
+                Text(
+                  buttonText,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Colors.red,
+                  ),
+                ),
+                const SizedBox(width: 3),
+                const Icon(Icons.arrow_forward_ios, size: 15, color: Colors.red),
               ],
             ),
           ),
