@@ -129,7 +129,7 @@ def cancel_matching(
     match_db: Session = Depends(get_matchdb)
 ):
     user = get_current_user(credentials, user_db)
-
+    matching_id = matching_id.lobby_id
     # 매칭 정보 가져오기
     matching = match_db.query(MatchingModel).filter(MatchingModel.id == matching_id).first()
     if not matching:
@@ -157,7 +157,7 @@ async def join_lobby(
     match_db: Session = Depends(get_matchdb)
 ):
     user = get_current_user(credentials, user_db)
-    lobby_id
+    lobby_id = lobby_id.lobby_id
     # 이미 다른 대기실에 있는지 확인
     existing_lobby_user = match_db.query(LobbyUserModel).filter(LobbyUserModel.user_id == user.user_id).first()
     if existing_lobby_user is not None:
@@ -197,7 +197,7 @@ async def leave_lobby(
     match_db: Session = Depends(get_matchdb)
 ):
     user = get_current_user(credentials, user_db)
-
+    lobby_id = lobby_id.lobby_id
     lobby_user = match_db.query(LobbyUserModel).filter(LobbyUserModel.user_id == user.user_id, LobbyUserModel.lobby_id == lobby_id).first()
     if not lobby_user:
         raise HTTPException(status_code=404, detail="해당 유저는 대기실에 들어가 있지 않습니다.")
@@ -252,7 +252,7 @@ async def complete_lobby(
     match_db: Session = Depends(get_matchdb)
 ):
     user = get_current_user(credentials, user_db)
-
+    lobby_id = lobby_id.lobby_id
     # 대기실 정보 가져오기
     lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
     if not lobby:
