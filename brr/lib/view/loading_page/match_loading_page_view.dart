@@ -28,13 +28,33 @@ class MatchLoadingPageView extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                Obx(() => Text(  // currentMemberStatus의 변화를 감지하여 업데이트
-                  controller.currentMemberStatus.value,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                  ),
-                )),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      '현재 인원: ',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Obx(() => Text(
+                          // currentMemberStatus의 변화를 감지하여 업데이트
+                          controller.currentMemberStatus.value,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.blue,
+                          ),
+                        )),
+                    const Text(
+                      "/4 모집중",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    )
+                  ],
+                ),
                 const SizedBox(height: 30),
                 const Text(
                   '현재 인원으로 출발하기를 원하시면\n아래의 출발해요 버튼을 눌러주세요',
