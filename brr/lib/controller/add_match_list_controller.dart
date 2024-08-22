@@ -76,6 +76,40 @@ class AddMatchListController extends GetxController {
     });
   }
 
+  Future<void> completeLobby(int lobbyId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString('access_token');
+
+    if (accessToken == null) {
+      Get.offAllNamed('/login');
+      return;
+    }
+
+    final url = '${Urls.apiUrl}lobbies/$lobbyId/complete';
+    final headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $accessToken',
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: headers,
+        body: jsonEncode({'id': lobbyId}),
+      );
+
+      if (response.statusCode == 200) {
+        print('Lobby completed successfully');  // 성공 시 페이지 이동
+      } else {
+        print('Failed to complete lobby: ${response.statusCode}');
+        Get.snackbar('Error', '대기실 완료에 실패했습니다.', snackPosition: SnackPosition.BOTTOM);
+      }
+    } catch (e) {
+      print('Error occurred while completing lobby: $e');
+      Get.snackbar('Error', '예기치 않은 오류가 발생했습니다.', snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
   void leaveLobby() {
     if (channel != null) {
       channel!.sink.close();
@@ -88,7 +122,3 @@ class AddMatchListController extends GetxController {
     super.onClose();
   }
 }
-
-
-
-
