@@ -64,8 +64,8 @@ class _BouncingDotsState extends State<BouncingDots> with SingleTickerProviderSt
         );
       },
       child: Container(
-        width: 12,
-        height: 12,
+        width: 20,
+        height: 20,
         decoration: const BoxDecoration(
           color: Colors.blue,
           shape: BoxShape.circle,

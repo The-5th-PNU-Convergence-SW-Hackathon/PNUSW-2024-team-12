@@ -94,7 +94,7 @@ class MatchLoadingPageView extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          // 출발 버튼 클릭 시 행동 정의
+                          Get.offAllNamed('/taxiloading');
                         },
                         child: const Text(
                           '출발해요!',
