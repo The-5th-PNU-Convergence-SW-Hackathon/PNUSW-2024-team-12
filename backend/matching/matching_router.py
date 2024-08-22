@@ -247,7 +247,7 @@ def list_lobbies_by_matching_type(matching_type: int, match_db: Session = Depend
 
 
 # 인원이 모이면 매칭을 완료
-@router.post("/lobbies/{lobby_id}/complete", response_model=dict)
+@router.post("/lobbies/complete", response_model=dict)
 async def complete_lobby(
     request: MatchingDo,
     credentials: HTTPAuthorizationCredentials = Security(security),
