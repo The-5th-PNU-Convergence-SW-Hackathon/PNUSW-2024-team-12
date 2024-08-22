@@ -1,13 +1,51 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+
 
 List<String> week = ['월', '화', '수', '목', '금', '토', '일'];
 var kColumnLength = 16;
 double kFirstColumnHeight = 20;
 double kBoxSize = 44;
 String dayDropDownValue = '';
+
 String startTimeDropDownValue = '9:00';
 String endTimeDropDownValue = '17:00';
+String locationValue = '';
+String lectureValue = '';
+
+int lectureCount = 1;
+
+
+Future<void> saveLectureCount(int count) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setInt('lectureCount', count);
+}
+
+Future<int?> getLectureCount() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int? myInt = prefs.getInt('lectureCount');
+  return myInt;
+}
+
+Future<void> saveSchedule(String count, Map<String, dynamic> jsonData) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  String jsonString = jsonEncode(jsonData);
+
+  await prefs.setString(count, jsonString);
+}
+
+Future<Map<String, dynamic>> getSchedule(String jsonName) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  Map<String, dynamic> jsonData = {};
+  // 데이터 조회
+  String? jsonString = prefs.getString(jsonName);
+  if (jsonString != null) {
+    jsonData = jsonDecode(jsonString);
+  }
+  return jsonData;
+}
 
 List<String> generateTimeList(String strStartTime, String strEndTime) {
   List<String> listStartTime = strStartTime.split(":");
@@ -22,7 +60,7 @@ List<String> generateTimeList(String strStartTime, String strEndTime) {
 
   for(int i = startHour; i < endHour; i++) {
     for(int j = 0; j < 60; j+=10) {
-      if(i==startHour && j<startMin) { continue; }
+      if( i==startHour && j<startMin ) { continue; }
       if(j==0) { timeList.add('$i:00'); continue; }
       timeList.add('$i:$j');
     }
@@ -37,6 +75,7 @@ List<String> generateTimeList(String strStartTime, String strEndTime) {
   return timeList;
 }
 
+
 class SchedulePageView extends StatefulWidget {
   const SchedulePageView({Key? key}) : super(key: key);
 
@@ -46,6 +85,8 @@ class SchedulePageView extends StatefulWidget {
 
 class _SchedulePageViewState extends State<SchedulePageView> {
   final List<Map<String, String>> _schedule = [];
+  final TextEditingController _lectureTextController = TextEditingController();
+  final TextEditingController _locationTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -97,18 +138,18 @@ class _SchedulePageViewState extends State<SchedulePageView> {
 
                   const SizedBox( height: 24 ),
 
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         '시간 및 장소 추가',
                         style: TextStyle( fontSize: 16, fontWeight: FontWeight.w600 ),
                       ),
-                      IconButton(icon: const Icon(Icons.add), onPressed: (){}, color: const Color(0xff1479FF),),
+                      Icon(Icons.add, color: Color(0xff1479FF),),
                     ],
                   ),
 
-                  const SizedBox( height: 12 ),
+                  const SizedBox( height: 6 ),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -120,10 +161,80 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                       const SizedBox( width: 10, child: Divider( color: Colors.black, thickness: 1.0 ) ),
                       const SizedBox( width: 12 ),
                       endTimeDropDown(),
-
-
                     ],
                   ),
+                  const SizedBox( height: 12 ),
+                  Container(
+                    height: 48,
+                    decoration: BoxDecoration( color: const Color(0xffCCE0FF), borderRadius: BorderRadius.circular(8) ),
+                    child: TextField(
+                      controller: _locationTextController,
+                      onEditingComplete: () {
+                        setState(() {
+                          locationValue = _locationTextController.text;
+                        });
+                      },
+                      decoration: const InputDecoration(
+                        labelText: '장소',
+                        labelStyle: TextStyle( fontSize: 14 ),
+                        contentPadding: EdgeInsets.fromLTRB(12, 6, 12, 6),
+                        border: InputBorder.none
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox( height: 12 ),
+
+                  Container(
+                    height: 48,
+                    decoration: BoxDecoration( color: const Color(0xffCCE0FF), borderRadius: BorderRadius.circular(8) ),
+                    child: TextField(
+                      controller: _lectureTextController,
+                      onEditingComplete: () {
+                        setState(() {
+                          lectureValue = _lectureTextController.text;
+                        });
+                      },
+                      decoration: const InputDecoration(
+                          labelText: '수업명',
+                          labelStyle: TextStyle( fontSize: 14 ),
+                          contentPadding: EdgeInsets.fromLTRB(12, 6, 12, 6),
+                          border: InputBorder.none
+                      ),
+                    ),
+                  ),
+                  const SizedBox( height: 24 ),
+                  Container(
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                      width: 66,
+                      height: 30,
+                      child: ElevatedButton(
+                        onPressed: (){
+                          saveSchedule( lectureCount as String,
+                            {
+                              'day' : dayDropDownValue,
+                              'startTime' : startTimeDropDownValue,
+                              'endTime' : endTimeDropDownValue,
+                              'lecture' : lectureValue,
+                              'location' : locationValue
+                            }
+                          );
+                          lectureCount = getLectureCount() as int;
+                          saveLectureCount(lectureCount++);
+                          print(getLectureCount());
+                          print(getSchedule(lectureCount));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
+                          backgroundColor: const Color(0xff1479FF),
+                          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10) )
+                        ),
+                        child: const Text( '추가하기', style: TextStyle( fontSize: 12, color: Colors.white ) ),
+                      ),
+                    ),
+                  )
 
                 ],
               )
