@@ -2,15 +2,13 @@ import 'package:brr/design_materials/design_materials.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/view/loading_circle/loading_circle.dart';
-import 'package:brr/controller/add_match_list_controller.dart';
+import 'package:brr/controller/add_match_list_controller.dart'; // AddMatchListController 가져오기
 
-class MatchLoadingPageView extends StatelessWidget {
-  const MatchLoadingPageView({super.key});
+class JoinMatchLoadingPageView extends StatelessWidget {
+  const JoinMatchLoadingPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final AddMatchListController controller = Get.put(AddMatchListController());
-
     return Scaffold(
       body: Stack(
         children: [
@@ -38,14 +36,14 @@ class MatchLoadingPageView extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    Obx(() => Text(
-                          // currentMemberStatus의 변화를 감지하여 업데이트
-                          controller.currentMemberStatus.value,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.blue,
-                          ),
-                        )),
+                    // Obx(() => Text(
+                    //       // currentMemberStatus의 변화를 감지하여 업데이트
+                    //       controller.currentMemberStatus.value,
+                    //       style: const TextStyle(
+                    //         fontSize: 16,
+                    //         color: Colors.blue,
+                    //       ),
+                    //     )),
                     const Text(
                       "/4 모집중",
                       style: TextStyle(
@@ -81,36 +79,6 @@ class MatchLoadingPageView extends StatelessWidget {
                       width: 100,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          elevation: 0,
-                          padding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        onPressed: () {
-                          // 출발 버튼 클릭 시 행동 정의
-                        },
-                        child: const Text(
-                          '출발해요!',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Container(
-                      width: 100,
-                      height: 50,
-                      decoration: BoxDecoration(
                         color: Colors.grey[300],
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -124,10 +92,10 @@ class MatchLoadingPageView extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          controller.leaveLobby(); // 매칭 취소 시 WebSocket 연결 해제
+                          // controller.leaveLobby(); // 매칭 취소 시 WebSocket 연결 해제
                         },
                         child: const Text(
-                          '매칭 취소',
+                          '매칭 나가기',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

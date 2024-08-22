@@ -7,6 +7,7 @@ import 'package:brr/constants/url.dart';
 import 'dart:io';
 import 'dart:async';
 
+
 class QuickMatchController extends GetxController {
   var quickMatches = <QuickMatch>[].obs;
 
@@ -69,4 +70,42 @@ class QuickMatchController extends GetxController {
     }
   }
 
+  Future<void> joinQuickMatch(int id) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final accessToken = prefs.getString('access_token');
+
+      if (accessToken == null) {
+        Get.offAllNamed('/login');
+        return;
+      }
+
+      final url = '${Urls.apiUrl}matching/join/';
+      final headers = {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $accessToken',
+      };
+      final body = jsonEncode({'match_id': id});
+
+      final response = await http.post(Uri.parse(url), headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        fetchQuickMatches(); // 매칭에 성공하면 목록을 새로 고침
+        Get.snackbar('Success', '매칭에 성공했습니다.', snackPosition: SnackPosition.BOTTOM);
+      } else if (response.statusCode == 401) {
+        Get.offAllNamed('/login');
+      } else if (response.statusCode == 404) {
+        Get.snackbar('Error', '매칭을 찾을 수 없습니다.', snackPosition: SnackPosition.BOTTOM);
+      } else {
+        Get.snackbar('Error', '매칭에 실패했습니다. 상태 코드: ${response.statusCode}', snackPosition: SnackPosition.BOTTOM);
+      }
+    } on SocketException {
+      Get.snackbar('Error', '네트워크 연결을 확인해주세요.', snackPosition: SnackPosition.BOTTOM);
+    } on TimeoutException {
+      Get.snackbar('Error', '서버 응답 시간이 초과되었습니다.', snackPosition: SnackPosition.BOTTOM);
+    } catch (e) {
+      print('오류: $e');
+      Get.snackbar('Error', '예기치 않은 오류가 발생했습니다: $e', snackPosition: SnackPosition.BOTTOM);
+    }
+  }
 }

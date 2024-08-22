@@ -155,7 +155,7 @@ class MypagePageView extends StatelessWidget {
           Spacer(),
           TextButton(
             onPressed: () {
-              Get.toNamed(routeName);
+              Get.offAllNamed(routeName);
             },
             child: Row(
               children: [

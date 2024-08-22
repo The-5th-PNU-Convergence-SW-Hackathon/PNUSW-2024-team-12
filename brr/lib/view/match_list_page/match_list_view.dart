@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:brr/controller/quickmatch_list_controller.dart';
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/reservation_match_list_controller.dart';
+import 'package:brr/controller/join_match_controller.dart';
 
 class MatchinglistPageView extends StatefulWidget {
   const MatchinglistPageView({super.key});
@@ -14,6 +15,8 @@ class MatchinglistPageView extends StatefulWidget {
 class _MatchinglistPageView extends State<MatchinglistPageView> {
   final QuickMatchController quickMatchController = Get.put(QuickMatchController());
   final ReservationMatchController reservationMatchController = Get.put(ReservationMatchController());
+  final JoinMatchController joinMatchController = Get.put(JoinMatchController());
+
   bool isQuickMatch = true;
 
   @override
@@ -167,7 +170,9 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: ElevatedButton(
                           style: buttonStyle(),
-                          onPressed: () {},
+                          onPressed: () {
+                            joinMatchController.joinMatch(quickMatch.id);
+                          },
                           child: Row(
                             children: [
                               Column(
