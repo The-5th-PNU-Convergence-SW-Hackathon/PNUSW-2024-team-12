@@ -40,4 +40,7 @@ class LobbyListResponse(BaseModel):
         orm_mode = True
     
 class MatchingDo(BaseModel):
-    lobby_id : int
+    id : int
+
+    class Config:
+        orm_mode = True

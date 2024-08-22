@@ -123,13 +123,13 @@ def create_matching(
 
 @router.delete("/matchings/cancel", response_model=dict)
 def cancel_matching(
-    matching_id: MatchingDo,
+    request: MatchingDo,
     credentials: HTTPAuthorizationCredentials = Security(security),
     user_db: Session = Depends(get_userdb),
     match_db: Session = Depends(get_matchdb)
 ):
     user = get_current_user(credentials, user_db)
-    matching_id = matching_id.lobby_id
+    matching_id = request.id
     # 매칭 정보 가져오기
     matching = match_db.query(MatchingModel).filter(MatchingModel.id == matching_id).first()
     if not matching:
@@ -151,13 +151,13 @@ def cancel_matching(
 
 @router.post("/lobbies/join", response_model=LobbyResponse)
 async def join_lobby(
-    lobby_id: MatchingDo,
+    request: MatchingDo,
     credentials: HTTPAuthorizationCredentials = Security(security),
     user_db: Session = Depends(get_userdb),
     match_db: Session = Depends(get_matchdb)
 ):
     user = get_current_user(credentials, user_db)
-    lobby_id = lobby_id.lobby_id
+    lobby_id = request.id
     # 이미 다른 대기실에 있는지 확인
     existing_lobby_user = match_db.query(LobbyUserModel).filter(LobbyUserModel.user_id == user.user_id).first()
     if existing_lobby_user is not None:
@@ -191,13 +191,13 @@ async def join_lobby(
 
 @router.post("/lobbies/leave", response_model=LobbyResponse)
 async def leave_lobby(
-    lobby_id: MatchingDo,
+    request: MatchingDo,
     credentials: HTTPAuthorizationCredentials = Security(security),
     user_db: Session = Depends(get_userdb),
     match_db: Session = Depends(get_matchdb)
 ):
     user = get_current_user(credentials, user_db)
-    lobby_id = lobby_id.lobby_id
+    lobby_id = request.id
     lobby_user = match_db.query(LobbyUserModel).filter(LobbyUserModel.user_id == user.user_id, LobbyUserModel.lobby_id == lobby_id).first()
     if not lobby_user:
         raise HTTPException(status_code=404, detail="해당 유저는 대기실에 들어가 있지 않습니다.")
@@ -246,13 +246,13 @@ def list_lobbies_by_matching_type(matching_type: int, match_db: Session = Depend
 # 인원이 모이면 매칭을 완료
 @router.post("/lobbies/{lobby_id}/complete", response_model=dict)
 async def complete_lobby(
-    lobby_id: MatchingDo,
+    request: MatchingDo,
     credentials: HTTPAuthorizationCredentials = Security(security),
     user_db: Session = Depends(get_userdb),
     match_db: Session = Depends(get_matchdb)
 ):
     user = get_current_user(credentials, user_db)
-    lobby_id = lobby_id.lobby_id
+    lobby_id = request.id
     # 대기실 정보 가져오기
     lobby = match_db.query(LobbyModel).filter(LobbyModel.id == lobby_id).first()
     if not lobby:
