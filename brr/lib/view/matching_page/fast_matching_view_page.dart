@@ -12,15 +12,16 @@ class MatchingPageView extends StatelessWidget {
     final LocationController locationController = Get.put(LocationController());
 
     return Scaffold(
-        body: Stack(
+        body: SafeArea(
+            child: Stack(
       children: [
         Positioned.fill(
           child: Container(
             color: Colors.blueGrey,
             child: const Center(
-              child: Text(
-                'Map View',
-                style: TextStyle(color: Colors.white, fontSize: 24),
+              child: Image(
+                image: AssetImage('assets/images/map.png'),
+                fit: BoxFit.fill,
               ),
             ),
           ),
@@ -223,7 +224,7 @@ class MatchingPageView extends StatelessWidget {
           ),
         )
       ],
-    ));
+    )));
   }
 
   Widget _matchpeopleButton(String text, String subtext, int minMember) {

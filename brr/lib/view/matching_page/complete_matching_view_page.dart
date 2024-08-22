@@ -9,15 +9,16 @@ class CompleteMatchingViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
+        body: SafeArea(
+            child: Stack(
       children: [
         Positioned.fill(
           child: Container(
             color: Colors.blueGrey,
             child: const Center(
-              child: Text(
-                'Map View',
-                style: TextStyle(color: Colors.white, fontSize: 24),
+              child: Image(
+                image: AssetImage('assets/images/map.png'),
+                fit: BoxFit.fill,
               ),
             ),
           ),
@@ -214,7 +215,7 @@ class CompleteMatchingViewPage extends StatelessWidget {
           ),
         )
       ],
-    ));
+    )));
   }
 
   Widget locationRow(Widget icon, String title, String subtitle) {
