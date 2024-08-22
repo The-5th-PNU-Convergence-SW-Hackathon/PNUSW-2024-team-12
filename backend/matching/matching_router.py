@@ -1,12 +1,10 @@
 from fastapi import APIRouter, HTTPException, Depends, Security, WebSocket, WebSocketDisconnect
-from database import get_matchdb, get_userdb, get_historydb
+from database import get_matchdb, get_userdb
 from sqlalchemy.orm import Session
 from models import Matching as MatchingModel, Lobby as LobbyModel, LobbyUser as LobbyUserModel, User as UserModel
 from matching.matching_schema import MatchingCreate, MatchingResponse, LobbyResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from matching.matching_crud import decode_jwt
-from history.history_schema import HistoryCreate
-from history.history_router import create_history
 from datetime import datetime
 from typing import List,Dict
 from taxi.taxi_router import calling_taxi
@@ -186,7 +184,7 @@ async def join_lobby(
     match_db.refresh(lobby)
 
     # 연결된 WebSocket 클라이언트들에게 업데이트된 인원 수를 알림
-    await lobby_manager.broadcast(lobby_id, f"현재 {lobby.current_member}/4 모집중")
+    await lobby_manager.broadcast(lobby_id, f"{lobby.current_member}")
 
     return lobby
 
