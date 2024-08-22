@@ -100,7 +100,7 @@ async def catch_call(
 ):
     from matching.matching_router import lobby_manager
     if not matching_id:
-        raise HTTPException(status_code=400, detail="matching_id is required")
+        raise HTTPException(status_code=400, detail="매칭 아이디를 입력해야함")
     user = get_current_user(credentials, user_db)
     taxi = taxi_db.query(TaxiModel).filter(TaxiModel.driver_name == user.nickname).first()
     if not taxi:

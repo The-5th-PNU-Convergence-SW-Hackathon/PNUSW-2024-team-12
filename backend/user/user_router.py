@@ -182,7 +182,7 @@ def refresh_token(request: TokenRefreshRequest):
     
     user_id = payload.get("sub")
     if not user_id:
-        raise HTTPException(status_code=401, detail="Invalid token payload")
+        raise HTTPException(status_code=403, detail="유효하지 않은 토큰 페이로드입니다.")
     
     # 새 액세스 토큰 발급
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)

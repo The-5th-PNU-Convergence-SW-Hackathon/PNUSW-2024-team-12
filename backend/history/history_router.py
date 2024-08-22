@@ -46,6 +46,8 @@ def create_history(history: HistoryCreate, user_id: str, db: Session = Depends(g
         dest=history.dest,
         mate=history.mate
     )
+    if not db_history:
+        raise HTTPException(status_code=404, detail="이용내역을 추가할 수 없음")
     db.add(db_history)
     db.commit()
     db.refresh(db_history)
@@ -84,7 +86,7 @@ def read_history_info(
 
     history = history_db.query(History_model).filter(History_model.id == history_id).first()
     if not history:
-        raise HTTPException(status_code=400, detail="히스토리 내역이 없습니다.")
+        raise HTTPException(status_code=404, detail="히스토리 내역이 없습니다.")
     
     
     history_car_num = history.car_num

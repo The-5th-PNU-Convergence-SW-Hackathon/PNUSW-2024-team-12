@@ -20,7 +20,7 @@ def get_current_user(credentials: HTTPAuthorizationCredentials, db: Session):
 
     user = db.query(UserModel).filter(UserModel.user_id == user_id).first()
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="사용자를 찾을 수 없음.")
     return user
 class LobbyManager:
     def __init__(self):
@@ -51,7 +51,7 @@ class LobbyManager:
             for connection in self.active_connections[lobby_id]:
                 await connection.send_text(message)
         else:
-            print(f"No active connections for lobby_id {lobby_id}")
+            print(f"활성화된 커넥션이 없음 : {lobby_id}")
 
 lobby_manager = LobbyManager()
 
@@ -140,6 +140,9 @@ def cancel_matching(
 
     # 해당 매칭과 연관된 대기실과 유저들 모두 삭제
     lobbies = match_db.query(LobbyModel).filter(LobbyModel.matching_id == matching_id).all()
+    if not lobbies:
+        raise HTTPException(status_code=404, detail=f"{matching_id}에 해당하는 로비가 없음")
+    
     for lobby in lobbies:
         match_db.query(LobbyUserModel).filter(LobbyUserModel.lobby_id == lobby.id).delete()
         match_db.delete(lobby)
@@ -272,6 +275,8 @@ async def complete_lobby(
     await calling_taxi(0, match_db) 
 
     matching = match_db.query(MatchingModel).filter(MatchingModel.id == lobby.matching_id).first()
+    if not matching:
+        raise HTTPException(status_code=404, detail="매칭내역을 찾을 수 없음.")
     if matching:
         matching.mate = mate_ids
         match_db.commit()
