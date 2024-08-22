@@ -265,3 +265,11 @@ def charge_brr_cash(
 
     return user_info
 
+@router.get("/get_brr_cash")
+def brr_cash(        
+    credentials: HTTPAuthorizationCredentials = Security(security), 
+    user_db: Session = Depends(get_userdb)):
+
+    user = get_current_user(credentials, user_db)
+    user_info = user_db.query(User_model).filter(User_model.user_id == user.user_id).first()
+    return user_info.brr_cash
