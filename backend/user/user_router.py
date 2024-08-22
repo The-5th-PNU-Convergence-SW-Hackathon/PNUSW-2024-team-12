@@ -248,4 +248,19 @@ def modify_pw_(user: modify_password,
     
     return {"status": "success", "detail": "정상적으로 비밀번호가 변경되었습니다."}
 
+@router.post("/brr_cash")
+def charge_brr_cash(
+        amount:int,
+        credentials: HTTPAuthorizationCredentials = Security(security), 
+        user_db: Session = Depends(get_userdb)):
+    
+    user = get_current_user(credentials, user_db)
 
+    user_info = user_db.query(User_model).filter(User_model.user_id == user.user_id).first()
+
+    if user_info:
+        current_amout = user_info.brr_cash 
+        user_info.brr_cash  = current_amout + amount
+        user_db.commit()
+
+    return user_info

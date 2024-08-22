@@ -13,9 +13,9 @@ class User(user_Base):
     password = Column(String(255), nullable=False)
     nickname = Column(String(30), unique=True, nullable=False)
     phone_number = Column(String(30), unique=True, nullable=False)
-    student_address = Column(String(30), unique=True, nullable=False)
+    student_address = Column(String(30), unique=True, nullable=False, default=0)
     user_type = Column(Boolean, nullable=False)
-    # brr_cash = Column(Integer)
+    brr_cash = Column(Integer, default=0)
 
 
 
@@ -80,6 +80,6 @@ class Taxi(taxi_Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(String(255), unique=True, nullable=False, index=True) 
     driver_name = Column(String(30), unique=True, nullable=False)
-    car_num = Column(String(30), unique=True)
-    car_model = Column(String(55))
+    car_num = Column(String(30), unique=True, default=0)
+    car_model = Column(String(55), default=0)
 

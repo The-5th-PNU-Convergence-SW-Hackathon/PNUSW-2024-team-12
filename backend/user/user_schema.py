@@ -10,7 +10,8 @@ class User(BaseModel):
     phone_number: str
     student_address: str
     user_type: bool
-
+    brr_cash : Optional[int]
+    
 class Taxi(User):
     # 택시 관련정보
     car_num : Optional[str]

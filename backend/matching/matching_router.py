@@ -307,6 +307,7 @@ def complete_drive(
     if matching.current_member < matching.min_member:
         raise HTTPException(status_code=400, detail=f"최소 {matching.min_member}명의 인원이 필요합니다.")
 
+    # history detail 추가하기 : 택시 데이터 추가
     history_data = HistoryCreate(
         car_num="차량번호",
         date=datetime.now(), 

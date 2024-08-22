@@ -29,6 +29,8 @@ def cleanup_old_history(db: Session = Depends(get_historydb)):
 
     return old_records
 
+
+# history detail 추가하기 : 택시 데이터 추가
 @router.post("/", response_model=HistoryResponse)
 def create_history(history: HistoryCreate, credentials: HTTPAuthorizationCredentials = Security(security), db: Session = Depends(get_historydb)):
     token = credentials.credentials
