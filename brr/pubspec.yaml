@@ -69,6 +69,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/hachuping.png
+    - assets/images/map.png
     - assets/config/.env
 
   # An image asset can refer to one or more resolution-specific "variants", see
