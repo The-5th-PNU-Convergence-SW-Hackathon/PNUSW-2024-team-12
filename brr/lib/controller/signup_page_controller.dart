@@ -85,6 +85,7 @@ class SignUpPageController extends GetxController {
           "phone_number": phoneNumberController.text,
           "student_address": classNumberController.text,
           "user_type": userType,
+          "brr_cash" : 0,
         }),
       );
 

@@ -6,9 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:brr/constants/url.dart';
 import 'dart:io';
 import 'dart:async';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class JoinMatchController extends GetxController {
   var joinedMatches = <JoinMatchModel>[].obs;
+  late WebSocketChannel channel;
+  var currentMemberCount = 0.obs;
 
   Future<void> joinMatch(int id) async {
     try {
@@ -35,10 +38,13 @@ class JoinMatchController extends GetxController {
         if (responseData is Map<String, dynamic>) {
           JoinMatchModel match = JoinMatchModel.fromJson(responseData);
           joinedMatches.add(match);
-        }
 
-        Get.snackbar('Success', '매칭에 성공했습니다.', snackPosition: SnackPosition.BOTTOM);
-        Get.offAllNamed('/joinloading');
+          // 매칭에 성공하면 WebSocket 연결을 설정합니다.
+          connectToLobby(id);
+
+          Get.snackbar('Success', '매칭에 성공했습니다.', snackPosition: SnackPosition.BOTTOM);
+          Get.offAllNamed('/joinloading');
+        }
       } else if (response.statusCode == 401) {
         Get.offAllNamed('/login');
       } else if (response.statusCode == 404) {
@@ -54,5 +60,30 @@ class JoinMatchController extends GetxController {
       print('오류: $e');
       Get.snackbar('Error', '예기치 않은 오류가 발생했습니다: $e', snackPosition: SnackPosition.BOTTOM);
     }
+  }
+
+  // WebSocket 연결 설정
+  void connectToLobby(int lobbyId) {
+    channel = WebSocketChannel.connect(
+      Uri.parse('ws://${Urls.wsUrl}matching/lobbies/$lobbyId/ws'),
+    );
+
+    // 서버로부터 오는 메시지를 처리
+    channel.stream.listen((message) {
+      currentMemberCount.value = int.parse(message); // 받은 메시지를 인원 수로 변환
+    }, onError: (error) {
+      Get.snackbar('Error', 'WebSocket 연결에 문제가 발생했습니다.', snackPosition: SnackPosition.BOTTOM);
+    });
+  }
+
+  // WebSocket 연결 해제
+  void disconnectFromLobby() {
+    channel.sink.close();
+  }
+
+  @override
+  void onClose() {
+    disconnectFromLobby();
+    super.onClose();
   }
 }

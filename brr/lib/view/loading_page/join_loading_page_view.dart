@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/view/loading_circle/loading_circle.dart';
 import 'package:brr/controller/add_match_list_controller.dart'; // AddMatchListController 가져오기
+import 'package:brr/controller/join_match_controller.dart';
 
 class JoinMatchLoadingPageView extends StatelessWidget {
   const JoinMatchLoadingPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final JoinMatchController controller = Get.find<JoinMatchController>();
+
     return Scaffold(
       body: Stack(
         children: [
@@ -16,7 +19,7 @@ class JoinMatchLoadingPageView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const BouncingDots(),
+                const CircularProgressIndicator(),
                 const SizedBox(height: 50),
                 const Text(
                   '매칭을 시도하는 중이에요',
@@ -36,14 +39,13 @@ class JoinMatchLoadingPageView extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    // Obx(() => Text(
-                    //       // currentMemberStatus의 변화를 감지하여 업데이트
-                    //       controller.currentMemberStatus.value,
-                    //       style: const TextStyle(
-                    //         fontSize: 16,
-                    //         color: Colors.blue,
-                    //       ),
-                    //     )),
+                    Obx(() => Text(
+                          controller.currentMemberCount.value.toString(),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.blue,
+                          ),
+                        )),
                     const Text(
                       "/4 모집중",
                       style: TextStyle(
@@ -92,7 +94,8 @@ class JoinMatchLoadingPageView extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          // controller.leaveLobby(); // 매칭 취소 시 WebSocket 연결 해제
+                          controller.disconnectFromLobby();
+                          Get.back(); // 페이지 뒤로가기
                         },
                         child: const Text(
                           '매칭 나가기',
