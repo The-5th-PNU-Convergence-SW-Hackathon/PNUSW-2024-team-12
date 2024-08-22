@@ -74,7 +74,6 @@ async def websocket_endpoint(websocket: WebSocket, taxi_room_id: int):
 # 택시들에게 리스트를 보여주는 함수
 async def calling_taxi(call_type:int = None,
                        match_db: Session = None):
-    from matching.matching_router import lobby_manager
     print("calling_taxi success")
     if call_type == 1:
         matchings = match_db.query(MatchingModel).filter(MatchingModel.matching_taxi == 0).all()
@@ -87,7 +86,7 @@ async def calling_taxi(call_type:int = None,
     ]
     print("matching_dicts : ", matching_dicts)
     # JSON으로 직렬화하여 웹소켓을 통해 방송합니다.
-    await lobby_manager.broadcast(taxi_room_id=0, message=json.dumps(matching_dicts))
+    await connection_manager.broadcast(taxi_room_id=0, message=json.dumps(matching_dicts))
     return matching_dicts
 
 # 택시기사가 콜을 잡을 때
@@ -99,6 +98,7 @@ async def catch_call(
     taxi_db: Session = Depends(get_taxidb),
     match_db: Session = Depends(get_matchdb)
 ):
+    from matching.matching_router import lobby_manager
     if not matching_id:
         raise HTTPException(status_code=400, detail="matching_id is required")
     user = get_current_user(credentials, user_db)
@@ -120,7 +120,7 @@ async def catch_call(
         match_db.commit()
 
     print(taxi_data)
-    await connection_manager.broadcast(taxi_room_id=matching_id, message=json.dumps(taxi_data))
+    await lobby_manager.broadcast(matching_id, message=json.dumps(taxi_data))
     await calling_taxi(1, match_db)
     return taxi_data
 
