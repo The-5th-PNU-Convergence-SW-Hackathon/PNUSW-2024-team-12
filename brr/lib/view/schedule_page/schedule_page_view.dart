@@ -14,7 +14,7 @@ String endTimeDropDownValue = '17:00';
 String locationValue = '';
 String lectureValue = '';
 
-int lectureCount = 1;
+int lectureCount = 0;
 
 
 Future<void> saveLectureCount(int count) async {
@@ -28,19 +28,17 @@ Future<int?> getLectureCount() async {
   return myInt;
 }
 
-Future<void> saveSchedule(String count, Map<String, dynamic> jsonData) async {
+Future<void> saveSchedule(int count, Map<String, dynamic> jsonData) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-
   String jsonString = jsonEncode(jsonData);
-
-  await prefs.setString(count, jsonString);
+  await prefs.setString(count.toString(), jsonString);
 }
 
-Future<Map<String, dynamic>> getSchedule(String jsonName) async {
+Future<Map<String, dynamic>> getSchedule(int jsonName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   Map<String, dynamic> jsonData = {};
   // 데이터 조회
-  String? jsonString = prefs.getString(jsonName);
+  String? jsonString = prefs.getString(jsonName.toString());
   if (jsonString != null) {
     jsonData = jsonDecode(jsonString);
   }
@@ -84,7 +82,6 @@ class SchedulePageView extends StatefulWidget {
 }
 
 class _SchedulePageViewState extends State<SchedulePageView> {
-  final List<Map<String, String>> _schedule = [];
   final TextEditingController _lectureTextController = TextEditingController();
   final TextEditingController _locationTextController = TextEditingController();
 
@@ -211,8 +208,13 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                       width: 66,
                       height: 30,
                       child: ElevatedButton(
-                        onPressed: (){
-                          saveSchedule( lectureCount as String,
+
+                        onPressed: () async {
+                          int? currentCount = await getLectureCount();
+                          lectureCount = (currentCount ?? 0);
+                          lectureCount++;
+                          await saveLectureCount(lectureCount);
+                          saveSchedule( lectureCount,
                             {
                               'day' : dayDropDownValue,
                               'startTime' : startTimeDropDownValue,
@@ -221,11 +223,19 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                               'location' : locationValue
                             }
                           );
-                          lectureCount = getLectureCount() as int;
-                          saveLectureCount(lectureCount++);
-                          print(getLectureCount());
-                          print(getSchedule(lectureCount as String));
+                          print(lectureCount);
+                          Map<String, dynamic> scheduleData = await getSchedule(lectureCount);
+                          String lectureName = scheduleData['lecture'] ?? '정보 없음';
+                          String location = scheduleData['location'] ?? '정보 없음';
+                          String day = scheduleData['day'] ?? '정보 없음';
+                          String startTime = scheduleData['startTime'] ?? '정보 없음';
+                          String endTime = scheduleData['endTime'] ?? '정보 없음';
+
+                          print('강의명: $lectureName');
+                          print('강의장소: $location');
+                          print('강의시간: $day $startTime-$endTime');
                         },
+
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
                           backgroundColor: const Color(0xff1479FF),
