@@ -23,9 +23,9 @@ class CompleteMatchingViewPage extends StatelessWidget {
           ),
         ),
         DraggableScrollableSheet(
-            initialChildSize: 0.57,
+            initialChildSize: 0.24,
             minChildSize: 0.12,
-            maxChildSize: 0.65,
+            maxChildSize: 0.7,
             builder: (context, scrollController) {
               return Container(
                   decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
@@ -105,6 +105,74 @@ class CompleteMatchingViewPage extends StatelessWidget {
                             ),
                             const SizedBox(height: 10),
                             contactRow("매칭된 사람들과 연락하기...", Icon(Icons.chat, color: Colors.blue, size: 20)),
+                            const SizedBox(height: 30),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "예상 결제 비용",
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Container(
+                              height: 180,
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                              decoration: BoxDecoration(
+                                color: Colors.blue[50],
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "부르릉 캐시",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {},
+                                        child: Row(
+                                          children: [
+                                            Icon(Icons.add, size: 15, color: Colors.blue),
+                                            SizedBox(width: 3),
+                                            Text(
+                                              '충전하기',
+                                              style: TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 15),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      BRRcashIcon(),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        "15,800 캐시",
+                                        style: TextStyle(
+                                          fontSize: 30,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
