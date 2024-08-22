@@ -133,10 +133,11 @@ def complete_drive(
     credentials: HTTPAuthorizationCredentials = Security(security),
     user_db: Session = Depends(get_userdb),
     match_db: Session = Depends(get_matchdb),
-    history_db: Session = Depends(get_historydb)
+    history_db: Session = Depends(get_historydb),
+    taxi_db: Session = Depends(get_taxidb)
 ):
     user = get_current_user(credentials, user_db)
-
+    
     # 매칭 정보 가져오기
     matching = match_db.query(MatchingModel).filter(MatchingModel.id == matching_id).first()
     if not matching:
@@ -157,14 +158,14 @@ def complete_drive(
         user_mate_brr_cash = user_mate.brr_cash
         user_mate.brr_cash =  user_mate_brr_cash - n_amount
         user_db.commit()
-
+    taxi = taxi_db.query(TaxiModel).filter(TaxiModel.user_id == user.user_id).first()
     # history detail 추가하기 : 택시 데이터 추가
     history_data = HistoryCreate(
-        car_num="차량번호",
+        car_num=taxi.car_num,
         date=datetime.now(), 
         boarding_time=matching.boarding_time.strftime("%H:%M"),  
         quit_time=datetime.now().strftime("%H:%M"),  
-        amount=10000, 
+        amount=amount, 
         depart=matching.depart,
         dest=matching.dest,
         mate=matching.mate  
