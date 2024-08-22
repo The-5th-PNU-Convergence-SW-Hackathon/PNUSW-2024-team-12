@@ -21,3 +21,15 @@ class HistoryResponse(BaseModel):
     amount: int
     depart: str
     dest: str
+
+class HistoryDetailResponse(BaseModel):
+    id: int
+    car_num: str
+    car_model: str
+    driver_name: str
+    date: datetime
+    boarding_time: str
+    quit_time: str
+    depart: str
+    dest: str
+    amount: int
