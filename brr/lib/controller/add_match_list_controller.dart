@@ -11,6 +11,7 @@ class AddMatchListController extends GetxController {
   RxString currentMemberStatus = '현재 1/4 모집중'.obs;
   RxInt selectedMinMember = 0.obs;
   WebSocketChannel? channel;
+  RxInt lobbyId = 0.obs; // 로비 ID를 관리하는 변수
 
   Future<void> sendMatchData(int minMember) async {
     final prefs = await SharedPreferences.getInstance();
@@ -52,8 +53,8 @@ class AddMatchListController extends GetxController {
 
         // 매칭 데이터가 성공적으로 전송되면 WebSocket 연결 시작
         final responseData = jsonDecode(utf8.decode(response.bodyBytes));
-        final lobbyId = responseData['id']; // 서버로부터 받은 lobby_id를 사용
-        joinLobby(lobbyId);
+        lobbyId.value = responseData['id']; // 서버로부터 받은 lobby_id를 설정
+        joinLobby(lobbyId.value);
       } else {
         print('Failed to send match data: ${response.statusCode}');
       }
@@ -76,7 +77,7 @@ class AddMatchListController extends GetxController {
     });
   }
 
-  Future<void> completeLobby(int lobbyId) async {
+  Future<void> completeLobby() async {
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString('access_token');
 
@@ -85,7 +86,7 @@ class AddMatchListController extends GetxController {
       return;
     }
 
-    final url = '${Urls.apiUrl}lobbies/$lobbyId/complete';
+    final url = '${Urls.apiUrl}matching/lobbies/complete';
     final headers = {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer $accessToken',
@@ -95,13 +96,13 @@ class AddMatchListController extends GetxController {
       final response = await http.post(
         Uri.parse(url),
         headers: headers,
-        body: jsonEncode({'id': lobbyId}),
+        body: utf8.encode(json.encode({'id': lobbyId.value})),
       );
 
       if (response.statusCode == 200) {
         print('Lobby completed successfully');  // 성공 시 페이지 이동
       } else {
-        print('Failed to complete lobby: ${response.statusCode}');
+        print('Failed to complete lobby: ${response.statusCode}, ${lobbyId.value}');
         Get.snackbar('Error', '대기실 완료에 실패했습니다.', snackPosition: SnackPosition.BOTTOM);
       }
     } catch (e) {

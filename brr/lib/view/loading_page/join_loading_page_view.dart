@@ -12,14 +12,10 @@ class JoinMatchLoadingPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     final JoinMatchController controller = Get.find<JoinMatchController>();
     return Obx(() {
-      // WebSocket을 통해 받은 값이 1, 2, 3, 4가 아닐 때 다른 페이지로 이동
-      if (!(controller.currentMemberCount.value == 1 ||
-            controller.currentMemberCount.value == 2 ||
-            controller.currentMemberCount.value == 3 ||
-            controller.currentMemberCount.value == 4)) {
-        // 다른 페이지로 이동
+      // WebSocket을 통해 받은 메시지가 "매칭이 시작되었습니다."일 때 다른 페이지로 이동
+      if (controller.currentMemberCount.value == '매칭이 시작되었습니다.') {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          Get.offAllNamed('/taxiloading');
+          Get.offAllNamed('/taxiloading');  // 원하는 페이지로 이동
         });
       }
     return Scaffold(

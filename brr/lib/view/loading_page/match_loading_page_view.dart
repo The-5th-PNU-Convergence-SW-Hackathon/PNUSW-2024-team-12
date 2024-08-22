@@ -5,21 +5,16 @@ import 'package:brr/view/loading_circle/loading_circle.dart';
 import 'package:brr/controller/add_match_list_controller.dart';
 
 class MatchLoadingPageView extends StatelessWidget {
-  final int lobbyId;
-  const MatchLoadingPageView({super.key, required this.lobbyId});
+  const MatchLoadingPageView({super.key});
   
   @override
   Widget build(BuildContext context) {
     final AddMatchListController controller = Get.put(AddMatchListController());
     return Obx(() {
-      // WebSocket을 통해 받은 값이 1, 2, 3, 4가 아닐 때 다른 페이지로 이동
-      if (!(controller.currentMemberStatus.value == '1' ||
-            controller.currentMemberStatus.value == '2' ||
-            controller.currentMemberStatus.value == '3' ||
-            controller.currentMemberStatus.value == '4')) {
-        // 다른 페이지로 이동
+      // WebSocket을 통해 받은 메시지가 "매칭이 시작되었습니다."일 때 다른 페이지로 이동
+      if (controller.currentMemberStatus.value == '매칭이 시작되었습니다.') {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          Get.offAllNamed('/taxiloading');
+          Get.offAllNamed('/taxiloading');  // 원하는 페이지로 이동
         });
       }
     return Scaffold(
@@ -105,7 +100,7 @@ class MatchLoadingPageView extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          controller.completeLobby(lobbyId);
+                          controller.completeLobby();
                         },
                         child: const Text(
                           '출발해요!',
