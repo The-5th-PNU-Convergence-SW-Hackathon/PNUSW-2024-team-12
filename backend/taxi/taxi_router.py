@@ -9,12 +9,10 @@ from history.history_schema import HistoryCreate
 from history.history_router import create_history
 from datetime import datetime
 import json
-from matching.matching_router import lobby_manager
 security = HTTPBearer()
 router = APIRouter(
     prefix="/taxi"
 )
-
 def get_current_user(credentials: HTTPAuthorizationCredentials, db: Session):
     token = credentials.credentials
     payload = decode_jwt(token)
@@ -76,6 +74,7 @@ async def websocket_endpoint(websocket: WebSocket, taxi_room_id: int):
 # 택시들에게 리스트를 보여주는 함수
 async def calling_taxi(call_type:int = None,
                        match_db: Session = None):
+    from matching.matching_router import lobby_manager
     print("calling_taxi success")
     if call_type == 1:
         matchings = match_db.query(MatchingModel).filter(MatchingModel.matching_taxi == 0).all()
