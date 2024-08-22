@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends, Security, WebSocket, WebS
 from database import get_matchdb, get_userdb
 from sqlalchemy.orm import Session
 from models import Matching as MatchingModel, Lobby as LobbyModel, LobbyUser as LobbyUserModel, User as UserModel
-from matching.matching_schema import MatchingCreate, MatchingResponse, LobbyResponse
+from matching.matching_schema import MatchingCreate, MatchingResponse, LobbyResponse, MatchingDo
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from matching.matching_crud import decode_jwt
 from datetime import datetime
@@ -123,7 +123,7 @@ def create_matching(
 
 @router.delete("/matchings/cancel", response_model=dict)
 def cancel_matching(
-    matching_id: int,
+    matching_id: MatchingDo,
     credentials: HTTPAuthorizationCredentials = Security(security),
     user_db: Session = Depends(get_userdb),
     match_db: Session = Depends(get_matchdb)
@@ -151,13 +151,13 @@ def cancel_matching(
 
 @router.post("/lobbies/join", response_model=LobbyResponse)
 async def join_lobby(
-    lobby_id: int,
+    lobby_id: MatchingDo,
     credentials: HTTPAuthorizationCredentials = Security(security),
     user_db: Session = Depends(get_userdb),
     match_db: Session = Depends(get_matchdb)
 ):
     user = get_current_user(credentials, user_db)
-
+    lobby_id
     # 이미 다른 대기실에 있는지 확인
     existing_lobby_user = match_db.query(LobbyUserModel).filter(LobbyUserModel.user_id == user.user_id).first()
     if existing_lobby_user is not None:
@@ -191,7 +191,7 @@ async def join_lobby(
 
 @router.post("/lobbies/leave", response_model=LobbyResponse)
 async def leave_lobby(
-    lobby_id: int,
+    lobby_id: MatchingDo,
     credentials: HTTPAuthorizationCredentials = Security(security),
     user_db: Session = Depends(get_userdb),
     match_db: Session = Depends(get_matchdb)
@@ -246,7 +246,7 @@ def list_lobbies_by_matching_type(matching_type: int, match_db: Session = Depend
 # 인원이 모이면 매칭을 완료
 @router.post("/lobbies/{lobby_id}/complete", response_model=dict)
 async def complete_lobby(
-    lobby_id: int,
+    lobby_id: MatchingDo,
     credentials: HTTPAuthorizationCredentials = Security(security),
     user_db: Session = Depends(get_userdb),
     match_db: Session = Depends(get_matchdb)
