@@ -95,6 +95,26 @@ List<String> generateTimeList(String strStartTime, String strEndTime) {
   return timeList;
 }
 
+double calculateTopPosition(String startTime) {
+  List<String> timeParts = startTime.split(":");
+  int hour = int.parse(timeParts[0]);
+  int minute = int.parse(timeParts[1]);
+  return (hour - 9) * kBoxSize + (minute / 60) * kBoxSize + kFirstColumnHeight;
+}
+
+double calculateBoxHeight(String startTime, String endTime) {
+  List<String> startParts = startTime.split(":");
+  int startHour = int.parse(startParts[0]);
+  int startMinute = int.parse(startParts[1]);
+
+  List<String> endParts = endTime.split(":");
+  int endHour = int.parse(endParts[0]);
+  int endMinute = int.parse(endParts[1]);
+
+  double hours = (endHour + endMinute / 60) - (startHour + startMinute / 60);
+  return hours * kBoxSize;
+}
+
 class SchedulePageView extends StatefulWidget {
   const SchedulePageView({Key? key}) : super(key: key);
 
@@ -105,6 +125,68 @@ class SchedulePageView extends StatefulWidget {
 class _SchedulePageViewState extends State<SchedulePageView> {
   final TextEditingController _lectureTextController = TextEditingController();
   final TextEditingController _locationTextController = TextEditingController();
+
+  List<Map<String, dynamic>> _scheduleBoxes = [];
+
+  List<Widget> buildDayColumn(int index) {
+    return [
+      const VerticalDivider(
+        color: Colors.grey,
+        width: 0,
+      ),
+      Expanded(
+        flex: 4,
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                  child: Text(
+                    week[index],
+                  ),
+                ),
+                ...List.generate(
+                  kColumnLength,
+                      (index) {
+                    if (index % 2 == 0) {
+                      return const Divider(
+                        color: Colors.grey,
+                        height: 0,
+                      );
+                    }
+                    return SizedBox(
+                      height: kBoxSize,
+                      child: Container(),
+                    );
+                  },
+                ),
+              ],
+            ),
+            // Add Positioned boxes for the current day
+            ..._scheduleBoxes.where((box) => box['dayIndex'] == index).map((box) {
+              return Positioned(
+                top: box['top'],
+                height: box['height'],
+                width: 100,
+                child: Container(
+                  color: Colors.green,
+                  child: Column(
+                    children: [
+                      Text(
+                        '${box['lecture']} @ ${box['location']}',
+                        style: TextStyle(color: Colors.white, fontSize: 10),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
+          ],
+        ),
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -231,7 +313,20 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                           'lecture': lectureValue,
                           'location': locationValue,
                         });
-                        // print('일정이 추가되었습니다.');
+
+                        int dayIndex = week.indexOf(dayDropDownValue.replaceAll('요일', ''));
+                        double startTimePosition = calculateTopPosition(startTimeDropDownValue);
+                        double boxHeight = calculateBoxHeight(startTimeDropDownValue, endTimeDropDownValue);
+
+                        setState(() {
+                          _scheduleBoxes.add({
+                            'dayIndex': dayIndex,
+                            'top': startTimePosition,
+                            'height': boxHeight,
+                            'lecture': lectureValue,
+                            'location': locationValue,
+                          });
+                        });
 
                         Map<String, dynamic> scheduleData = await getSchedule(id);
                         String lectureName = scheduleData['lecture'] ?? '정보 없음';
@@ -240,9 +335,9 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                         String startTime = scheduleData['startTime'] ?? '정보 없음';
                         String endTime = scheduleData['endTime'] ?? '정보 없음';
 
-                        // print('강의명: $lectureName');
-                        // print('강의장소: $location');
-                        // print('강의시간: $day $startTime-$endTime');
+                        print('강의명: $lectureName');
+                        print('강의장소: $location');
+                        print('강의시간: $day $startTime-$endTime');
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
@@ -252,28 +347,6 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                       child: const Text('추가하기', style: TextStyle(fontSize: 12, color: Colors.white)),
                     ),
                   ),
-                  // const SizedBox( width: 12 ),
-                  // SizedBox(
-                  //   width: 66,
-                  //   height: 30,
-                  //   child: ElevatedButton(
-                  //     onPressed: () async {
-                  //       List<String> ids = await getAllScheduleIds();
-                  //       if (ids.isNotEmpty) {
-                  //         String id = ids.first; // Example: deleting the first schedule
-                  //         await delSchedule(id);
-                  //         await delScheduleId(id);
-                  //         print('일정이 삭제되었습니다.');
-                  //       }
-                  //     },
-                  //     style: ElevatedButton.styleFrom(
-                  //       padding: const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
-                  //       backgroundColor: const Color(0xffFF4D4D),
-                  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  //     ),
-                  //     child: const Text('삭제하기', style: TextStyle(fontSize: 12, color: Colors.white)),
-                  //   ),
-                  // ),
                 ],
               ),
               const SizedBox(height: 24),
@@ -344,6 +417,15 @@ class _SchedulePageViewState extends State<SchedulePageView> {
   }
 }
 
+// Widget buildScheduleBox({
+//   required String lecture,
+//   required String location,
+//   required String time,
+//   required VoidCallback onDelete,
+// }) {
+//   return
+// }
+
 Expanded buildTimeColumn() {
   return Expanded(
     child: Column(
@@ -369,45 +451,4 @@ Expanded buildTimeColumn() {
       ],
     ),
   );
-}
-
-List<Widget> buildDayColumn(int index) {
-  return [
-    const VerticalDivider(
-      color: Colors.grey,
-      width: 0,
-    ),
-    Expanded(
-      flex: 4,
-      child: Stack(
-        children: [
-          Column(
-            children: [
-              SizedBox(
-                height: 20,
-                child: Text(
-                  week[index],
-                ),
-              ),
-              ...List.generate(
-                kColumnLength,
-                    (index) {
-                  if (index % 2 == 0) {
-                    return const Divider(
-                      color: Colors.grey,
-                      height: 0,
-                    );
-                  }
-                  return SizedBox(
-                    height: kBoxSize,
-                    child: Container(),
-                  );
-                },
-              ),
-            ],
-          )
-        ],
-      ),
-    ),
-  ];
 }
