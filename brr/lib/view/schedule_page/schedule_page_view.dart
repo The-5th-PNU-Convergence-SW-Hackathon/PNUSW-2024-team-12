@@ -224,7 +224,7 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                           lectureCount = getLectureCount() as int;
                           saveLectureCount(lectureCount++);
                           print(getLectureCount());
-                          print(getSchedule(lectureCount));
+                          print(getSchedule(lectureCount as String));
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
