@@ -85,12 +85,12 @@ class QuickMatchController extends GetxController {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $accessToken',
       };
-      final body = jsonEncode({'match_id': id});
+      final body = utf8.encode(json.encode({'match_id': id}));
 
       final response = await http.post(Uri.parse(url), headers: headers, body: body);
 
       if (response.statusCode == 200) {
-        fetchQuickMatches(); // 매칭에 성공하면 목록을 새로 고침
+        // fetchQuickMatches(); // 매칭에 성공하면 목록을 새로 고침
         Get.snackbar('Success', '매칭에 성공했습니다.', snackPosition: SnackPosition.BOTTOM);
       } else if (response.statusCode == 401) {
         Get.offAllNamed('/login');

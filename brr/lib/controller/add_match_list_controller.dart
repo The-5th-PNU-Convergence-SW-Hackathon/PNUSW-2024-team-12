@@ -68,6 +68,7 @@ class AddMatchListController extends GetxController {
     channel = WebSocketChannel.connect(Uri.parse(url));
 
     channel!.stream.listen((message) {
+
       currentMemberStatus.value = message;
       print("서버연결이 완료되었음");  // 서버로부터 받은 메시지를 업데이트
     }, onError: (error) {

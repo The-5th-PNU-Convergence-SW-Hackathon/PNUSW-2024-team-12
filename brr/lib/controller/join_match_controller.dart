@@ -11,7 +11,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 class JoinMatchController extends GetxController {
   var joinedMatches = <JoinMatchModel>[].obs;
   late WebSocketChannel channel;
-  var currentMemberCount = '0'.obs;
+  RxString currentMemberCount = '0'.obs;
   RxInt lobbyId = 0.obs;
   Future<void> joinMatch(int id) async {
     try {
@@ -35,16 +35,15 @@ class JoinMatchController extends GetxController {
       if (response.statusCode == 200) {
         final responseData = jsonDecode(utf8.decode(response.bodyBytes));
         lobbyId.value = responseData['id']; // 서버로부터 받은 lobby_id를 설정
-        joinLobby(lobbyId.value);
         if (responseData is Map<String, dynamic>) {
           JoinMatchModel match = JoinMatchModel.fromJson(responseData);
           joinedMatches.add(match);
-
-          // 매칭에 성공하면 WebSocket 연결을 설정합니다.
-
           Get.snackbar('Success', '매칭에 성공했습니다.', snackPosition: SnackPosition.BOTTOM);
-          Get.offAllNamed('/joinloading');
+          Get.toNamed('/joinloading');
         }
+
+        // WebSocket 연결을 설정합니다.
+        joinLobby(lobbyId.value);
       } else if (response.statusCode == 401) {
         Get.offAllNamed('/login');
       } else if (response.statusCode == 404) {
@@ -64,18 +63,19 @@ class JoinMatchController extends GetxController {
 
   // WebSocket 연결 설정
   void joinLobby(int lobbyId) {
-    final url = 'ws://${Urls.wsUrl}matching/lobbies/$lobbyId/ws'; // 실제 서버 URL로 대체
+    final url = 'ws://${Urls.wsUrl}matching/lobbies/$lobbyId/ws';
     channel = WebSocketChannel.connect(Uri.parse(url));
 
-    channel!.stream.listen((message) {
+    channel.stream.listen((message) {
+      print("Received message: $message");
       currentMemberCount.value = message;
-      print("서버연결이 완료되었음");  // 서버로부터 받은 메시지를 업데이트
+      print("서버연결이 완료되었음");  
     }, onError: (error) {
       print('WebSocket error: $error');
     }, onDone: () {
       print('WebSocket connection closed');
     });
-  }
+}
 
   // WebSocket 연결 해제
   void disconnectFromLobby() {
