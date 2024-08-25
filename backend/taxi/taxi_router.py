@@ -75,10 +75,10 @@ async def websocket_endpoint(websocket: WebSocket, taxi_room_id: int):
 async def calling_taxi(call_type:int = None,
                        match_db: Session = None):
     print("calling_taxi success")
-    if call_type == 1:
-        matchings = match_db.query(MatchingModel).filter(MatchingModel.matching_taxi == 0).all()
-    else:
-        matchings = match_db.query(MatchingModel).all()
+    if call_type == 1: # 콜을 잡고난 후 업데이트할 때
+        matchings = match_db.query(MatchingModel).filter(MatchingModel.matching_taxi == 1).all()
+    else: # 가장 처음 보일 때
+        matchings = match_db.query(MatchingModel).filter(MatchingModel.matching_taxi == 1).all()
     
 
     matching_dicts = [
@@ -116,7 +116,7 @@ async def catch_call(
     # 매칭이 성사되었으니 0번방에 성사된 리스트를 제거해서 보여줌
     matching = match_db.query(MatchingModel).filter(MatchingModel.id == matching_id).first()
     if matching:
-        matching.matching_taxi = 1
+        matching.matching_taxi = 2
         match_db.commit()
 
     print(taxi_data)

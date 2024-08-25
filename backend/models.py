@@ -46,7 +46,7 @@ class Matching(match_Base):
     current_member = Column(Integer, nullable=False)
     created_by = Column(String(255), nullable=False)  
     mate = Column(String(50), nullable=False)  
-    matching_taxi = Column(Boolean, nullable=False)
+    matching_taxi = Column(Integer, nullable=False)  # 0 : 택시가 잡을 수 없는 상태 / 1: 택시가 잡을 수 있는 상태 / 2 : 택시를 잡은 상태
     lobby = relationship("Lobby", back_populates="matching")
 
 

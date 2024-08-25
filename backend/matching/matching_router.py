@@ -272,17 +272,20 @@ async def complete_lobby(
     lobby_users = match_db.query(LobbyUserModel).filter(LobbyUserModel.lobby_id == lobby_id).all()
     mate_ids = ",".join([str(user.user_id) for user in lobby_users])
 
-    # 택시기사에게 매칭리스트 호출
-    await calling_taxi(0, match_db)
+
 
     matching = match_db.query(MatchingModel).filter(MatchingModel.id == lobby.matching_id).first()
     if not matching:
         raise HTTPException(status_code=404, detail="매칭내역을 찾을 수 없음.")
     
     # 매칭 정보 업데이트
+    matching.matching_taxi = 1
     matching.mate = mate_ids
     match_db.commit()
 
+    # 택시기사에게 매칭리스트 호출
+    await calling_taxi(0, match_db)
+    
     # 대기실의 모든 유저들을 삭제
     match_db.query(LobbyUserModel).filter(LobbyUserModel.lobby_id == lobby_id).delete()
 
