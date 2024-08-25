@@ -8,9 +8,9 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 class AddMatchListController extends GetxController {
   final LocationController locationController = Get.find<LocationController>();
-  RxString currentMemberStatus = '현재 1/4 모집중'.obs;
+  RxString currentMemberStatus = '1'.obs;
   RxInt selectedMinMember = 0.obs;
-  WebSocketChannel? channel;
+  late WebSocketChannel channel;
   RxInt lobbyId = 0.obs; // 로비 ID를 관리하는 변수
 
   Future<void> sendMatchData(int minMember) async {
@@ -64,19 +64,19 @@ class AddMatchListController extends GetxController {
   }
 
   void joinLobby(int lobbyId) {
-    final url = 'ws://${Urls.wsUrl}matching/lobbies/$lobbyId/ws'; // 실제 서버 URL로 대체
+    final url = 'ws://${Urls.wsUrl}matching/lobbies/$lobbyId/ws';
     channel = WebSocketChannel.connect(Uri.parse(url));
 
-    channel!.stream.listen((message) {
-
+    channel.stream.listen((message) {
+      print("Received message: $message");
       currentMemberStatus.value = message;
-      print("서버연결이 완료되었음");  // 서버로부터 받은 메시지를 업데이트
+      print("서버연결이 완료되었음");  
     }, onError: (error) {
       print('WebSocket error: $error');
     }, onDone: () {
       print('WebSocket connection closed');
     });
-  }
+}
 
   Future<void> completeLobby() async {
     final prefs = await SharedPreferences.getInstance();
@@ -112,15 +112,13 @@ class AddMatchListController extends GetxController {
     }
   }
 
-  void leaveLobby() {
-    if (channel != null) {
-      channel!.sink.close();
-    }
+  void disconnectFromLobby() {
+    channel.sink.close();
   }
 
   @override
   void onClose() {
-    leaveLobby();  // 컨트롤러가 닫힐 때 WebSocket 연결 해제
+    disconnectFromLobby();  // 컨트롤러가 닫힐 때 WebSocket 연결 해제
     super.onClose();
   }
 }

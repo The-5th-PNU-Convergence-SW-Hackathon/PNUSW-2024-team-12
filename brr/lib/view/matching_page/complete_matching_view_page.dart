@@ -8,6 +8,12 @@ class CompleteMatchingViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> data = Get.arguments;
+
+    final taxiId = data['taxi_id'];
+    final driverName = data['driver_name'];
+    final carNum = data['car_num'];
+    final phoneNumber = data['phone_number'];
     return Scaffold(
         body: SafeArea(
             child: Stack(
@@ -49,7 +55,7 @@ class CompleteMatchingViewPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                driverCard(),
+                                driverCard(driverName, carNum),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,7 +249,7 @@ class CompleteMatchingViewPage extends StatelessWidget {
     );
   }
 
-  Widget driverCard() {
+  Widget driverCard(String driverName, String carNum) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -260,16 +266,16 @@ class CompleteMatchingViewPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    '권민준',
-                    style: TextStyle(
+                  Text(
+                    driverName,
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Text(
-                    '부산 12 바 2901',
-                    style: TextStyle(
+                  Text(
+                    carNum,
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
                     ),

@@ -2,7 +2,6 @@ import 'package:brr/design_materials/design_materials.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/view/loading_circle/loading_circle.dart';
-import 'package:brr/controller/add_match_list_controller.dart'; // AddMatchListController 가져오기
 import 'package:brr/controller/join_match_controller.dart';
 
 class JoinMatchLoadingPageView extends StatelessWidget {
@@ -12,10 +11,10 @@ class JoinMatchLoadingPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     final JoinMatchController controller = Get.find<JoinMatchController>();
     return Obx(() {
-      // WebSocket을 통해 받은 메시지가 "매칭이 시작되었습니다."일 때 다른 페이지로 이동
+
       if (controller.currentMemberCount.value == '매칭이 시작되었습니다.') {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          Get.offAllNamed('/taxiloading');  // 원하는 페이지로 이동
+          Get.toNamed('/taxiloading');  
         });
       }
     return Scaffold(

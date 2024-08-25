@@ -9,12 +9,12 @@ class MatchLoadingPageView extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    final AddMatchListController controller = Get.put(AddMatchListController());
+    final AddMatchListController controller = Get.find<AddMatchListController>();
     return Obx(() {
       // WebSocket을 통해 받은 메시지가 "매칭이 시작되었습니다."일 때 다른 페이지로 이동
       if (controller.currentMemberStatus.value == '매칭이 시작되었습니다.') {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          Get.offAllNamed('/taxiloading');  // 원하는 페이지로 이동
+          Get.toNamed('/taxiloading');  // 원하는 페이지로 이동
         });
       }
     return Scaffold(
@@ -130,7 +130,7 @@ class MatchLoadingPageView extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          controller.leaveLobby(); // 매칭 취소 시 WebSocket 연결 해제
+                          controller.disconnectFromLobby(); // 매칭 취소 시 WebSocket 연결 해제
                         },
                         child: const Text(
                           '매칭 취소',
