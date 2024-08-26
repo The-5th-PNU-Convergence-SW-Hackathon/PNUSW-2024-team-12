@@ -14,12 +14,16 @@ import os
 
 # 비밀번호 해싱
 from passlib.context import CryptContext
-from user.user_schema import User, Taxi, Login_user, modify_password
+from user.user_schema import User, Taxi, Login_user, modify_password, check_certification_email, certification_email
 from typing import Union
 from datetime import datetime, timedelta
 
 import jwt
 from jwt import PyJWTError
+
+# email 인증
+from send_email import send_message, check_num
+
 SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
 ALGORITHM = os.environ.get("ALGORITHM")
 
@@ -106,7 +110,7 @@ def check_token(credentials: HTTPAuthorizationCredentials = Security(security)):
         return {"status": "invalid", "detail": e.detail}
 
 
-# signin user : 회원가입
+# signin taxi
 @router.post("/signin", response_model=Union[User, Taxi])
 def signin_user(user: Taxi, 
                 user_db: Session = Depends(get_userdb),
@@ -122,6 +126,7 @@ def signin_user(user: Taxi,
                    nickname=user.nickname, 
                    phone_number=user.phone_number,
                    student_address=user.student_address,
+                   email = user.email,
                    user_type=user.user_type)
 
     elif user.user_type == 0: # 택시 기사
@@ -146,6 +151,29 @@ def signin_user(user: Taxi,
     user_db.refresh(create_user)
     
     return create_user
+
+
+
+@router.post("/send_certification_number")
+async def certification_number(email : certification_email):
+    try:
+        number = send_message(email.email)
+    except Exception as e:
+        print("error :", e)
+    return number
+
+# 이메일 인증
+@router.post("/check_number")
+async def check_certification_number(number : check_certification_email):
+    try:
+        chenck_number = check_num["number"]
+
+        if number.number != chenck_number:
+            raise HTTPException(status_code=400, detail="인증번호가 틀렸습니다.")
+        return {"message":"인증성공"}
+        
+    except Exception as e:
+        print("error :", e)
 
 # login : 로그인
 @router.post("/login")

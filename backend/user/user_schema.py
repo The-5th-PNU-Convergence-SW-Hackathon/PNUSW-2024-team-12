@@ -9,6 +9,7 @@ class User(BaseModel):
     nickname: str
     phone_number: str
     student_address: str
+    email: str
     user_type: bool
     brr_cash : Optional[int]
     
@@ -28,3 +29,8 @@ class modify_password(BaseModel):
     password: str
     new_password: str
  
+class certification_email(BaseModel):
+    email: str
+    
+class check_certification_email(BaseModel):
+    number: str
