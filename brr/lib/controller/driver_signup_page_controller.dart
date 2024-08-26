@@ -4,20 +4,20 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:brr/constants/url.dart';
 
-class UserSignUpPageController extends GetxController {
+class DriverSignUpPageController extends GetxController {
   final idController = TextEditingController();
   final pwdController = TextEditingController();
   final pwdCheckController = TextEditingController();
   final nicknameController = TextEditingController();
   final phoneNumberController = TextEditingController();
-  final classNumberController = TextEditingController();
-  final emailController = TextEditingController();
+  final carNumberController = TextEditingController();
+  final carModelController = TextEditingController();
 
   final RegExp idPwdRegExp = RegExp(r'^[a-zA-Z0-9]+$');
   final RegExp generalRegExp = RegExp(r'^[a-zA-Z0-9ㄱ-ㅎ가-힣]+$');
 
   void signupButton(bool userType) async {
-    String apiUrl = '${Urls.apiUrl}user/signin_user';
+    String apiUrl = '${Urls.apiUrl}user/signin_taxi';
     try {
       // 모든 필드가 비어있는 경우 처리
       if (idController.text.isEmpty ||
@@ -25,22 +25,11 @@ class UserSignUpPageController extends GetxController {
           pwdCheckController.text.isEmpty ||
           nicknameController.text.isEmpty ||
           phoneNumberController.text.isEmpty ||
-          classNumberController.text.isEmpty ||
-          emailController.text.isEmpty) {
+          carNumberController.text.isEmpty ||
+          carModelController.text.isEmpty) {
         Get.snackbar(
           '회원가입 실패',
           '모든 칸을 채워주세요.',
-          snackPosition: SnackPosition.BOTTOM,
-        );
-        return;
-      }
-
-      // 학번이 9자리 숫자가 아닐 경우 처리
-      int? classNumber = int.tryParse(classNumberController.text);
-      if (classNumber == null || classNumber.toString().length != 9) {
-        Get.snackbar(
-          '회원가입 실패',
-          '학번은 9자리 숫자로 작성해주세요.',
           snackPosition: SnackPosition.BOTTOM,
         );
         return;
@@ -51,15 +40,6 @@ class UserSignUpPageController extends GetxController {
         Get.snackbar(
           '회원가입 실패',
           '비밀번호가 일치하지 않습니다.',
-          snackPosition: SnackPosition.BOTTOM,
-        );
-        return;
-      }
-
-      if (emailController.text.length < 12 || emailController.text.substring(emailController.text.length - 12) != '@pusan.ac.kr') {
-        Get.snackbar(
-          '회원가입 실패',
-          '이메일은 @pusan.ac.kr로 끝나야 합니다.',
           snackPosition: SnackPosition.BOTTOM,
         );
         return;
@@ -94,10 +74,9 @@ class UserSignUpPageController extends GetxController {
           "password": pwdController.text,
           "user_name": nicknameController.text,
           "phone_number": phoneNumberController.text,
-          "student_address": classNumberController.text,
+          "car_num": carNumberController.text,
+          "car_model": carModelController.text,
           "user_type": userType,
-          "email": emailController.text,
-          "brr_cash": 0,
         }),
       );
 
@@ -142,8 +121,8 @@ class UserSignUpPageController extends GetxController {
     pwdCheckController.dispose();
     nicknameController.dispose();
     phoneNumberController.dispose();
-    classNumberController.dispose();
-    emailController.dispose();
+    carNumberController.dispose();
+    carModelController.dispose();
     super.onClose();
   }
 }

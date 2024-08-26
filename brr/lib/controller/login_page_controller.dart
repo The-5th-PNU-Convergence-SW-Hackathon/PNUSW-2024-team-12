@@ -22,6 +22,7 @@ class LoginPageController extends GetxController {
           'password': pwTextController.text,
         }),
       );
+      print(response.body);
       if (response.statusCode == 200) {
         // 로그인 성공 처리
         var data = jsonDecode(response.body);
@@ -29,9 +30,10 @@ class LoginPageController extends GetxController {
         await saveTokens(accessToken);
 
         var userType = data['user_type'];
-        if (userType == true) {
+        print(userType);
+        if (userType == 1) {
           Get.offAllNamed('/main'); // 유저 타입이 true이면 메인으로 이동
-        } else if (userType == false) {
+        } else if (userType == 0) {
           Get.offAllNamed('/drivermain'); // 유저 타입이 false이면 드라이버메인으로 이동
         }
       } else {
