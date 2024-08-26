@@ -20,7 +20,9 @@ class _SignUpState extends State<SignUpPageView> {
     return MaterialApp(
       theme: ThemeData(fontFamily: "Pretendard"),
       home: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.white,
           leading: IconButton(
             onPressed: () {
               Get.back();

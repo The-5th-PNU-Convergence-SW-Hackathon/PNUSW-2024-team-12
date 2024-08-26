@@ -12,7 +12,7 @@ import 'package:brr/view/schedule_page/schedule_page_view.dart';
 import 'package:brr/view/matching_page/fast_matching_view_page.dart';
 import 'package:brr/view/sign_up_page/sign_up_view.dart';
 import 'package:brr/view/login_page/login_page_view.dart';
-import 'package:brr/view/main_page/driver_main_page_view.dart';
+import 'package:brr/view/driver_page/driver_main_page_view.dart';
 import 'package:brr/view/mypage_page/mydata_page_view.dart';
 import 'package:brr/view/history_page/history_page_view.dart';
 import 'package:brr/view/loading_page/match_loading_page_view.dart';
@@ -21,6 +21,7 @@ import 'package:brr/view/loading_page/join_loading_page_view.dart';
 import 'package:brr/view/loading_page/taxi_loading_page_view.dart';
 import 'package:brr/view/matching_page/complete_matching_view_page.dart';
 import 'package:brr/view/history_page/detail_history_page_view.dart';
+import 'package:brr/view/driver_page/driver_work_page.dart';
 
 class MainRouter {
   static final List<GetPage> routes = [
@@ -116,5 +117,11 @@ class MainRouter {
         child: DriverMainPageView(),
       ),
     ),
+    GetPage(
+      name: '/driverwork',
+      page: () => DriverMainLayout(
+        child: DriverWorkPageView(),
+      ),
+    )
   ];
 }

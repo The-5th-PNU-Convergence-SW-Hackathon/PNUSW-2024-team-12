@@ -21,15 +21,15 @@ class _BouncingDotsState extends State<BouncingDots> with SingleTickerProviderSt
       vsync: this,
     )..repeat(reverse: true);
 
-    _animation1 = Tween<double>(begin: 0, end: -10).animate(
+    _animation1 = Tween<double>(begin: 0, end: -30).animate(
       CurvedAnimation(parent: _controller, curve: const Interval(0.0, 0.5, curve: Curves.easeInOut)),
     );
 
-    _animation2 = Tween<double>(begin: 0, end: -10).animate(
+    _animation2 = Tween<double>(begin: 0, end: -30).animate(
       CurvedAnimation(parent: _controller, curve: const Interval(0.2, 0.7, curve: Curves.easeInOut)),
     );
 
-    _animation3 = Tween<double>(begin: 0, end: -10).animate(
+    _animation3 = Tween<double>(begin: 0, end: -30).animate(
       CurvedAnimation(parent: _controller, curve: const Interval(0.4, 0.9, curve: Curves.easeInOut)),
     );
   }
@@ -46,9 +46,9 @@ class _BouncingDotsState extends State<BouncingDots> with SingleTickerProviderSt
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildAnimatedDot(_animation1),
-        const SizedBox(width: 8),
+        const SizedBox(width: 16),
         _buildAnimatedDot(_animation2),
-        const SizedBox(width: 8),
+        const SizedBox(width: 16),
         _buildAnimatedDot(_animation3),
       ],
     );
@@ -64,8 +64,8 @@ class _BouncingDotsState extends State<BouncingDots> with SingleTickerProviderSt
         );
       },
       child: Container(
-        width: 20,
-        height: 20,
+        width: 25,
+        height: 25,
         decoration: const BoxDecoration(
           color: Colors.blue,
           shape: BoxShape.circle,
