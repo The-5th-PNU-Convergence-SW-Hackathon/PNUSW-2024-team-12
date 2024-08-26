@@ -8,20 +8,21 @@ class MainLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         body: SafeArea(
             child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-            child: Row(children: [
-          Expanded(
-              child: SizedBox(
-            width: MediaQuery.of(context).size.width - 80,
-            child: child,
-          ))
-        ])),
-        const MyBottomNavigationBar(),
-      ],
-    )));
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+                child: Row(children: [
+              Expanded(
+                  child: SizedBox(
+                width: MediaQuery.of(context).size.width - 80,
+                child: child,
+              ))
+            ])),
+            const MyBottomNavigationBar(),
+          ],
+        )));
   }
 }

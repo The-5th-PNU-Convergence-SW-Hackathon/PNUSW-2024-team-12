@@ -22,6 +22,7 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 45.0),
         child: Column(
@@ -95,6 +96,7 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
+                          elevation: 0,
                         ),
                         onPressed: () {},
                         child: Row(
@@ -129,6 +131,7 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                                   focusedBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(color: Colors.transparent),
                                   ),
+                                  contentPadding: EdgeInsets.only(bottom: 9.0),
                                 ),
                               ),
                             ),
@@ -165,7 +168,8 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                   itemCount: isQuickMatch ? quickMatchController.quickMatches.length : reservationMatchController.ReservationMatches.length,
                   itemBuilder: (context, index) {
                     if (isQuickMatch) {
-                      final quickMatch = quickMatchController.quickMatches[index];
+                      int reverseIndex = quickMatchController.quickMatches.length - index - 1;
+                      final quickMatch = quickMatchController.quickMatches[reverseIndex];
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: ElevatedButton(
@@ -191,7 +195,8 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                         ),
                       );
                     } else {
-                      final reservationMatch = reservationMatchController.ReservationMatches[index];
+                      int reverseIndex = reservationMatchController.ReservationMatches.length - index - 1;
+                      final reservationMatch = reservationMatchController.ReservationMatches[reverseIndex];
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: ElevatedButton(
@@ -230,7 +235,9 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
+        side: const BorderSide(color: Color(0xFFF2F2F2), width: 1.0),
       ),
+      elevation: 0,
     );
   }
 

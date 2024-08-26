@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/constants/bottom_navigation/bottom_navigation_controller.dart';
 import 'package:brr/design_materials/design_materials.dart';
+import 'package:brr/controller/join_match_controller.dart';
+import 'package:brr/controller/quickmatch_list_controller.dart';
 
 class MainPageView extends StatelessWidget {
   MainPageView({super.key});
-
+  final QuickMatchController quickMatchController = Get.put(QuickMatchController());
+  final JoinMatchController joinMatchController = Get.put(JoinMatchController());
   final _bottomNavController = Get.put(MyBottomNavigationBarController());
 
   @override
@@ -235,94 +238,97 @@ class MainPageView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    Column(
-                      children: List.generate(3, (index) {
-                        return Column(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.black,
-                                backgroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                elevation: 0.5,
-                                padding: const EdgeInsets.all(10),
-                              ),
-                              child: const Row(
+                    Obx(() {
+                      if (quickMatchController.quickMatches.isEmpty) {
+                        return const Center(child: Text("빠른 매칭이 없습니다."));
+                      }
+                      int itemCount = quickMatchController.quickMatches.length < 3 ? quickMatchController.quickMatches.length : 3;
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: itemCount,
+                        itemBuilder: (context, index) {
+                          int reverseIndex = quickMatchController.quickMatches.length - index - 1;
+                          final quickMatch = quickMatchController.quickMatches[reverseIndex];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: ElevatedButton(
+                              style: buttonStyle(),
+                              onPressed: () {
+                                joinMatchController.joinMatch(quickMatch.id);
+                              },
+                              child: Row(
                                 children: [
                                   Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        children: [
-                                          Icon(Icons.circle, size: 8, color: Colors.blue),
-                                          SizedBox(width: 5),
-                                          Text(
-                                            "출발지",
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                          SizedBox(width: 5),
-                                          Text(
-                                            "서브웨이 부산대점",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 5),
-                                      Row(
-                                        children: [
-                                          Icon(Icons.square, size: 8, color: Colors.blue),
-                                          SizedBox(width: 5),
-                                          Text(
-                                            "도착지",
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                          SizedBox(width: 5),
-                                          Text(
-                                            "부산역 (고속철도)",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                      locationRow(circleContainer, "출발지", quickMatch.depart),
+                                      const SizedBox(height: 5.0),
+                                      locationRow(rectangularContainer, "도착지", quickMatch.dest),
                                     ],
                                   ),
-                                  Spacer(),
-                                  Text(
-                                    "12:00 탑승 예정",
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.black,
-                                    ),
-                                  ),
+                                  const Spacer(),
+                                  boardingInfo(quickMatch.boardingTime.toString().substring(11, 16)),
                                 ],
                               ),
                             ),
-                            if (index < 2) const SizedBox(height: 10),
-                          ],
-                        );
-                      }),
-                    ),
+                          );
+                        },
+                      );
+                    }),
                   ],
                 ),
               )
             ]),
           ))
     ]));
+  }
+
+  ButtonStyle buttonStyle() {
+    return ElevatedButton.styleFrom(
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        side: const BorderSide(color: Color(0xFFF2F2F2), width: 1.0),
+      ),
+      elevation: 0,
+    );
+  }
+
+  Widget locationRow(Widget icon, String label, String text) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        icon,
+        const SizedBox(width: 10.0),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 10.0,
+          ),
+        ),
+        const SizedBox(width: 10.0),
+        Text(
+          text,
+          style: const TextStyle(
+            fontSize: 12.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget boardingInfo(String boardingTime) {
+    return Text(
+      "오늘 $boardingTime 탑승 예정",
+      style: const TextStyle(
+        fontSize: 10.0,
+      ),
+    );
   }
 
   Widget buildContainer({
