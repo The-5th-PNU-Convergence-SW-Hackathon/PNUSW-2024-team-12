@@ -141,7 +141,7 @@ def signin_user(user: User,
                 phone_number=user.phone_number,
                 student_address=user.student_address,
                 email = user.email,
-                user_type=1)
+                user_type = 1)
 
     user_db.add(create_user)
     user_db.commit()
@@ -248,7 +248,7 @@ def login_user(user: Login_user, response: Response, db: Session = Depends(get_u
             data={"sub": user.user_id}, expires_delta=refresh_token_expires
         )
 
-        return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
+        return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer", "user_type":1}
 
 
 @router.post("/token/refresh")
