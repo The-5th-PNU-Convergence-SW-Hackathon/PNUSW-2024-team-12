@@ -141,7 +141,7 @@ def signin_user(user: User,
                 phone_number=user.phone_number,
                 student_address=user.student_address,
                 email = user.email,
-                user_type=user.user_type)
+                user_type=1)
 
     user_db.add(create_user)
     user_db.commit()
@@ -167,7 +167,7 @@ def signin_user(user: Taxi,
     if check_user_phone_number:
         raise HTTPException(status_code=409, detail="해당 전화번호는 이미 존재합니다")
     
-    check_taxi_car_number = taxi_db.query(Taxi_model).filter(Taxi_model.user_id == user.user_id).first()
+    check_taxi_car_number = taxi_db.query(Taxi_model).filter(Taxi_model.car_num == user.car_num).first()
     if check_taxi_car_number:
         raise HTTPException(status_code=409, detail="해당 차 번호는 이미 존재합니다")
     
@@ -178,7 +178,7 @@ def signin_user(user: Taxi,
                 phone_number=user.phone_number,
                 student_address=f"택시기사{user.user_id}",
                 email = f"택시기사{user.user_id}",
-                user_type=user.user_type)
+                user_type=0)
     
     create_taxi = Taxi_model(user_id = user.user_id,
                                 driver_name = user.user_name,
@@ -192,8 +192,16 @@ def signin_user(user: Taxi,
     user_db.add(create_user)
     user_db.commit()
     user_db.refresh(create_user)
-    
-    return create_user
+    ret = Taxi(user_id=user.user_id, 
+                password=get_hash_password(user.password),
+                user_name=user.user_name, 
+                phone_number=user.phone_number,
+                car_num = user.car_num, 
+                car_model = user.car_model,
+                user_type=0
+            )
+
+    return ret
 
 @router.post("/send_certification_number")
 async def certification_number(email : certification_email):
