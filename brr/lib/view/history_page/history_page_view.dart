@@ -10,6 +10,7 @@ class HistoryPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     final HistoryPageController historyController = Get.put(HistoryPageController());
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 45.0),
         child: Column(
