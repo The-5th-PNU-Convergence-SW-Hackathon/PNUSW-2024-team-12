@@ -8,6 +8,7 @@ class DetailHistoryPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 45.0),
         child: Column(
@@ -119,7 +120,6 @@ class DetailHistoryPageView extends StatelessWidget {
                     const SizedBox(height: 3),
                     detail_mate("h1"),
                     const SizedBox(height: 3),
-                    
                   ],
                 )),
             const SizedBox(height: 20),

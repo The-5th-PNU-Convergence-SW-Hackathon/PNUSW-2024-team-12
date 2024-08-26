@@ -31,7 +31,7 @@ class LoginPageController extends GetxController {
         var userType = data['user_type'];
         if (userType == true) {
           Get.offAllNamed('/main'); // 유저 타입이 true이면 메인으로 이동
-        } else {
+        } else if (userType == false) {
           Get.offAllNamed('/drivermain'); // 유저 타입이 false이면 드라이버메인으로 이동
         }
       } else {

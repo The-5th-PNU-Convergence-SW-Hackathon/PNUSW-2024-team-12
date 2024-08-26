@@ -15,6 +15,7 @@ class _MyDataPageViewState extends State<MyDataPageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 45.0),
         child: Column(
