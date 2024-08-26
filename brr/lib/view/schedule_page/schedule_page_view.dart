@@ -1,7 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:uuid/uuid.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+
+class DatabaseHelper {
+  static final DatabaseHelper _instance = DatabaseHelper._internal();
+
+  factory DatabaseHelper() => _instance;
+
+  DatabaseHelper._internal();
+
+  static Database? _database;
+
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    _database = await _initDatabase();
+    return _database!;
+  }
+
+  Future<Database> _initDatabase() async {
+    String path = join(await getDatabasesPath(), 'schedule.db');
+    return await openDatabase(
+      path,
+      version: 1,
+      onCreate: (db, version) async {
+        await db.execute('''
+          CREATE TABLE schedules (
+            id TEXT PRIMARY KEY,
+            jsonData TEXT
+          )
+        ''');
+        await db.execute('''
+          CREATE TABLE schedule_ids (
+            id TEXT PRIMARY KEY
+          )
+        ''');
+      },
+    );
+  }
+}
 
 // Global Variables
 List<String> week = ['월', '화', '수', '목', '금', '토', '일'];
@@ -14,57 +53,65 @@ String endTimeDropDownValue = '17:00';
 String locationValue = '';
 String lectureValue = '';
 
-final Uuid uuid = Uuid();
+const Uuid uuid = Uuid();
 
-Future<void> saveLectureCount(int count) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setInt('lectureCount', count);
-}
-
-Future<int?> getLectureCount() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  int? myInt = prefs.getInt('lectureCount');
-  return myInt;
-}
+final DatabaseHelper dbHelper = DatabaseHelper();
 
 Future<void> saveSchedule(String id, Map<String, dynamic> jsonData) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final db = await dbHelper.database;
   String jsonString = jsonEncode(jsonData);
-  await prefs.setString(id, jsonString);
+  await db.insert(
+    'schedules',
+    {'id': id, 'jsonData': jsonString},
+    conflictAlgorithm: ConflictAlgorithm.replace,
+  );
 }
 
 Future<Map<String, dynamic>> getSchedule(String id) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  Map<String, dynamic> jsonData = {};
-  String? jsonString = prefs.getString(id);
-  if (jsonString != null) {
-    jsonData = jsonDecode(jsonString);
+  final db = await dbHelper.database;
+  List<Map<String, dynamic>> results = await db.query(
+    'schedules',
+    where: 'id = ?',
+    whereArgs: [id],
+  );
+  if (results.isNotEmpty) {
+    String jsonString = results.first['jsonData'] as String;
+    return jsonDecode(jsonString);
   }
-  return jsonData;
+  return {};
 }
 
 Future<void> delSchedule(String id) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.remove(id);
+  final db = await dbHelper.database;
+  await db.delete(
+    'schedules',
+    where: 'id = ?',
+    whereArgs: [id],
+  );
 }
 
 Future<List<String>> getAllScheduleIds() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getStringList('scheduleIds') ?? [];
+  final db = await dbHelper.database;
+  List<Map<String, dynamic>> results = await db.query('schedule_ids');
+  return results.map((row) => row['id'] as String).toList();
 }
 
 Future<void> saveScheduleId(String id) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  List<String> ids = await getAllScheduleIds();
-  ids.add(id);
-  await prefs.setStringList('scheduleIds', ids);
+  final db = await dbHelper.database;
+  await db.insert(
+    'schedule_ids',
+    {'id': id},
+    conflictAlgorithm: ConflictAlgorithm.replace,
+  );
 }
 
 Future<void> delScheduleId(String id) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  List<String> ids = await getAllScheduleIds();
-  ids.remove(id);
-  await prefs.setStringList('scheduleIds', ids);
+  final db = await dbHelper.database;
+  await db.delete(
+    'schedule_ids',
+    where: 'id = ?',
+    whereArgs: [id],
+  );
 }
 
 List<String> generateTimeList(String strStartTime, String strEndTime) {
@@ -123,12 +170,46 @@ class SchedulePageView extends StatefulWidget {
 }
 
 class _SchedulePageViewState extends State<SchedulePageView> {
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSchedules();
+  }
+
+  Future<void> _loadSchedules() async {
+    // 모든 스케줄 ID 가져오기
+    List<String> scheduleIds = await getAllScheduleIds();
+
+    for (String id in scheduleIds) {
+      // 각 스케줄의 데이터를 가져와서 UI에 반영
+      Map<String, dynamic> scheduleData = await getSchedule(id);
+
+      if (scheduleData.isNotEmpty) {
+        int dayIndex = week.indexOf(scheduleData['day'].replaceAll('요일', ''));
+        double startTimePosition = calculateTopPosition(scheduleData['startTime']);
+        double boxHeight = calculateBoxHeight(scheduleData['startTime'], scheduleData['endTime']);
+
+        setState(() {
+          _scheduleBoxes.add({
+            'id': id,
+            'dayIndex': dayIndex,
+            'top': startTimePosition,
+            'height': boxHeight,
+            'lecture': scheduleData['lecture'],
+            'location': scheduleData['location'],
+          });
+        });
+      }
+    }
+  }
+
   final TextEditingController _lectureTextController = TextEditingController();
   final TextEditingController _locationTextController = TextEditingController();
 
-  List<Map<String, dynamic>> _scheduleBoxes = [];
+  final List<Map<String, dynamic>> _scheduleBoxes = [];
 
-  List<Widget> buildDayColumn(int index) {
+  List<Widget> buildDayColumn(BuildContext context, int index) {
     return [
       const VerticalDivider(
         color: Colors.grey,
@@ -163,30 +244,43 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                 ),
               ],
             ),
-            // Add Positioned boxes for the current day
             ..._scheduleBoxes.where((box) => box['dayIndex'] == index).map((box) {
               return Positioned(
                 top: box['top'],
                 height: box['height'],
                 width: 100,
-                child: Container(
-                  color: Colors.green,
-                  child: Column(
-                    children: [
-                      Text(
-                        '${box['lecture']} @ ${box['location']}',
-                        style: TextStyle(color: Colors.white, fontSize: 10),
-                      ),
-                    ],
+                child: GestureDetector(
+                  onTap: () {
+                    _showDeleteConfirmationDialog(context, box['id']);  // context를 사용하여 함수 호출
+                  },
+                  child: Container(
+                    color: Colors.green,
+                    child: Column(
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              '${box['lecture']}',
+                              style: const TextStyle(color: Colors.white, fontSize: 10),
+                            ),
+                            Text(
+                              '${box['location']}',
+                              style: const TextStyle(color: Colors.white, fontSize: 8),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
-            }).toList(),
+            }),
           ],
         ),
       ),
     ];
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -221,13 +315,13 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                     child: Row(
                       children: [
                         buildTimeColumn(),
-                        ...buildDayColumn(0),
-                        ...buildDayColumn(1),
-                        ...buildDayColumn(2),
-                        ...buildDayColumn(3),
-                        ...buildDayColumn(4),
-                        ...buildDayColumn(5),
-                        ...buildDayColumn(6),
+                        ...buildDayColumn(context, 0),
+                        ...buildDayColumn(context, 1),
+                        ...buildDayColumn(context, 2),
+                        ...buildDayColumn(context, 3),
+                        ...buildDayColumn(context, 4),
+                        ...buildDayColumn(context, 5),
+                        ...buildDayColumn(context, 6),
                       ],
                     ),
                   ),
@@ -304,7 +398,9 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                     height: 30,
                     child: ElevatedButton(
                       onPressed: () async {
-                        String id = uuid.v4();
+                        String id = uuid.v4();  // 새로운 고유 ID 생성
+
+                        // 스케줄을 데이터베이스에 저장
                         await saveScheduleId(id);
                         await saveSchedule(id, {
                           'day': dayDropDownValue,
@@ -320,6 +416,7 @@ class _SchedulePageViewState extends State<SchedulePageView> {
 
                         setState(() {
                           _scheduleBoxes.add({
+                            'id': id,  // 고유 ID 추가
                             'dayIndex': dayIndex,
                             'top': startTimePosition,
                             'height': boxHeight,
@@ -334,10 +431,6 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                         String day = scheduleData['day'] ?? '정보 없음';
                         String startTime = scheduleData['startTime'] ?? '정보 없음';
                         String endTime = scheduleData['endTime'] ?? '정보 없음';
-
-                        print('강의명: $lectureName');
-                        print('강의장소: $location');
-                        print('강의시간: $day $startTime-$endTime');
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
@@ -354,6 +447,37 @@ class _SchedulePageViewState extends State<SchedulePageView> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _showDeleteConfirmationDialog(BuildContext context, String id) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // 사용자가 바깥을 터치하면 닫히지 않도록 설정
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('시간표 삭제'),
+          content: const Text('시간표를 삭제하시겠습니까?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('아니요'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('예'),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await delSchedule(id); // 데이터베이스에서 삭제
+                setState(() {
+                  _scheduleBoxes.removeWhere((box) => box['id'] == id); // 화면에서 삭제
+                });
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -416,15 +540,6 @@ class _SchedulePageViewState extends State<SchedulePageView> {
     );
   }
 }
-
-// Widget buildScheduleBox({
-//   required String lecture,
-//   required String location,
-//   required String time,
-//   required VoidCallback onDelete,
-// }) {
-//   return
-// }
 
 Expanded buildTimeColumn() {
   return Expanded(
