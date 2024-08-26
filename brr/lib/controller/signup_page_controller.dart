@@ -19,18 +19,40 @@ class SignUpPageController extends GetxController {
     String apiUrl = '${Urls.apiUrl}user/signin';
     try {
       // 모든 필드가 비어있는 경우 처리
-      if (idController.text.isEmpty ||
-          pwdController.text.isEmpty ||
-          pwdCheckController.text.isEmpty ||
-          nicknameController.text.isEmpty ||
-          phoneNumberController.text.isEmpty ||
-          classNumberController.text.isEmpty) {
-        Get.snackbar(
-          '회원가입 실패',
-          '모든 칸을 채워주세요.',
-          snackPosition: SnackPosition.BOTTOM,
-        );
-        return;
+      if (userType == true) {
+        if (idController.text.isEmpty ||
+            pwdController.text.isEmpty ||
+            pwdCheckController.text.isEmpty ||
+            nicknameController.text.isEmpty ||
+            phoneNumberController.text.isEmpty ||
+            classNumberController.text.isEmpty) {
+          Get.snackbar(
+            '회원가입 실패',
+            '모든 칸을 채워주세요.',
+            snackPosition: SnackPosition.BOTTOM,
+          );
+          return;
+        }
+
+        // 학번이 9자리 숫자가 아닐 경우 처리
+        int? classNumber = int.tryParse(classNumberController.text);
+        if (classNumber == null || classNumber.toString().length != 9) {
+          Get.snackbar(
+            '회원가입 실패',
+            '학번은 9자리 숫자로 작성해주세요.',
+            snackPosition: SnackPosition.BOTTOM,
+          );
+          return;
+        }
+      } else {
+        if (idController.text.isEmpty || pwdController.text.isEmpty || pwdCheckController.text.isEmpty || nicknameController.text.isEmpty || phoneNumberController.text.isEmpty) {
+          Get.snackbar(
+            '회원가입 실패',
+            '모든 칸을 채워주세요.',
+            snackPosition: SnackPosition.BOTTOM,
+          );
+          return;
+        }
       }
 
       // 비밀번호 일치 여부 확인
@@ -53,20 +75,9 @@ class SignUpPageController extends GetxController {
         return;
       }
 
-      // 학번이 9자리 숫자가 아닐 경우 처리
-      int? classNumber = int.tryParse(classNumberController.text);
-      if (classNumber == null || classNumber.toString().length != 9) {
-        Get.snackbar(
-          '회원가입 실패',
-          '학번은 9자리 숫자로 작성해주세요.',
-          snackPosition: SnackPosition.BOTTOM,
-        );
-        return;
-      }
-
       // 전화번호 유효성 검사
       String? phoneNumber = phoneNumberController.text;
-      if (phoneNumber == null || phoneNumber.length != 11) {
+      if (phoneNumber.length != 11) {
         Get.snackbar(
           '회원가입 실패',
           '전화번호는 11자리 숫자로, 010######## 형식을 지켜주세요.',
@@ -85,7 +96,7 @@ class SignUpPageController extends GetxController {
           "phone_number": phoneNumberController.text,
           "student_address": classNumberController.text,
           "user_type": userType,
-          "brr_cash" : 0,
+          "brr_cash": 0,
         }),
       );
 
