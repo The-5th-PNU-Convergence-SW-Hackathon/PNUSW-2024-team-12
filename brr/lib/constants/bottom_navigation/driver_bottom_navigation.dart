@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:brr/controller/bottom_navigation_controller.dart';
+import 'package:brr/constants/bottom_navigation/driver_controller.dart';
 
-class MyBottomNavigationBar extends GetView<MyBottomNavigationBarController> {
-  const MyBottomNavigationBar({super.key});
+class DriverBottomNavigation extends GetView<DriverBottomNavigationBarController> {
+  const DriverBottomNavigation({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final MyBottomNavigationBarController controller = Get.put(MyBottomNavigationBarController());
+    final DriverBottomNavigationBarController controller = Get.put(DriverBottomNavigationBarController());
 
     return Obx(() => Container(
           height: 80,

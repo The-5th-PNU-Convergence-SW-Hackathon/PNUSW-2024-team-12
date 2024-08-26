@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:brr/controller/bottom_navigation_controller.dart';
+import 'package:brr/constants/bottom_navigation/bottom_navigation_controller.dart';
 import 'package:brr/design_materials/design_materials.dart';
 
 class DriverMainPageView extends StatefulWidget {

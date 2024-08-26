@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:brr/constants/bottom_navigation/bottom_navigation.dart';
+import 'package:brr/constants/bottom_navigation/driver_bottom_navigation.dart';
 
-class MainLayout extends StatelessWidget {
+class DriverMainLayout extends StatelessWidget {
   final Widget child;
-  const MainLayout({super.key, required this.child});
+  const DriverMainLayout({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class MainLayout extends StatelessWidget {
             child: child,
           ))
         ])),
-        const MyBottomNavigationBar(),
+        const DriverBottomNavigation(),
       ],
     )));
   }

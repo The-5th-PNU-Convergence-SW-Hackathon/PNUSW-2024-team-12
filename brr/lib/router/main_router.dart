@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:brr/view/main_page/main_page_view.dart';
 import 'package:brr/view/match_list_page/match_list_view.dart';
 import 'package:brr/layout/main_layout.dart';
+import 'package:brr/layout/driver_main_layout.dart';
 import 'package:brr/view/mypage_page/mypage_page_view.dart';
 import 'package:brr/view/schedule_page/schedule_page_view.dart';
 import 'package:brr/view/matching_page/fast_matching_view_page.dart';
@@ -61,7 +62,6 @@ class MainRouter {
       name: '/signup',
       page: () => const SignUpPageView(),
     ),
-    GetPage(name: '/drivermain', page: () => MainLayout(child: DriverMainPageView())),
     GetPage(
       name: '/mydata',
       page: () => const MainLayout(
@@ -109,6 +109,12 @@ class MainRouter {
       page: () => const MainLayout(
         child: DetailHistoryPageView(),
       ),
-    )
+    ),
+    GetPage(
+      name: '/drivermain',
+      page: () => DriverMainLayout(
+        child: DriverMainPageView(),
+      ),
+    ),
   ];
 }
