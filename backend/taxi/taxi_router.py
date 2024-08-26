@@ -102,7 +102,7 @@ async def catch_call(
     if not matching_id:
         raise HTTPException(status_code=400, detail="매칭 아이디를 입력해야함")
     user = get_current_user(credentials, user_db)
-    taxi = taxi_db.query(TaxiModel).filter(TaxiModel.driver_name == user.nickname).first()
+    taxi = taxi_db.query(TaxiModel).filter(TaxiModel.driver_name == user.user_name).first()
     if not taxi:
         raise HTTPException(status_code=404, detail="택시를 찾을 수 없음")
     # 택시기사
@@ -154,7 +154,7 @@ def complete_drive(
     matching_mate = [name.strip() for name in matching.mate.split(",")]
     n_amount = amount / matching.current_member
     for name in matching_mate:
-        user_mate = user_db.query(UserModel).filter(UserModel.nickname == name).first()
+        user_mate = user_db.query(UserModel).filter(UserModel.user_name == name).first()
         user_mate_brr_cash = user_mate.brr_cash
         user_mate.brr_cash =  user_mate_brr_cash - n_amount
         user_db.commit()

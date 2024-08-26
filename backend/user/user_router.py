@@ -110,42 +110,39 @@ def check_token(credentials: HTTPAuthorizationCredentials = Security(security)):
         return {"status": "invalid", "detail": e.detail}
 
 
-# signin taxi
-@router.post("/signin", response_model=Union[User, Taxi])
-def signin_user(user: Taxi, 
-                user_db: Session = Depends(get_userdb),
-                taxi_db: Session = Depends(get_taxidb)):
-    check_user = get_user(user.user_id, user_db) # user가 table에 있는지 확인
-    if check_user:
+# signin user
+@router.post("/signin_user", response_model=User)
+def signin_user(user: User, 
+                user_db: Session = Depends(get_userdb)):
+    check_user_id = get_user(user.user_id, user_db) # user가 table에 있는지 확인
+    if check_user_id:
         raise HTTPException(status_code=409, detail="해당 아이디는 이미 존재합니다")
     
-    # db에 user를 추가
-    if user.user_type == 1: # 유저
-        create_user = User_model(user_id=user.user_id, 
-                   password=get_hash_password(user.password),
-                   nickname=user.nickname, 
-                   phone_number=user.phone_number,
-                   student_address=user.student_address,
-                   email = user.email,
-                   user_type=user.user_type)
+    check_user_user_name = user_db.query(User_model).filter(User_model.user_name == user.user_name).first()
+    if check_user_user_name:
+        raise HTTPException(status_code=409, detail="해당 닉네임은 이미 존재합니다")
+    
+    check_user_phone_number = user_db.query(User_model).filter(User_model.phone_number == user.phone_number).first()
+    if check_user_phone_number:
+        raise HTTPException(status_code=409, detail="해당 전화번호는 이미 존재합니다")
+    
+    check_user_student_address = user_db.query(User_model).filter(User_model.student_address == user.student_address).first()
+    if check_user_student_address:
+        raise HTTPException(status_code=409, detail="해당 학번은 이미 존재합니다")
+    
+    check_user_email = user_db.query(User_model).filter(User_model.email == user.email).first()
+    if check_user_email:
+        raise HTTPException(status_code=409, detail="해당 이메일은 이미 존재합니다")
 
-    elif user.user_type == 0: # 택시 기사
-        create_user = User_model(user_id=user.user_id, 
-                   password=get_hash_password(user.password),
-                   nickname=user.nickname, 
-                   phone_number=user.phone_number,
-                   student_address=user.student_address,
-                   user_type=user.user_type)
-        
-        create_taxi = Taxi_model(user_id = user.user_id,
-                                 driver_name = user.nickname,
-                                 car_num = user.car_num, 
-                                 car_model = user.car_model) 
-            
-        taxi_db.add(create_taxi)
-        taxi_db.commit()
-        taxi_db.refresh(create_taxi)
-        
+    # db에 user를 추가
+    create_user = User_model(user_id=user.user_id, 
+                password=get_hash_password(user.password),
+                user_name=user.user_name, 
+                phone_number=user.phone_number,
+                student_address=user.student_address,
+                email = user.email,
+                user_type=user.user_type)
+
     user_db.add(create_user)
     user_db.commit()
     user_db.refresh(create_user)
@@ -153,6 +150,50 @@ def signin_user(user: Taxi,
     return create_user
 
 
+# signin taxi
+@router.post("/signin_taxi", response_model=Taxi)
+def signin_user(user: Taxi, 
+                user_db: Session = Depends(get_userdb),
+                taxi_db: Session = Depends(get_taxidb)):
+    check_user_id = get_user(user.user_id, user_db) # user가 table에 있는지 확인
+    if check_user_id:
+        raise HTTPException(status_code=409, detail="해당 아이디는 이미 존재합니다")
+    
+    check_user_user_name = user_db.query(User_model).filter(User_model.user_name == user.user_name).first()
+    if check_user_user_name:
+        raise HTTPException(status_code=409, detail="해당 닉네임은 이미 존재합니다")
+    
+    check_user_phone_number = user_db.query(User_model).filter(User_model.phone_number == user.phone_number).first()
+    if check_user_phone_number:
+        raise HTTPException(status_code=409, detail="해당 전화번호는 이미 존재합니다")
+    
+    check_taxi_car_number = taxi_db.query(Taxi_model).filter(Taxi_model.user_id == user.user_id).first()
+    if check_taxi_car_number:
+        raise HTTPException(status_code=409, detail="해당 차 번호는 이미 존재합니다")
+    
+
+    create_user = User_model(user_id=user.user_id, 
+                password=get_hash_password(user.password),
+                user_name=user.user_name, 
+                phone_number=user.phone_number,
+                student_address=f"택시기사{user.user_id}",
+                email = f"택시기사{user.user_id}",
+                user_type=user.user_type)
+    
+    create_taxi = Taxi_model(user_id = user.user_id,
+                                driver_name = user.user_name,
+                                car_num = user.car_num, 
+                                car_model = user.car_model) 
+            
+    taxi_db.add(create_taxi)
+    taxi_db.commit()
+    taxi_db.refresh(create_taxi)
+        
+    user_db.add(create_user)
+    user_db.commit()
+    user_db.refresh(create_user)
+    
+    return create_user
 
 @router.post("/send_certification_number")
 async def certification_number(email : certification_email):
@@ -167,13 +208,16 @@ async def certification_number(email : certification_email):
 async def check_certification_number(number : check_certification_email):
     try:
         chenck_number = check_num["number"]
-
+        print(chenck_number)
+        print(number.number)
+        
         if number.number != chenck_number:
             raise HTTPException(status_code=400, detail="인증번호가 틀렸습니다.")
         return {"message":"인증성공"}
         
     except Exception as e:
         print("error :", e)
+
 
 # login : 로그인
 @router.post("/login")
@@ -197,7 +241,6 @@ def login_user(user: Login_user, response: Response, db: Session = Depends(get_u
         )
 
         return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
-
 
 
 @router.post("/token/refresh")
@@ -301,3 +344,5 @@ def brr_cash(
     user = get_current_user(credentials, user_db)
     user_info = user_db.query(User_model).filter(User_model.user_id == user.user_id).first()
     return user_info.brr_cash
+
+

@@ -4,19 +4,24 @@ from typing import Optional
 
 # 입력받는 양식
 class User(BaseModel):
-    user_id: str
-    password: str
-    nickname: str
-    phone_number: str
-    student_address: str
-    email: str
-    user_type: bool
+    user_id: str # 아이디
+    password: str # 비밀번호
+    user_name: str # 실제 이름 
+    phone_number: str # 전화번호
+    student_address: str # 학번
+    email: str # 부산대 이메일 
     brr_cash : Optional[int]
+    user_type: bool # 1
     
-class Taxi(User):
+class Taxi(BaseModel):
     # 택시 관련정보
-    car_num : Optional[str]
-    car_model : Optional[str]
+    user_id: str # 아이디
+    password: str # 비밀번호
+    user_name: str # 택시기사 이름
+    phone_number: str # 전화번호
+    car_num : Optional[str] # 차 번호
+    car_model : Optional[str] # 차 모델
+    user_type: bool # 0
 
 
     
@@ -31,6 +36,6 @@ class modify_password(BaseModel):
  
 class certification_email(BaseModel):
     email: str
-    
+
 class check_certification_email(BaseModel):
     number: str
