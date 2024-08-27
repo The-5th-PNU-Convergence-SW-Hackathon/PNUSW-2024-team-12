@@ -1,15 +1,6 @@
-from fastapi import APIRouter, HTTPException, Depends, Security, WebSocket, WebSocketDisconnect
-from database import get_matchdb, get_userdb, get_historydb, get_taxidb
-from sqlalchemy.orm import Session
-from models import Matching as MatchingModel, Lobby as LobbyModel, LobbyUser as LobbyUserModel, User as UserModel, Taxi as TaxiModel
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from matching.matching_crud import decode_jwt
+from fastapi import APIRouter,  WebSocket, WebSocketDisconnect
+from fastapi.security import HTTPBearer
 from typing import List,Dict
-from history.history_schema import HistoryCreate
-from history.history_router import create_history
-from datetime import datetime
-from user.user_func import get_current_user
-import json
 security = HTTPBearer()
 router = APIRouter(
     prefix="/chat"
@@ -35,7 +26,6 @@ class ChattingManager:
     async def broadcast(self, taxi_room_id, message: str):
         if taxi_room_id in self.active_connections:
             for connection in self.active_connections[taxi_room_id]:
-                print(message)
                 await connection.send_text(message)
 
             
