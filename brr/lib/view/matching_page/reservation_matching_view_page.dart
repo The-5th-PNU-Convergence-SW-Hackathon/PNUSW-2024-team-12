@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/location_controller.dart';
-import 'package:brr/controller/add_match_list_controller.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 
@@ -20,7 +19,7 @@ List<String> generateHourList() {
 
 List<String> generateMinList() {
   List<String> minList = [];
-  for (int i = 0; i <i 60; i++) {
+  for (int i = 0; i < 60; i++) {
     if ( i < 10 ) { minList.add('0$i'); }
     else { minList.add('$i'); }
   }
@@ -134,6 +133,45 @@ class ReservationMatchingPageView extends StatelessWidget {
         )
       ],
     )));
+  }
+
+  Widget buildTableCalendar() {
+    return TableCalendar(
+      locale: 'ko-KR',
+      // daysOfWeekHeight: 30,
+      rowHeight: 28,
+      focusedDay: DateTime.now(),
+      firstDay: DateTime.now(),
+      lastDay: DateTime(2024,12,31),
+      headerStyle: const HeaderStyle(
+          formatButtonVisible: false,
+          titleCentered: true,
+          leftChevronVisible: false,
+          rightChevronVisible: false
+      ),
+
+
+      calendarBuilders: CalendarBuilders(
+          dowBuilder: (context, day) {
+            switch(day.weekday) {
+              case 1:
+                return const Center( child: Text('Mo') );
+              case 2:
+                return const Center( child: Text('Tu') );
+              case 3:
+                return const Center( child: Text('We') );
+              case 4:
+                return const Center( child: Text('Th') );
+              case 5:
+                return const Center( child: Text('Fr') );
+              case 6:
+                return const Center( child: Text('Sa') );
+              case 7:
+                return const Center( child: Text('Su') );
+            }
+          }
+      ),
+    );
   }
 
   Widget locationRow(Widget icon, String title, String subtitle) {
