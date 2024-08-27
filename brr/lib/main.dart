@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/router/main_router.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
 void main() async{
   await dotenv.load(fileName: 'assets/config/.env');
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('ko_KR', null);
   runApp(const MyApp());
 }
 
