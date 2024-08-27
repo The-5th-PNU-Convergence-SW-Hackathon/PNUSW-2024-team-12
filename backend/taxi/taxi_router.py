@@ -1,29 +1,27 @@
+# fastapi
 from fastapi import APIRouter, HTTPException, Depends, Security, WebSocket, WebSocketDisconnect
-from database import get_matchdb, get_userdb, get_historydb, get_taxidb
-from sqlalchemy.orm import Session
-from models import Matching as MatchingModel, Lobby as LobbyModel, LobbyUser as LobbyUserModel, User as UserModel, Taxi as TaxiModel
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from matching.matching_crud import decode_jwt
-from typing import List,Dict
+
+# db
+from sqlalchemy.orm import Session
+from database import get_matchdb, get_userdb, get_historydb, get_taxidb
+from models import Matching as Matching_model, Lobby as Lobby_model, User as User_model, Taxi as Taxi_model
+
+# user
+from user.user_func import get_current_user
+
+# history
 from history.history_schema import HistoryCreate
 from history.history_router import create_history
+
 from datetime import datetime
+from typing import List,Dict
 import json
+
 security = HTTPBearer()
 router = APIRouter(
     prefix="/taxi"
 )
-def get_current_user(credentials: HTTPAuthorizationCredentials, db: Session):
-    token = credentials.credentials
-    payload = decode_jwt(token)
-    user_id = payload.get("sub")
-
-    user = db.query(UserModel).filter(UserModel.user_id == user_id).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    return user
-
-
 
 # 택시들이 손님들의 리스트를 보는곳은 0번방
 # 손님이 택시 호출을 하면 0번방의 리스트에 도착지, 출발지 등의 정보가 추가됨
@@ -76,9 +74,9 @@ async def calling_taxi(call_type:int = None,
                        match_db: Session = None):
     print("calling_taxi success")
     if call_type == 1: # 콜을 잡고난 후 업데이트할 때
-        matchings = match_db.query(MatchingModel).filter(MatchingModel.matching_taxi == 1).all()
+        matchings = match_db.query(Matching_model).filter(Matching_model.matching_taxi == 1).all()
     else: # 가장 처음 보일 때
-        matchings = match_db.query(MatchingModel).filter(MatchingModel.matching_taxi == 1).all()
+        matchings = match_db.query(Matching_model).filter(Matching_model.matching_taxi == 1).all()
     
 
     matching_dicts = [
@@ -102,7 +100,7 @@ async def catch_call(
     if not matching_id:
         raise HTTPException(status_code=400, detail="매칭 아이디를 입력해야함")
     user = get_current_user(credentials, user_db)
-    taxi = taxi_db.query(TaxiModel).filter(TaxiModel.driver_name == user.user_name).first()
+    taxi = taxi_db.query(Taxi_model).filter(Taxi_model.driver_name == user.user_name).first()
     if not taxi:
         raise HTTPException(status_code=404, detail="택시를 찾을 수 없음")
     # 택시기사
@@ -114,7 +112,7 @@ async def catch_call(
     }
 
     # 매칭이 성사되었으니 0번방에 성사된 리스트를 제거해서 보여줌
-    matching = match_db.query(MatchingModel).filter(MatchingModel.id == matching_id).first()
+    matching = match_db.query(Matching_model).filter(Matching_model.id == matching_id).first()
     if matching:
         matching.matching_taxi = 2
         match_db.commit()
@@ -124,10 +122,9 @@ async def catch_call(
     await calling_taxi(1, match_db)
     return taxi_data
 
-
 # 운행이 완료된 상태
 @router.post("/{matching_id}/complete", response_model=dict)
-def complete_drive(
+async def complete_drive(
     matching_id: int,
     amount: int,
     credentials: HTTPAuthorizationCredentials = Security(security),
@@ -139,11 +136,11 @@ def complete_drive(
     user = get_current_user(credentials, user_db)
     
     # 매칭 정보 가져오기
-    matching = match_db.query(MatchingModel).filter(MatchingModel.id == matching_id).first()
+    matching = match_db.query(Matching_model).filter(Matching_model.id == matching_id).first()
     if not matching:
         raise HTTPException(status_code=404, detail="매칭을 찾을 수 없음")
 
-    lobbies = match_db.query(LobbyModel).filter(LobbyModel.matching_id == matching_id).all()
+    lobbies = match_db.query(Lobby_model).filter(Lobby_model.matching_id == matching_id).all()
     if lobbies:
         raise HTTPException(status_code=400, detail="매칭에 연관된 대기실이 아직 존재합니다. 먼저 모든 대기실을 완료하세요.")
 
@@ -154,14 +151,14 @@ def complete_drive(
     matching_mate = [name.strip() for name in matching.mate.split(",")]
     n_amount = amount / matching.current_member
     for name in matching_mate:
-        user_mate = user_db.query(UserModel).filter(UserModel.user_name == name).first()
+        user_mate = user_db.query(User_model).filter(User_model.user_name == name).first()
         user_mate_brr_cash = user_mate.brr_cash
         user_mate.brr_cash =  user_mate_brr_cash - n_amount
         user_db.commit()
 
 
-    taxi = taxi_db.query(TaxiModel).filter(TaxiModel.user_id == user.user_id).first()
-    taxi_user = user_db.query(UserModel).filter(UserModel.user_id == taxi.user_id).first()
+    taxi = taxi_db.query(Taxi_model).filter(Taxi_model.user_id == user.user_id).first()
+    taxi_user = user_db.query(User_model).filter(User_model.user_id == taxi.user_id).first()
     if taxi_user:
         current_amout = taxi_user.brr_cash 
         taxi_user.brr_cash  = current_amout + amount

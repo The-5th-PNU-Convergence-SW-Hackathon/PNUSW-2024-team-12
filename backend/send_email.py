@@ -2,14 +2,13 @@ import random
 import smtplib, ssl
 
 from dotenv import load_dotenv
-load_dotenv()
 import os
+load_dotenv()
 
 SMTP_SERVER = os.environ.get("SMTP_SERVER")
 SMTP_SSL_PORT = os.environ.get("SMTP_SSL_PORT")
 SENDER_EMAIL = os.environ.get("SENDER_EMAIL")
 SENDER_PASSWORD = os.environ.get("SENDER_PASSWORD")
-
 
 check_num = {}
 

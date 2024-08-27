@@ -8,15 +8,16 @@ from typing import List,Dict
 from history.history_schema import HistoryCreate
 from history.history_router import create_history
 from datetime import datetime
+from user.user_func import get_current_user
 import json
-
+security = HTTPBearer()
 router = APIRouter(
     prefix="/chat"
 )
 
 
 # 택시에게 호출보내기
-class ChatingManager:
+class ChattingManager:
     def __init__(self):
         self.active_connections: Dict[int, List[WebSocket]] = {}
 
@@ -34,20 +35,22 @@ class ChatingManager:
     async def broadcast(self, taxi_room_id, message: str):
         if taxi_room_id in self.active_connections:
             for connection in self.active_connections[taxi_room_id]:
-                print("메세지보냄")
+                print(message)
                 await connection.send_text(message)
 
             
 
-chating_manager = ChatingManager()
+chatting_manager = ChattingManager()
 
 @router.websocket("/{taxi_room_id}/ws")
 async def websocket_endpoint(websocket: WebSocket, taxi_room_id: int):
-    await chating_manager.connect(taxi_room_id, websocket)
+    await chatting_manager.connect(taxi_room_id, websocket)
     try:
         while True:
-            # 웹소켓을 통해서 클라이언트로부터 메시지를 받을 수 있음
+            # 입력한 정보
             data = await websocket.receive_text()
-            # 클라이언트로 받은 데이터를 다시 보내는 예시
+            await chatting_manager.broadcast(taxi_room_id, data)
     except WebSocketDisconnect:
-        chating_manager.disconnect(taxi_room_id, websocket)
+        chatting_manager.disconnect(taxi_room_id, websocket)
+
+
