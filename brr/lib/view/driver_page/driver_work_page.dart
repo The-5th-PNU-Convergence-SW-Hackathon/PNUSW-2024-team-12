@@ -3,7 +3,45 @@ import 'package:get/get.dart';
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/view/loading_circle/loading_circle.dart';
 import 'package:brr/controller/quickmatch_list_controller.dart';
+import 'dart:convert';
+import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:brr/constants/url.dart';
 
+class WebSocketManager extends GetxController {
+  final int taxiRoomId;
+  late WebSocketChannel channel;
+
+  RxList<dynamic> quickMatches = <dynamic>[].obs;
+
+  WebSocketManager(this.taxiRoomId) {
+    connect();
+  }
+
+  void connect() {
+    final url = 'ws://${Urls.wsUrl}taxi/$taxiRoomId/ws';
+    channel = WebSocketChannel.connect(Uri.parse(url));
+
+    channel.stream.listen((message) {
+      final data = jsonDecode(message) as List<dynamic>;
+      quickMatches.value = data; 
+      print(quickMatches.value);
+    }, onError: (error) {
+      print('WebSocket error: $error');
+    }, onDone: () {
+      print('WebSocket closed');
+    });
+  }
+
+  void disconnect() {
+    channel.sink.close();
+  }
+
+  @override
+  void onClose() {
+    disconnect();
+    super.onClose();
+  }
+}
 class DriverWorkPageView extends StatefulWidget {
   DriverWorkPageView({super.key});
 
@@ -13,6 +51,19 @@ class DriverWorkPageView extends StatefulWidget {
 
 class _DriverWorkPageView extends State<DriverWorkPageView> {
   final QuickMatchController quickMatchController = Get.put(QuickMatchController());
+  late WebSocketManager webSocketManager;
+
+  @override
+  void initState() {
+    super.initState();
+    webSocketManager = WebSocketManager(0);  // Assuming room ID is 0
+  }
+
+  @override
+  void dispose() {
+    webSocketManager.disconnect();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,60 +111,41 @@ class _DriverWorkPageView extends State<DriverWorkPageView> {
               builder: (context, scrollController) {
                 return Container(
                     decoration: const BoxDecoration(color: Color(0xFFF3F8FF), borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                    child: ListView(controller: scrollController, children: [
-                      Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(top: 10),
-                                width: 50,
-                                height: 5,
-                                decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(5)),
+                    child: Obx(() {
+                      if (webSocketManager.quickMatches.isEmpty) {
+                        return const Center(child: Text("빠른 매칭이 없습니다."));
+                      }
+                      int itemCount = webSocketManager.quickMatches.length;
+                      return ListView.builder(
+                        controller: scrollController,
+                        itemCount: itemCount,
+                        itemBuilder: (context, index) {
+                          final quickMatch = webSocketManager.quickMatches[index];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: ElevatedButton(
+                              style: buttonStyle(),
+                              onPressed: () {},
+                              child: Row(
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      locationRow(circleContainer, "출발지", quickMatch['depart']),
+                                      const SizedBox(height: 5.0),
+                                      locationRow(rectangularContainer, "도착지", quickMatch['dest']),
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  boardingInfo(""),
+                                ],
                               ),
-                              const SizedBox(height: 15),
-                              Obx(() {
-                                if (quickMatchController.quickMatches.isEmpty) {
-                                  return const Center(child: Text("빠른 매칭이 없습니다."));
-                                }
-                                int itemCount = quickMatchController.quickMatches.length < 3 ? quickMatchController.quickMatches.length : 3;
-                                return ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: itemCount,
-                                  itemBuilder: (context, index) {
-                                    int reverseIndex = quickMatchController.quickMatches.length - index - 1;
-                                    final quickMatch = quickMatchController.quickMatches[reverseIndex];
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 5.0),
-                                      child: ElevatedButton(
-                                        style: buttonStyle(),
-                                        onPressed: () {},
-                                        child: Row(
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                locationRow(circleContainer, "출발지", quickMatch.depart),
-                                                const SizedBox(height: 5.0),
-                                                locationRow(rectangularContainer, "도착지", quickMatch.dest),
-                                              ],
-                                            ),
-                                            const Spacer(),
-                                            boardingInfo(quickMatch.boardingTime.toString().substring(11, 16)),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              }),
-                            ],
-                          ))
-                    ]));
+                            ),
+                          );
+                        },
+                      );
+                    }));
               },
             )
           ],

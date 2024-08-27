@@ -58,13 +58,17 @@ class ConnectionManager:
 connection_manager = ConnectionManager()
 
 @router.websocket("/{taxi_room_id}/ws")
-async def websocket_endpoint(websocket: WebSocket, taxi_room_id: int):
+async def websocket_endpoint(websocket: WebSocket, taxi_room_id: int, match_db: Session = Depends(get_matchdb)):
     await connection_manager.connect(taxi_room_id, websocket)
     try:
+        # 클라이언트가 처음 연결되었을 때 현재 매칭 목록을 보내줍니다.
+        matching_dicts = await calling_taxi(call_type=0, match_db=match_db)
+        await connection_manager.broadcast(taxi_room_id=taxi_room_id, message=json.dumps(matching_dicts))
+        
         while True:
             # 웹소켓을 통해서 클라이언트로부터 메시지를 받을 수 있음
             data = await websocket.receive_text()
-            # 클라이언트로 받은 데이터를 다시 보내는 예시
+            # 클라이언트로 받은 데이터를 다시 보내는 예시 (필요한 경우 추가 작업 수행 가능)
     except WebSocketDisconnect:
         connection_manager.disconnect(taxi_room_id, websocket)
 
