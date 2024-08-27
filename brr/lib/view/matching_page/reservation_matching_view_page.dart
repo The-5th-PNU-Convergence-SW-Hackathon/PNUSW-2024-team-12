@@ -4,8 +4,8 @@ import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/location_controller.dart';
 import 'package:brr/controller/add_match_list_controller.dart';
 
-class MatchingPageView extends StatelessWidget {
-  const MatchingPageView({super.key});
+class ReservationMatchingPageView extends StatelessWidget {
+  const ReservationMatchingPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +55,7 @@ class MatchingPageView extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                   )),
                               const SizedBox(height: 15),
+                              
                             ],
                           )),
                     ],
