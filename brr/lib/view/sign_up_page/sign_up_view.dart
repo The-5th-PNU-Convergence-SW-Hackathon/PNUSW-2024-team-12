@@ -2,6 +2,7 @@ import 'package:brr/controller/signup_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/design_materials/design_materials.dart';
+import 'package:brr/controller/driver_signup_page_controller.dart';
 
 class SignUpPageView extends StatefulWidget {
   const SignUpPageView({super.key});
@@ -11,7 +12,8 @@ class SignUpPageView extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUpPageView> {
-  final _controller = Get.put(SignUpPageController());
+  final _controller = Get.put(UserSignUpPageController());
+  final _drivercontroller = Get.put(DriverSignUpPageController());
 
   bool isNormalAcc = true;
 
@@ -20,102 +22,103 @@ class _SignUpState extends State<SignUpPageView> {
     return MaterialApp(
       theme: ThemeData(fontFamily: "Pretendard"),
       home: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
           backgroundColor: Colors.white,
-          leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: const Icon(Icons.arrow_back_ios),
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            leading: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: const Icon(Icons.arrow_back_ios),
+            ),
           ),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              brrLogo(),
-              const SizedBox(height: 34),
-              Row(
+          body: SingleChildScrollView(
+            child: Center(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        isNormalAcc = true;
-                      });
-                    },
-                    child: Text(
-                      '회원으로 가입',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: isNormalAcc ? Colors.black : Colors.grey),
+                  brrLogo(),
+                  const SizedBox(height: 34),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            isNormalAcc = true;
+                          });
+                        },
+                        child: Text(
+                          '회원으로 가입',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: isNormalAcc ? Colors.black : Colors.grey),
+                        ),
+                      ),
+                      Container(
+                        width: 1,
+                        height: 14.5,
+                        color: Colors.black,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            isNormalAcc = false;
+                          });
+                        },
+                        child: Text(
+                          '택시기사로 가입',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: isNormalAcc ? Colors.grey : Colors.black),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 34),
+                  isNormalAcc ? NormalSignUp(controller: _controller) : DriverSignUp(controller: _drivercontroller),
+                  const SizedBox(height: 33),
+                  SizedBox(
+                    width: 270,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        isNormalAcc ? _controller.signupButton(isNormalAcc) : _drivercontroller.signupButton(isNormalAcc);
+                      },
+                      style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                      child: const Text('가입하기', style: TextStyle(color: Colors.black)),
                     ),
                   ),
-                  Container(
-                    width: 1,
-                    height: 14.5,
-                    color: Colors.black,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        isNormalAcc = false;
-                      });
-                    },
-                    child: Text(
-                      '택시기사로 가입',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: isNormalAcc ? Colors.grey : Colors.black),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: 270,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            '아이디/비밀번호 찾기',
+                            style: TextStyle(fontSize: 12, color: Color(0xff767676), decoration: TextDecoration.underline),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Get.toNamed("/login");
+                          },
+                          child: const Text(
+                            '로그인',
+                            style: TextStyle(fontSize: 12, color: Color(0xff767676), decoration: TextDecoration.underline),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                  )
                 ],
               ),
-              const SizedBox(height: 34),
-              isNormalAcc ? NormalSignUp(controller: _controller) : DriverSignUp(controller: _controller),
-              const SizedBox(height: 33),
-              SizedBox(
-                width: 270,
-                child: OutlinedButton(
-                  onPressed: () {
-                    _controller.signupButton(isNormalAcc);
-                  },
-                  style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                  child: const Text('가입하기', style: TextStyle(color: Colors.black)),
-                ),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                width: 270,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        '아이디/비밀번호 찾기',
-                        style: TextStyle(fontSize: 12, color: Color(0xff767676), decoration: TextDecoration.underline),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Get.toNamed("/login");
-                      },
-                      child: const Text(
-                        '로그인',
-                        style: TextStyle(fontSize: 12, color: Color(0xff767676), decoration: TextDecoration.underline),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+            ),
+          )),
     );
   }
 }
 
 class NormalSignUp extends StatefulWidget {
-  final SignUpPageController controller;
+  final UserSignUpPageController controller;
 
   const NormalSignUp({required this.controller, super.key});
   @override
@@ -124,6 +127,7 @@ class NormalSignUp extends StatefulWidget {
 
 class _NormalSignUpState extends State<NormalSignUp> {
   bool _isPasswordHidden = true;
+  bool _isPasswordCheckHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -136,20 +140,21 @@ class _NormalSignUpState extends State<NormalSignUp> {
             _isPasswordHidden = !_isPasswordHidden;
           });
         }),
-        logInPWTextField('비밀번호 확인', widget.controller.pwdCheckController, _isPasswordHidden, () {
+        logInPWTextField('비밀번호 확인', widget.controller.pwdCheckController, _isPasswordCheckHidden, () {
           setState(() {
-            _isPasswordHidden = !_isPasswordHidden;
+            _isPasswordCheckHidden = !_isPasswordCheckHidden;
           });
         }),
         logInTextField('전화번호', widget.controller.phoneNumberController),
         logInTextField('학번', widget.controller.classNumberController),
+        logInTextField('이메일', widget.controller.emailController),
       ],
     );
   }
 }
 
 class DriverSignUp extends StatefulWidget {
-  final SignUpPageController controller;
+  final DriverSignUpPageController controller;
 
   const DriverSignUp({required this.controller, super.key});
   @override
@@ -157,6 +162,7 @@ class DriverSignUp extends StatefulWidget {
 }
 
 class _DriverSignUpState extends State<DriverSignUp> {
+  bool _isPasswordHidden = true;
   bool _isPasswordCheckHidden = true;
 
   @override
@@ -166,9 +172,9 @@ class _DriverSignUpState extends State<DriverSignUp> {
       children: [
         logInTextField('이름', widget.controller.nicknameController),
         logInTextField('아이디', widget.controller.idController),
-        logInPWTextField('비밀번호', widget.controller.pwdController, _isPasswordCheckHidden, () {
+        logInPWTextField('비밀번호', widget.controller.pwdController, _isPasswordHidden, () {
           setState(() {
-            _isPasswordCheckHidden = !_isPasswordCheckHidden;
+            _isPasswordHidden = !_isPasswordHidden;
           });
         }),
         logInPWTextField('비밀번호 확인', widget.controller.pwdCheckController, _isPasswordCheckHidden, () {
@@ -177,7 +183,9 @@ class _DriverSignUpState extends State<DriverSignUp> {
           });
         }),
         logInTextField('전화번호', widget.controller.phoneNumberController),
-        const SizedBox(height: 24),
+        logInTextField('차량번호', widget.controller.carNumberController),
+        logInTextField('차종', widget.controller.carModelController),
+        const SizedBox(height: 15),
         TextButton(
           onPressed: () {},
           style: TextButton.styleFrom(minimumSize: Size.zero),
@@ -186,7 +194,6 @@ class _DriverSignUpState extends State<DriverSignUp> {
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.black),
           ),
         ),
-        const SizedBox(height: 10),
         TextButton(
           onPressed: () {},
           style: TextButton.styleFrom(minimumSize: Size.zero),
