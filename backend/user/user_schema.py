@@ -23,7 +23,8 @@ class Taxi(BaseModel):
     car_model : Optional[str] # 차 모델
     user_type: bool # 0
 
-
+class TokenRefreshRequest(BaseModel):
+    refresh_token: str
     
 class Login_user(BaseModel):
     user_id: str

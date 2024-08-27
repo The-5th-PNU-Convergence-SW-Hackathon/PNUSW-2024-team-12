@@ -20,7 +20,7 @@ class DriverMainLayout extends StatelessWidget {
             child: child,
           ))
         ])),
-        const DriverBottomNavigation(),
+        // const DriverBottomNavigation(),
       ],
     )));
   }

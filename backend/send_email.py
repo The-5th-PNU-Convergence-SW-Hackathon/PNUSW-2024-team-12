@@ -1,11 +1,14 @@
 import random
 import smtplib, ssl
 
-SMTP_SSL_PORT=465 
-SMTP_SERVER="smtp.gmail.com"
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
-SENDER_EMAIL="gmlcjf0419@gmail.com"
-SENDER_PASSWORD="uuzd kouw mcsa gmer"
+SMTP_SERVER = os.environ.get("SMTP_SERVER")
+SMTP_SSL_PORT = os.environ.get("SMTP_SSL_PORT")
+SENDER_EMAIL = os.environ.get("SENDER_EMAIL")
+SENDER_PASSWORD = os.environ.get("SENDER_PASSWORD")
 
 check_num = {}
 

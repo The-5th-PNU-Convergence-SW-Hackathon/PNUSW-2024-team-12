@@ -142,3 +142,49 @@ Widget BRRcashIcon() {
     ),
   );
 }
+
+ButtonStyle buttonStyle() {
+  return ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.black,
+    padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8.0),
+      side: const BorderSide(color: Color(0xFFF2F2F2), width: 1.0),
+    ),
+    elevation: 0,
+  );
+}
+
+Widget locationRow(Widget icon, String label, String text) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      icon,
+      const SizedBox(width: 10.0),
+      Text(
+        label,
+        style: const TextStyle(
+          fontSize: 10.0,
+        ),
+      ),
+      const SizedBox(width: 10.0),
+      Text(
+        text,
+        style: const TextStyle(
+          fontSize: 12.0,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ],
+  );
+}
+
+Widget boardingInfo(String boardingTime) {
+  return Text(
+    "오늘 $boardingTime 탑승 예정",
+    style: const TextStyle(
+      fontSize: 10.0,
+    ),
+  );
+}

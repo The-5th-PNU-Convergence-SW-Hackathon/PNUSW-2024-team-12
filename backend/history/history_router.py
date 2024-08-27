@@ -1,14 +1,18 @@
-
-
+# fastapi
 from fastapi import APIRouter, HTTPException, Depends,Security
-from typing import List
-from database import get_historydb, get_taxidb
-from sqlalchemy.orm import Session
-from models import History as History_model, Taxi as Taxi_model
-from history.history_schema import HistoryCreate, HistoryResponse, HistoryDetailResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from history.history_crud import decode_jwt
+
+# db
+from sqlalchemy.orm import Session
 from sqlalchemy import or_
+from database import get_historydb, get_taxidb
+from models import History as History_model, Taxi as Taxi_model
+
+# history
+from history.history_schema import HistoryCreate, HistoryResponse, HistoryDetailResponse
+from history.history_crud import decode_jwt
+
+from typing import List
 from datetime import datetime, timedelta
 
 security = HTTPBearer()
