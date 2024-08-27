@@ -247,8 +247,10 @@ def login_user(user: Login_user, response: Response, db: Session = Depends(get_u
         refresh_token = create_refresh_token(
             data={"sub": user.user_id}, expires_delta=refresh_token_expires
         )
-
-        return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer", "user_type":1}
+        user_type = check_user.user_type
+    
+        # 로그인에서 유저 타입 주는거 수정하기
+        return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer", "user_type":user_type}
 
 
 @router.post("/token/refresh")
