@@ -180,6 +180,7 @@ class _DriverWorkPageView extends State<DriverWorkPageView> {
               ),
             ),
             onPressed: () {
+              dispose();
               Get.toNamed('/drivermain');
             },
             child: Column(
