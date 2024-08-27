@@ -79,7 +79,7 @@ class MatchingPageView extends StatelessWidget {
                                 thickness: 1,
                               ),
                               const SizedBox(height: 15),
-                              Align(
+                              const Align(
                                 alignment: Alignment.centerLeft,
                                 child: const Text(
                                   '  결제 수단',
@@ -103,7 +103,7 @@ class MatchingPageView extends StatelessWidget {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
+                                        const Text(
                                           "부르릉 캐시",
                                           style: TextStyle(
                                             fontSize: 16,
@@ -112,7 +112,7 @@ class MatchingPageView extends StatelessWidget {
                                         ),
                                         TextButton(
                                           onPressed: () {},
-                                          child: Row(
+                                          child: const Row(
                                             children: [
                                               Icon(Icons.add, size: 15, color: Colors.blue),
                                               SizedBox(width: 3),
@@ -128,12 +128,12 @@ class MatchingPageView extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 15),
+                                    const SizedBox(height: 15),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         BRRcashIcon(),
-                                        SizedBox(width: 10),
+                                        const SizedBox(width: 10),
                                         Text(
                                           "15,800 캐시",
                                           style: TextStyle(

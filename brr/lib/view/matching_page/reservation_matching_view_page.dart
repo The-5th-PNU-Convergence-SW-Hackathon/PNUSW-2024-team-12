@@ -7,6 +7,9 @@ import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/location_controller.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+String hourDropDownValue = DateTime.now().hour < 10 ? '0${DateTime.now().hour}' : '${DateTime.now().hour}';
+String minDropDownValue = DateTime.now().minute < 10 ? '0${DateTime.now().minute}' : '${DateTime.now().minute}';
+DateTime selectedDateTime = DateTime.now();
 
 List<String> generateHourList() {
   List<String> hourList = [];
@@ -26,8 +29,21 @@ List<String> generateMinList() {
   return minList;
 }
 
-class ReservationMatchingPageView extends StatelessWidget {
+class ReservationMatchingPageView extends StatefulWidget {
   const ReservationMatchingPageView({super.key});
+
+
+  @override
+  State<ReservationMatchingPageView> createState() => _ReservationMatchingPageViewState();
+}
+
+class _ReservationMatchingPageViewState extends State<ReservationMatchingPageView> {
+
+  DateTime selectedDate = DateTime.utc(
+    DateTime.now().year,
+    DateTime.now().month,
+    DateTime.now().day,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -84,13 +100,45 @@ class ReservationMatchingPageView extends StatelessWidget {
                                 alignment: Alignment.center,
                                 child: Column(
                                   children: [
-                                    SizedBox( width: 216, child: buildTableCalendar() ),
-
+                                    SizedBox( width: 400, child: buildTableCalendar() ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        hourDropDown(),
+                                        const SizedBox( width: 8 ),
+                                        const Text(":"),
+                                        const SizedBox( width: 8 ),
+                                        minDropDown(),
+                                      ],
+                                    )
                                   ],
+                                )
+                              ),
+                              SizedBox(
+                                width: double.infinity,
+                                height: 50,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Get.toNamed('/writelocation');
+                                  },
+                                  child: const Text(
+                                    '다음 단계로 넘어가기',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    )
+                                  )
                                 )
                               )
                             ],
-                          )),
+                          )
+                       ),
                     ],
                   ));
             }),
@@ -135,20 +183,32 @@ class ReservationMatchingPageView extends StatelessWidget {
     )));
   }
 
+  void onDaySelected(DateTime selectedDate, DateTime focusedDate) {
+    setState(() {
+      this.selectedDate = selectedDate;
+      selectedDateTime = selectedDate;
+    });
+  }
+
   Widget buildTableCalendar() {
     return TableCalendar(
+      onDaySelected: onDaySelected,
+      selectedDayPredicate: (date) {
+        return isSameDay(selectedDate, date);
+      },
+      focusedDay: selectedDate,
       locale: 'ko-KR',
       // daysOfWeekHeight: 30,
       rowHeight: 28,
-      focusedDay: DateTime.now(),
       firstDay: DateTime.now(),
       lastDay: DateTime(2024,12,31),
       headerStyle: const HeaderStyle(
           formatButtonVisible: false,
           titleCentered: true,
-          leftChevronVisible: false,
-          rightChevronVisible: false
+          leftChevronVisible: true,
+          rightChevronVisible: true
       ),
+      calendarStyle: const CalendarStyle( defaultTextStyle: TextStyle( fontSize: 13 ) ),
 
 
       calendarBuilders: CalendarBuilders(
@@ -197,5 +257,40 @@ class ReservationMatchingPageView extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Widget hourDropDown() {
+    List<String> time = generateHourList();
+
+    return DropdownButton(
+      value: hourDropDownValue,
+      items: time.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value, style: const TextStyle(fontSize: 16)),
+        );
+      }).toList(),
+      onChanged: (String? value) {
+        setState(() {
+          hourDropDownValue = value!;
+        });
+    });
+  }
+  Widget minDropDown() {
+    List<String> time = generateMinList();
+
+    return DropdownButton(
+        value: minDropDownValue,
+        items: time.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value, style: const TextStyle(fontSize: 16)),
+          );
+        }).toList(),
+        onChanged: (String? value) {
+          setState(() {
+            minDropDownValue = value!;
+          });
+        });
   }
 }
