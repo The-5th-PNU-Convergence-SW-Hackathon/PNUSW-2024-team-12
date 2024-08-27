@@ -44,9 +44,9 @@ class MainPageView extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            buildElevatedButton("빠른 매칭", Icons.link),
+                            buildElevatedButton("빠른 매칭", Icons.link, '/writelocation'),
                             const SizedBox(width: 10),
-                            buildElevatedButton("매칭 예약", Icons.alarm),
+                            buildElevatedButton("매칭 예약", Icons.alarm, '/reservation'),
                           ],
                         ),
                       ],
@@ -358,10 +358,10 @@ class MainPageView extends StatelessWidget {
     );
   }
 
-  Widget buildElevatedButton(String text, IconData icon) {
+  Widget buildElevatedButton(String text, IconData icon, String destination) {
     return ElevatedButton.icon(
       onPressed: () {
-        Get.toNamed('/matching');
+        Get.toNamed(destination);
       },
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.black,

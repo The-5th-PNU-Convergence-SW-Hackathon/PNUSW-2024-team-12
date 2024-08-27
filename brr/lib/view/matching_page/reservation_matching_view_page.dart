@@ -1,14 +1,38 @@
+import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/location_controller.dart';
 import 'package:brr/controller/add_match_list_controller.dart';
+import 'package:table_calendar/table_calendar.dart';
 
-class MatchingPageView extends StatelessWidget {
-  const MatchingPageView({super.key});
+
+List<String> generateHourList() {
+  List<String> hourList = [];
+  for (int i = 0; i < 24; i++) {
+    if ( i < 10 ) { hourList.add('0$i'); }
+    else { hourList.add('$i'); }
+  }
+  return hourList;
+}
+
+List<String> generateMinList() {
+  List<String> minList = [];
+  for (int i = 0; i <i 60; i++) {
+    if ( i < 10 ) { minList.add('0$i'); }
+    else { minList.add('$i'); }
+  }
+  return minList;
+}
+
+class ReservationMatchingPageView extends StatelessWidget {
+  const ReservationMatchingPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     final LocationController locationController = Get.put(LocationController());
 
     return Scaffold(
@@ -48,13 +72,24 @@ class MatchingPageView extends StatelessWidget {
                                 height: 5,
                                 decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(5)),
                               ),
-                              const SizedBox(height: 15),
+                              const SizedBox(height: 28),
                               const Text('택시를 호출할 시간을 설정해주세요',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.normal,
                                   )),
-                              const SizedBox(height: 15),
+                              const SizedBox(height: 32),
+                              Container(
+                                decoration: const BoxDecoration( borderRadius: BorderRadius.all(Radius.circular(20)), color: Color(0xffF3F8FF) ),
+                                height: 277,
+                                alignment: Alignment.center,
+                                child: Column(
+                                  children: [
+                                    SizedBox( width: 216, child: buildTableCalendar() ),
+
+                                  ],
+                                )
+                              )
                             ],
                           )),
                     ],
@@ -99,6 +134,45 @@ class MatchingPageView extends StatelessWidget {
         )
       ],
     )));
+  }
+
+  Widget buildTableCalendar() {
+    return TableCalendar(
+      locale: 'ko-KR',
+      // daysOfWeekHeight: 30,
+      rowHeight: 28,
+      focusedDay: DateTime.now(),
+      firstDay: DateTime.now(),
+      lastDay: DateTime(2024,12,31),
+      headerStyle: const HeaderStyle(
+        formatButtonVisible: false,
+        titleCentered: true,
+        leftChevronVisible: false,
+        rightChevronVisible: false
+      ),
+
+
+      calendarBuilders: CalendarBuilders(
+        dowBuilder: (context, day) {
+          switch(day.weekday) {
+            case 1:
+              return const Center( child: Text('Mo') );
+            case 2:
+              return const Center( child: Text('Tu') );
+            case 3:
+              return const Center( child: Text('We') );
+            case 4:
+              return const Center( child: Text('Th') );
+            case 5:
+              return const Center( child: Text('Fr') );
+            case 6:
+              return const Center( child: Text('Sa') );
+            case 7:
+              return const Center( child: Text('Su') );
+          }
+        }
+      ),
+    );
   }
 
   Widget locationRow(Widget icon, String title, String subtitle) {

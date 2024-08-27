@@ -1,5 +1,6 @@
 import 'package:brr/view/location_write_page/location_write_page_view.dart';
 import 'package:brr/view/history_page/history_page_view.dart';
+import 'package:brr/view/matching_page/reservation_matching_view_page.dart';
 import 'package:brr/view/mypage_page/mydata_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -122,6 +123,12 @@ class MainRouter {
       page: () => DriverMainLayout(
         child: DriverWorkPageView(),
       ),
+    ),
+    GetPage(
+      name: '/reservation',
+      page: () => const MainLayout(
+        child: ReservationMatchingPageView()
+      )
     )
   ];
 }
