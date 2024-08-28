@@ -5,7 +5,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 # db
 from sqlalchemy.orm import Session
 from database import get_userdb, get_taxidb
-from models import User as User_model, Taxi as Taxi_model
+from models import User as User_model, Taxi as Taxi_model, Email_code as Email_code_model
 
 # user
 from user.user_schema import User, Taxi, Login_user, modify_password, check_certification_email, certification_email, TokenRefreshRequest
@@ -31,8 +31,6 @@ security = HTTPBearer()
 router = APIRouter(
     prefix="/user",
 )
-
-
 
 
 
@@ -138,7 +136,6 @@ def signin_user(user: Taxi,
             )
 
     return ret
-from models import Email_code as Email_code_model
 
 @router.post("/send_certification_number")
 async def certification_number(email : certification_email,
