@@ -4,7 +4,6 @@ import 'package:uuid/uuid.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
 
@@ -127,18 +126,28 @@ List<String> generateTimeList(String strStartTime, String strEndTime) {
 
   for (int i = startHour; i < endHour; i++) {
     for (int j = 0; j < 60; j += 10) {
-      if (i == startHour && j < startMin) { continue; }
-      if (j == 0) { timeList.add('$i:00'); continue; }
+      if (i == startHour && j < startMin) {
+        continue;
+      }
+      if (j == 0) {
+        timeList.add('$i:00');
+        continue;
+      }
       timeList.add('$i:$j');
     }
   }
 
   if (endHour != 17) {
     for (int i = 0; i < endMin; i += 10) {
-      if (i == 0) { timeList.add('$endHour:00'); continue; }
+      if (i == 0) {
+        timeList.add('$endHour:00');
+        continue;
+      }
       timeList.add('$endHour:$i');
     }
-  } else { timeList.add('17:00'); }
+  } else {
+    timeList.add('17:00');
+  }
   return timeList;
 }
 
@@ -170,7 +179,6 @@ class SchedulePageView extends StatefulWidget {
 }
 
 class _SchedulePageViewState extends State<SchedulePageView> {
-
   @override
   void initState() {
     super.initState();
@@ -229,7 +237,7 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                 ),
                 ...List.generate(
                   kColumnLength,
-                      (index) {
+                  (index) {
                     if (index % 2 == 0) {
                       return const Divider(
                         color: Colors.grey,
@@ -251,7 +259,7 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                 width: 100,
                 child: GestureDetector(
                   onTap: () {
-                    _showDeleteConfirmationDialog(context, box['id']);  // context를 사용하여 함수 호출
+                    _showDeleteConfirmationDialog(context, box['id']); // context를 사용하여 함수 호출
                   },
                   child: Container(
                     color: Colors.green,
@@ -281,10 +289,10 @@ class _SchedulePageViewState extends State<SchedulePageView> {
     ];
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
@@ -393,12 +401,12 @@ class _SchedulePageViewState extends State<SchedulePageView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                    SizedBox(
+                  SizedBox(
                     width: 66,
                     height: 30,
                     child: ElevatedButton(
                       onPressed: () async {
-                        String id = uuid.v4();  // 새로운 고유 ID 생성
+                        String id = uuid.v4(); // 새로운 고유 ID 생성
 
                         // 스케줄을 데이터베이스에 저장
                         await saveScheduleId(id);
@@ -416,7 +424,7 @@ class _SchedulePageViewState extends State<SchedulePageView> {
 
                         setState(() {
                           _scheduleBoxes.add({
-                            'id': id,  // 고유 ID 추가
+                            'id': id, // 고유 ID 추가
                             'dayIndex': dayIndex,
                             'top': startTimePosition,
                             'height': boxHeight,
@@ -550,7 +558,7 @@ Expanded buildTimeColumn() {
         ),
         ...List.generate(
           kColumnLength,
-              (index) {
+          (index) {
             if (index % 2 == 0) {
               return const Divider(
                 color: Colors.grey,
@@ -559,7 +567,11 @@ Expanded buildTimeColumn() {
             }
             return SizedBox(
               height: kBoxSize,
-              child: Center(child: Text('${index ~/ 2 + 9}', style: const TextStyle(fontSize: 10),)),
+              child: Center(
+                  child: Text(
+                '${index ~/ 2 + 9}',
+                style: const TextStyle(fontSize: 10),
+              )),
             );
           },
         ),

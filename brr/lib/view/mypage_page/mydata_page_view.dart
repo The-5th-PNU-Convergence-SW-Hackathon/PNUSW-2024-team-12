@@ -62,8 +62,9 @@ class _MyDataPageViewState extends State<MyDataPageView> {
                       ],
                     ))),
             const SizedBox(height: 50),
-            const MyDataTextField(text: '회원이름', mydata: '안선주'),
-            const MyDataTextField(text: '아이디', mydata: 'sunju'),
+            mydata_custom('회원이름', '안선주'),
+            const SizedBox(height: 5),
+            mydata_custom('아이디', 'sunju'),
             PassWordTextField(
               text: '비밀번호',
               controller: _pwController,
@@ -141,6 +142,70 @@ class _MyDataPageViewState extends State<MyDataPageView> {
       ),
     );
   }
+
+  Widget mydata_custom(String title, String text) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(title, style: TextStyle(fontSize: 16, color: Colors.black)),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(7),
+            color: Color(0xFFE6F0FF),
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+          width: 200,
+          height: 34,
+          child: Align(alignment: Alignment.centerRight, child: Text(text, style: TextStyle(fontSize: 16, color: Colors.black))),
+        ),
+      ],
+    );
+  }
+
+  Widget mydataPW_custom(String title, TextEditingController controller) {
+    final PasswordController passwordController = Get.put(PasswordController());
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(title, style: TextStyle(fontSize: 16, color: Colors.black)),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(7),
+            color: Color(0xFFE6F0FF),
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+          width: 200,
+          height: 34,
+          child: Align(
+              alignment: Alignment.centerRight,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      cursorColor: Colors.blue,
+                      textAlignVertical: TextAlignVertical.center,
+                      style: const TextStyle(fontSize: 14),
+                      controller: controller,
+                      obscureText: !passwordController.isPasswordVisible.value,
+                      decoration: const InputDecoration(
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      passwordController.isPasswordVisible.value ? Icons.visibility : Icons.visibility_off,
+                      size: 15,
+                    ),
+                    onPressed: passwordController.togglePasswordVisibility,
+                  ),
+                ],
+              )),
+        ),
+      ],
+    );
+  }
 }
 
 class CheckBox extends StatelessWidget {
@@ -188,58 +253,6 @@ class CheckBox extends StatelessWidget {
   }
 }
 
-class MyDataTextField extends StatelessWidget {
-  final String text;
-  final String mydata;
-
-  const MyDataTextField({
-    Key? key,
-    required this.text,
-    required this.mydata,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            text,
-            style: const TextStyle(
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(width: 5),
-          Container(
-              width: 200,
-              height: 35,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                color: const Color(0xffCCE0FF),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                  child: Center(
-                    child: TextField(
-                      cursorColor: Colors.blue,
-                      textAlignVertical: TextAlignVertical.center,
-                      decoration: InputDecoration(
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        labelText: mydata,
-                        labelStyle: const TextStyle(fontSize: 14),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ))),
-        ],
-      ),
-    );
-  }
-}
-
 class PassWordTextField extends StatelessWidget {
   final String text;
   final TextEditingController controller;
@@ -271,18 +284,18 @@ class PassWordTextField extends StatelessWidget {
             height: 35,
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-              color: const Color(0xffCCE0FF),
+              color: Color(0xFFE6F0FF),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Obx(() {
               return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
                   child: Center(
                     child: Row(
                       children: [
                         Expanded(
                           child: TextField(
-                            cursorColor: Colors.blue,
+                            cursorColor: Color(0xFFE6F0FF),
                             textAlignVertical: TextAlignVertical.center,
                             style: const TextStyle(fontSize: 14),
                             controller: controller,
@@ -290,6 +303,7 @@ class PassWordTextField extends StatelessWidget {
                             decoration: const InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.never,
                               border: InputBorder.none,
+                              contentPadding: EdgeInsets.only(bottom: 17),
                             ),
                           ),
                         ),
