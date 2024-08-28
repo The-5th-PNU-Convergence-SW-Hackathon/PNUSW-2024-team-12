@@ -1,32 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:brr/design_materials/design_materials.dart';
 
 class ChatingPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '택시 팟이 완성되었어요!',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  '함께하는 사람들과 필요한 대화를 나누어보세요',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
-                ),
-              ],
-            )),
-        body: Column(
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(100.0),
+          child: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 20),
+                  Text(
+                    '택시 팟이 완성되었어요!',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    '함께하는 사람들과 필요한 대화를 나누어보세요',
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                  SizedBox(height: 12),
+                  Divider(
+                    color: Color(0xFFDBDBDB),
+                    thickness: 2,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+                ],
+              ),
+              Positioned(
+                top: 30,
+                left: 20,
+                child: gobackButton(),
+              ),
+            ],
+          )),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
           children: [
+            Text("채팅창", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             Expanded(
                 child: ListView(
               padding: EdgeInsets.all(16),
@@ -82,7 +102,9 @@ class ChatingPageView extends StatelessWidget {
               ),
             ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
 
