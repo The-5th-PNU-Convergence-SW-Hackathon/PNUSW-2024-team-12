@@ -6,6 +6,7 @@ import 'package:brr/controller/quickmatch_list_controller.dart';
 import 'dart:convert';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:brr/constants/url.dart';
+import 'package:brr/view/driver_page/driver_accept_page_view.dart';
 
 class WebSocketManager extends GetxController {
   final int taxiRoomId;
@@ -135,25 +136,38 @@ class _DriverWorkPageView extends State<DriverWorkPageView> {
                               itemCount: itemCount,
                               itemBuilder: (context, index) {
                                 final quickMatch = webSocketManager.quickMatches[index];
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 7.0),
-                                  child: ElevatedButton(
-                                    style: buttonStyle(),
-                                    onPressed: () {},
-                                    child: Row(
-                                      children: [
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            locationRow(circleContainer, "출발지", quickMatch['depart']),
-                                            const SizedBox(height: 5.0),
-                                            locationRow(rectangularContainer, "도착지", quickMatch['dest']),
-                                          ],
-                                        ),
-                                        const Spacer(),
-                                        boardingInfo(""),
-                                      ],
+                                return Container(
+                                  width: double.infinity,
+                                  height: 70,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 7.0),
+                                    child: ElevatedButton(
+                                      style: buttonStyle(),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => CallAcceptPageView(
+                                              depart: quickMatch['depart'],
+                                              dest: quickMatch['dest'],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              locationRow(circleContainer, "출발지", quickMatch['depart']),
+                                              const SizedBox(height: 5.0),
+                                              locationRow(rectangularContainer, "도착지", quickMatch['dest']),
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );

@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:brr/design_materials/design_materials.dart';
 
 class CallAcceptPageView extends StatelessWidget {
+  final String depart;
+  final String dest;
+
+  CallAcceptPageView({required this.depart, required this.dest});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,12 +24,12 @@ class CallAcceptPageView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                locationInfo('출발', '서브웨이 부산대점', '현재 위치에서 3km'),
+                locationInfo('출발', depart, '현재 위치에서 3km'),
                 CustomPaint(
                   size: Size(40, 40),
                   painter: ArrowPainter(),
                 ),
-                locationInfo('도착', '부산역 (고속철도)', ''),
+                locationInfo('도착', dest, ''),
                 const SizedBox(height: 60),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -37,9 +42,11 @@ class CallAcceptPageView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    callButton('수락하기', Colors.blue, Colors.white, 200),
+                    callButton('수락하기', Colors.blue, Colors.white, 200, () {}),
                     const SizedBox(width: 15),
-                    callButton('거절', const Color.fromARGB(255, 218, 218, 218), Colors.black, 120),
+                    callButton('거절', const Color.fromARGB(255, 218, 218, 218), Colors.black, 120, () {
+                      Navigator.pop(context);
+                    }),
                   ],
                 )
               ],
@@ -77,7 +84,7 @@ class CallAcceptPageView extends StatelessWidget {
     );
   }
 
-  Widget callButton(String text, Color backgroundColor, Color textColor, double width) {
+  Widget callButton(String text, Color backgroundColor, Color textColor, double width, VoidCallback onPressed) {
     return Container(
       width: width,
       height: 70,
@@ -96,7 +103,7 @@ class CallAcceptPageView extends StatelessWidget {
           elevation: 7,
           shadowColor: Colors.blue.withOpacity(0.3),
         ),
-        onPressed: () {},
+        onPressed: onPressed,
         child: Text(text),
       ),
     );
