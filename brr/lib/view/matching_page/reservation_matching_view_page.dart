@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/location_controller.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:brr/controller/add_match_list_controller.dart';
 
 String hourDropDownValue = DateTime.now().hour < 10 ? '0${DateTime.now().hour}' : '${DateTime.now().hour}';
 String minDropDownValue = DateTime.now().minute < 10 ? '0${DateTime.now().minute}' : '${DateTime.now().minute}';
@@ -14,8 +15,11 @@ DateTime selectedDateTime = DateTime.now();
 List<String> generateHourList() {
   List<String> hourList = [];
   for (int i = 0; i < 24; i++) {
-    if ( i < 10 ) { hourList.add('0$i'); }
-    else { hourList.add('$i'); }
+    if (i < 10) {
+      hourList.add('0$i');
+    } else {
+      hourList.add('$i');
+    }
   }
   return hourList;
 }
@@ -23,8 +27,11 @@ List<String> generateHourList() {
 List<String> generateMinList() {
   List<String> minList = [];
   for (int i = 0; i < 60; i++) {
-    if ( i < 10 ) { minList.add('0$i'); }
-    else { minList.add('$i'); }
+    if (i < 10) {
+      minList.add('0$i');
+    } else {
+      minList.add('$i');
+    }
   }
   return minList;
 }
@@ -32,13 +39,11 @@ List<String> generateMinList() {
 class ReservationMatchingPageView extends StatefulWidget {
   const ReservationMatchingPageView({super.key});
 
-
   @override
   State<ReservationMatchingPageView> createState() => _ReservationMatchingPageViewState();
 }
 
 class _ReservationMatchingPageViewState extends State<ReservationMatchingPageView> {
-
   DateTime selectedDate = DateTime.utc(
     DateTime.now().year,
     DateTime.now().month,
@@ -47,7 +52,6 @@ class _ReservationMatchingPageViewState extends State<ReservationMatchingPageVie
 
   @override
   Widget build(BuildContext context) {
-
     final LocationController locationController = Get.put(LocationController());
 
     return Scaffold(
@@ -66,9 +70,9 @@ class _ReservationMatchingPageViewState extends State<ReservationMatchingPageVie
           ),
         ),
         DraggableScrollableSheet(
-            initialChildSize: 0.55,
+            initialChildSize: 0.6,
             minChildSize: 0.12,
-            maxChildSize: 0.55,
+            maxChildSize: 0.6,
             builder: (context, scrollController) {
               return Container(
                   decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
@@ -87,58 +91,67 @@ class _ReservationMatchingPageViewState extends State<ReservationMatchingPageVie
                                 height: 5,
                                 decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(5)),
                               ),
-                              const SizedBox(height: 28),
+                              const SizedBox(height: 15),
                               const Text('택시를 호출할 시간을 설정해주세요',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal,
                                   )),
-                              const SizedBox(height: 32),
+                              const SizedBox(height: 15),
                               Container(
-                                decoration: const BoxDecoration( borderRadius: BorderRadius.all(Radius.circular(20)), color: Color(0xffF3F8FF) ),
-                                height: 277,
-                                alignment: Alignment.center,
-                                child: Column(
-                                  children: [
-                                    SizedBox( width: 400, child: buildTableCalendar() ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        hourDropDown(),
-                                        const SizedBox( width: 8 ),
-                                        const Text(":"),
-                                        const SizedBox( width: 8 ),
-                                        minDropDown(),
-                                      ],
-                                    )
-                                  ],
-                                )
-                              ),
+                                  decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)), color: Color(0xffF3F8FF)),
+                                  height: 310,
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(width: 400, child: buildTableCalendar()),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          hourDropDown(),
+                                          const SizedBox(width: 8),
+                                          const Text(":"),
+                                          const SizedBox(width: 8),
+                                          minDropDown(),
+                                        ],
+                                      )
+                                    ],
+                                  )),
+                              const SizedBox(height: 10),
                               SizedBox(
-                                width: double.infinity,
-                                height: 50,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                  shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Get.toNamed('/writelocation');
-                                  },
-                                  child: const Text(
-                                    '다음 단계로 넘어가기',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                    )
-                                  )
-                                )
-                              )
+                                  width: double.infinity,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.blue,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        final AddMatchListController addMatchListController = Get.put(AddMatchListController());
+                                        addMatchListController.isReservation.value = true; // 예약 매칭 설정
+
+                                        final DateTime selectedTime = DateTime(
+                                          selectedDate.year,
+                                          selectedDate.month,
+                                          selectedDate.day,
+                                          int.parse(hourDropDownValue),
+                                          int.parse(minDropDownValue),
+                                        );
+
+                                        selectedDateTime = selectedTime;
+                                        addMatchListController.selectedDateTime.value = selectedDateTime;
+
+                                        Get.toNamed('/matching');
+                                      },
+                                      child: const Text('다음 단계로 넘어가기',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                          ))))
                             ],
-                          )
-                       ),
+                          )),
                     ],
                   ));
             }),
@@ -199,38 +212,41 @@ class _ReservationMatchingPageViewState extends State<ReservationMatchingPageVie
       focusedDay: selectedDate,
       locale: 'ko-KR',
       // daysOfWeekHeight: 30,
-      rowHeight: 28,
+      rowHeight: 35,
       firstDay: DateTime.now(),
-      lastDay: DateTime(2024,12,31),
-      headerStyle: const HeaderStyle(
-          formatButtonVisible: false,
-          titleCentered: true,
-          leftChevronVisible: true,
-          rightChevronVisible: true
+      lastDay: DateTime(2024, 12, 31),
+      headerStyle: const HeaderStyle(formatButtonVisible: false, titleCentered: true, leftChevronVisible: true, rightChevronVisible: true),
+      calendarStyle: const CalendarStyle(
+        defaultTextStyle: TextStyle(fontSize: 13),
+        selectedDecoration: BoxDecoration(
+          color: Colors.blue, // 선택된 날짜의 배경색
+          shape: BoxShape.circle,
+        ),
+        todayDecoration: BoxDecoration(
+          color: Colors.red, // 오늘 날짜의 배경색
+          shape: BoxShape.circle,
+        ),
       ),
-      calendarStyle: const CalendarStyle( defaultTextStyle: TextStyle( fontSize: 13 ) ),
 
-
-      calendarBuilders: CalendarBuilders(
-          dowBuilder: (context, day) {
-            switch(day.weekday) {
-              case 1:
-                return const Center( child: Text('Mo') );
-              case 2:
-                return const Center( child: Text('Tu') );
-              case 3:
-                return const Center( child: Text('We') );
-              case 4:
-                return const Center( child: Text('Th') );
-              case 5:
-                return const Center( child: Text('Fr') );
-              case 6:
-                return const Center( child: Text('Sa') );
-              case 7:
-                return const Center( child: Text('Su') );
-            }
-          }
-      ),
+      calendarBuilders: CalendarBuilders(dowBuilder: (context, day) {
+        switch (day.weekday) {
+          case 1:
+            return const Center(child: Text('Mo'));
+          case 2:
+            return const Center(child: Text('Tu'));
+          case 3:
+            return const Center(child: Text('We'));
+          case 4:
+            return const Center(child: Text('Th'));
+          case 5:
+            return const Center(child: Text('Fr'));
+          case 6:
+            return const Center(child: Text('Sa'));
+          case 7:
+            return const Center(child: Text('Su'));
+        }
+        return null;
+      }),
     );
   }
 
@@ -263,19 +279,20 @@ class _ReservationMatchingPageViewState extends State<ReservationMatchingPageVie
     List<String> time = generateHourList();
 
     return DropdownButton(
-      value: hourDropDownValue,
-      items: time.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value, style: const TextStyle(fontSize: 16)),
-        );
-      }).toList(),
-      onChanged: (String? value) {
-        setState(() {
-          hourDropDownValue = value!;
+        value: hourDropDownValue,
+        items: time.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value, style: const TextStyle(fontSize: 16)),
+          );
+        }).toList(),
+        onChanged: (String? value) {
+          setState(() {
+            hourDropDownValue = value!;
+          });
         });
-    });
   }
+
   Widget minDropDown() {
     List<String> time = generateMinList();
 

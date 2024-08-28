@@ -12,6 +12,8 @@ class AddMatchListController extends GetxController {
   RxInt selectedMinMember = 0.obs;
   late WebSocketChannel channel;
   RxInt lobbyId = 0.obs; // 로비 ID를 관리하는 변수
+  RxBool isReservation = false.obs;
+  Rx<DateTime> selectedDateTime = DateTime.now().obs;
 
   Future<void> sendMatchData(int minMember) async {
     final prefs = await SharedPreferences.getInstance();
@@ -22,8 +24,15 @@ class AddMatchListController extends GetxController {
       return;
     }
 
-    const int matchingType = 0;
-    final boardingTime = DateTime.now().toString();
+    final int matchingType = isReservation.value ? 1 : 0;
+
+    String boardingTime;
+
+    if (isReservation.value) {
+      boardingTime = selectedDateTime.toString(); // 예약 매칭의 경우 사용자가 선택한 시간
+    } else {
+      boardingTime = DateTime.now().toString(); // 빠른 매칭의 경우 현재 시간
+    }
     final startLocation = locationController.startLocation.value;
     final endLocation = locationController.endLocation.value;
 
@@ -70,13 +79,13 @@ class AddMatchListController extends GetxController {
     channel.stream.listen((message) {
       print("Received message: $message");
       currentMemberStatus.value = message;
-      print("서버연결이 완료되었음");  
+      print("서버연결이 완료되었음");
     }, onError: (error) {
       print('WebSocket error: $error');
     }, onDone: () {
       print('WebSocket connection closed');
     });
-}
+  }
 
   Future<void> completeLobby() async {
     final prefs = await SharedPreferences.getInstance();
@@ -101,7 +110,7 @@ class AddMatchListController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        print('Lobby completed successfully');  // 성공 시 페이지 이동
+        print('Lobby completed successfully'); // 성공 시 페이지 이동
       } else {
         print('Failed to complete lobby: ${response.statusCode}, ${lobbyId.value}');
         Get.snackbar('Error', '대기실 완료에 실패했습니다.', snackPosition: SnackPosition.BOTTOM);
@@ -118,7 +127,7 @@ class AddMatchListController extends GetxController {
 
   @override
   void onClose() {
-    disconnectFromLobby();  // 컨트롤러가 닫힐 때 WebSocket 연결 해제
+    disconnectFromLobby(); // 컨트롤러가 닫힐 때 WebSocket 연결 해제
     super.onClose();
   }
 }

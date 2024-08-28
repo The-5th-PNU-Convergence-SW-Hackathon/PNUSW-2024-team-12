@@ -53,7 +53,7 @@ class _WriteLocationPageViewState extends State<WriteLocationPageView> {
         isEditingEndLocation = false;
       }
       FocusScope.of(context).unfocus();
-      Get.toNamed('/matching');
+      Get.back();
     });
   }
 
