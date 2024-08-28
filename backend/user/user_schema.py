@@ -36,7 +36,9 @@ class modify_password(BaseModel):
     new_password: str
  
 class certification_email(BaseModel):
+    user_id: str
     email: str
 
 class check_certification_email(BaseModel):
+    email: str
     number: str

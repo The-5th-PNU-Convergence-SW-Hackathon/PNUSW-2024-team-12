@@ -11,27 +11,32 @@ USER_DB_NAME = os.environ.get("USER_DB_NAME")
 HISTORY_DB_NAME = os.environ.get("HISTORY_DB_NAME")
 MATCH_DB_NAME = os.environ.get("MATCH_DB_NAME")
 TAXI_DB_NAME = os.environ.get("TAXI_DB_NAME")
+EMAIL_CODE_DB_NAME = os.environ.get("EMAIL_CODE_DB_NAME")
 DB_PORT = os.environ.get("DB_PORT", 3306)
 
 SQLALCHEMY_DATABASE_URL_USER = f"mysql+mysqlconnector://root:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{USER_DB_NAME}"
 SQLALCHEMY_DATABASE_URL_HISTORY = f"mysql+mysqlconnector://root:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{HISTORY_DB_NAME}"
 SQLALCHEMY_DATABASE_URL_MATCH = f"mysql+mysqlconnector://root:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{MATCH_DB_NAME}"
 SQLALCHEMY_DATABASE_URL_TAXI = f"mysql+mysqlconnector://root:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{TAXI_DB_NAME}"
+SQLALCHEMY_DATABASE_URL_EMAIL_CODE = f"mysql+mysqlconnector://root:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{EMAIL_CODE_DB_NAME}"
 
 user_engine = create_engine(SQLALCHEMY_DATABASE_URL_USER)
 history_engine = create_engine(SQLALCHEMY_DATABASE_URL_HISTORY)
 match_engine = create_engine(SQLALCHEMY_DATABASE_URL_MATCH)
 taxi_engine = create_engine(SQLALCHEMY_DATABASE_URL_TAXI)
+email_code_engine = create_engine(SQLALCHEMY_DATABASE_URL_EMAIL_CODE)
 
 user_SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=user_engine)
 history_SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=history_engine)
 match_SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=match_engine)
 taxi_SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=taxi_engine)
+email_code_SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=email_code_engine)
 
 user_Base = declarative_base()
 history_Base = declarative_base()
 match_Base = declarative_base()
 taxi_Base = declarative_base()
+email_code_Base = declarative_base()
 
 def get_userdb():
     db = user_SessionLocal()
@@ -56,6 +61,13 @@ def get_matchdb():
 
 def get_taxidb():
     db = taxi_SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+def get_email_codedb():
+    db = email_code_SessionLocal()
     try:
         yield db
     finally:

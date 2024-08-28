@@ -12,7 +12,7 @@ from user.user_schema import User, Taxi, Login_user, modify_password, check_cert
 from user.user_func import decode_jwt, get_user, get_hash_password, verify_password, create_access_token, create_refresh_token, get_current_user
 
 # email 인증
-from send_email import send_message, check_num
+from send_email import send_message
 
 # env
 import os
@@ -138,29 +138,54 @@ def signin_user(user: Taxi,
             )
 
     return ret
+from models import Email_code as Email_code_model
+from database import get_email_codedb
 
 @router.post("/send_certification_number")
-async def certification_number(email : certification_email):
+async def certification_number(email : certification_email,
+                               user_db: Session = Depends(get_userdb),
+                               email_db: Session = Depends(get_email_codedb)):
     try:
         number = send_message(email.email)
+        check_user_id = user_db.query(User_model).filter(User_model.user_id == email.user_id).first()
+        if check_user_id:
+            raise HTTPException(status_code=400, detail="이미 아이디가 존재합니다.")
+        check_user_email = user_db.query(User_model).filter(User_model.email == email.email).first()
+        if check_user_email:
+            raise HTTPException(status_code=400, detail="이미 이메일이 존재합니다.")
+
+        db_email = Email_code_model(
+            user_id=email.user_id,
+            email=email.email,
+            email_code=number
+        )
+        email_db.add(db_email)
+        email_db.commit()
+        email_db.refresh(db_email)
+
     except Exception as e:
-        print("error :", e)
+        raise HTTPException(status_code=400, detail=f"error : {e}")
+
     return number
+
 
 # 이메일 인증
 @router.post("/check_number")
-async def check_certification_number(number : check_certification_email):
+async def check_certification_number(email : check_certification_email,
+                                     email_db: Session = Depends(get_email_codedb)):
     try:
-        chenck_number = check_num["number"]
-        print(chenck_number)
-        print(number.number)
-        
-        if number.number != chenck_number:
+        chenck_number = email_db.query(Email_code_model).filter(Email_code_model.email == email.email).first()
+
+        if email.number != chenck_number.email_code:
             raise HTTPException(status_code=400, detail="인증번호가 틀렸습니다.")
+        
+        user = email_db.query(Email_code_model).filter(Email_code_model.email == email.email)
+        user.delete()
+        email_db.commit()
         return {"message":"인증성공"}
         
     except Exception as e:
-        print("error :", e)
+        raise HTTPException(status_code=400, detail=f"error : {e}")
 
 
 # login : 로그인

@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # db
-from database import user_engine,history_engine,user_Base,history_Base,match_Base,match_engine, taxi_Base, taxi_engine
+from database import user_engine,history_engine,user_Base,history_Base,match_Base,match_engine, taxi_Base, taxi_engine, email_code_Base, email_code_engine
 
 # user
 from user.user_router import router as user_router
@@ -39,6 +39,7 @@ user_Base.metadata.create_all(bind=user_engine)
 history_Base.metadata.create_all(bind=history_engine)
 match_Base.metadata.create_all(bind=match_engine)
 taxi_Base.metadata.create_all(bind=taxi_engine)
+email_code_Base.metadata.create_all(bind=email_code_engine)
 # router 불러오기
 app.include_router(user_router, tags=["user"])
 app.include_router(history_router, tags=["history"])

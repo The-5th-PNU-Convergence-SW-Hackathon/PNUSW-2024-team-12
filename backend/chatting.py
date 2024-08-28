@@ -1,6 +1,7 @@
 from fastapi import APIRouter,  WebSocket, WebSocketDisconnect
 from fastapi.security import HTTPBearer
 from typing import List,Dict
+
 security = HTTPBearer()
 router = APIRouter(
     prefix="/chat"

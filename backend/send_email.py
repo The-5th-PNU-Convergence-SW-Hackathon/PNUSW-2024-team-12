@@ -25,16 +25,19 @@ def get_certification_number():
 def send_message(receiver_email):
     context = ssl.create_default_context()
 
-    with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_SSL_PORT, context=context) as server:
-        certification_number = get_certification_number()
-        print(certification_number)
-        
-        # Constructing the email message
-        subject = "Your Certification Number"
-        body = f"Your certification number is: {certification_number}"
-        message = f"Subject: {subject}\n\n{body}"
-        print(message)
-        # Sending the email
-        server.login(SENDER_EMAIL, SENDER_PASSWORD)
-        server.sendmail(SENDER_EMAIL, receiver_email, message)
-    return certification_number
+    try:
+        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_SSL_PORT, context=context) as server:
+            certification_number = get_certification_number()
+            print(certification_number)
+            
+            # Constructing the email message
+            subject = "Your Certification Number"
+            body = f"Your certification number is: {certification_number}"
+            message = f"Subject: {subject}\n\n{body}"
+            print(message)
+            # Sending the email
+            server.login(SENDER_EMAIL, SENDER_PASSWORD)
+            server.sendmail(SENDER_EMAIL, receiver_email, message)
+        return certification_number
+    except Exception as e:
+        print("error :", e)
