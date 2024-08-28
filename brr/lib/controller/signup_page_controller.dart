@@ -12,6 +12,7 @@ class UserSignUpPageController extends GetxController {
   final phoneNumberController = TextEditingController();
   final classNumberController = TextEditingController();
   final emailController = TextEditingController();
+  bool isEmailVerified = false;
 
   final RegExp idPwdRegExp = RegExp(r'^[a-zA-Z0-9]+$');
   final RegExp generalRegExp = RegExp(r'^[a-zA-Z0-9ㄱ-ㅎ가-힣]+$');
@@ -30,6 +31,15 @@ class UserSignUpPageController extends GetxController {
         Get.snackbar(
           '회원가입 실패',
           '모든 칸을 채워주세요.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        return;
+      }
+
+      if (!isEmailVerified) {
+        Get.snackbar(
+          '회원가입 실패',
+          '이메일 인증을 완료해주세요.',
           snackPosition: SnackPosition.BOTTOM,
         );
         return;
@@ -135,6 +145,101 @@ class UserSignUpPageController extends GetxController {
     }
   }
 
+  final emailCodeController = TextEditingController();
+
+  Future<void> sendVerificationCode() async {
+    String apiUrl = '${Urls.apiUrl}user/send_certification_number';
+    try {
+      if (emailController.text.isEmpty) {
+        Get.snackbar(
+          '전송 실패',
+          '이메일을 입력해주세요.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        return;
+      } else if (idController.text.isEmpty) {
+        Get.snackbar(
+          '전송 실패',
+          '아이디를 입력해주세요.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        return;
+      } else if (emailController.text.length < 12 || emailController.text.substring(emailController.text.length - 12) != '@pusan.ac.kr') {
+        Get.snackbar(
+          '전송 실패',
+          '이메일은 @pusan.ac.kr로 끝나야 합니다.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        return;
+      }
+
+      var response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          "user_id": idController.text,
+          "email": emailController.text,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        Get.snackbar(
+          '인증 코드 전송',
+          '이메일로 인증 코드가 전송되었습니다.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      } else {
+        Get.snackbar(
+          '전송 실패',
+          '인증 코드 전송에 실패했습니다. 다시 시도해주세요.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        '서버 연결에 실패했습니다: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
+  Future<void> checkVerificationCode() async {
+    String apiUrl = '${Urls.apiUrl}user/check_number';
+    try {
+      var response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          "user_id": idController.text,
+          "email": emailController.text,
+          "number": emailCodeController.text,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        isEmailVerified = true;
+        Get.snackbar(
+          '인증 성공',
+          '인증이 성공적으로 완료되었습니다.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      } else {
+        Get.snackbar(
+          '인증 실패',
+          '인증 코드가 올바르지 않습니다.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        '서버 연결에 실패했습니다: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
   @override
   void onClose() {
     idController.dispose();
@@ -144,6 +249,7 @@ class UserSignUpPageController extends GetxController {
     phoneNumberController.dispose();
     classNumberController.dispose();
     emailController.dispose();
+    emailCodeController.dispose();
     super.onClose();
   }
 }

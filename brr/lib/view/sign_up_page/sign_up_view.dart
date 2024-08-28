@@ -128,6 +128,7 @@ class NormalSignUp extends StatefulWidget {
 class _NormalSignUpState extends State<NormalSignUp> {
   bool _isPasswordHidden = true;
   bool _isPasswordCheckHidden = true;
+  bool _isVerificationCodeSent = false;
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +148,56 @@ class _NormalSignUpState extends State<NormalSignUp> {
         }),
         logInTextField('전화번호', widget.controller.phoneNumberController),
         logInTextField('학번', widget.controller.classNumberController),
-        logInTextField('이메일', widget.controller.emailController),
+        logInEmailField('이메일', '전송', widget.controller.emailController),
+        logInEmailField('인증번호', '인증', widget.controller.emailCodeController),
+      ],
+    );
+  }
+
+  Widget logInEmailField(String labelText, String button, TextEditingController controller) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+            width: 210,
+            height: 48,
+            margin: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: const Color(0xffCCE0FF),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: TextField(
+                obscureText: false,
+                controller: controller,
+                decoration: InputDecoration(
+                  labelText: labelText,
+                  labelStyle: const TextStyle(fontSize: 14),
+                  contentPadding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+                  border: InputBorder.none,
+                ))),
+        Container(
+            width: 50,
+            height: 48,
+            margin: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.black),
+            ),
+            child: TextButton(
+              onPressed: () {
+                if (labelText == '이메일') {
+                  widget.controller.sendVerificationCode();
+                } else if (labelText == '인증번호') {
+                  widget.controller.checkVerificationCode();
+                }
+              },
+              style: TextButton.styleFrom(minimumSize: Size.zero),
+              child: Text(
+                button,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.black),
+              ),
+            )),
       ],
     );
   }
