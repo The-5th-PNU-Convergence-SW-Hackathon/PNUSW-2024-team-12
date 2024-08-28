@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:brr/design_materials/design_materials.dart';
+import 'package:brr/controller/driver_call_controller.dart';
+import 'package:get/get.dart';
 
 class CallAcceptPageView extends StatelessWidget {
   final String depart;
   final String dest;
+  final int matchingId;
 
-  CallAcceptPageView({required this.depart, required this.dest});
+  CallAcceptPageView({required this.depart, required this.dest, required this.matchingId});
+
+  final DriverAcceptController driverAcceptController = Get.put(DriverAcceptController());
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +47,9 @@ class CallAcceptPageView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    callButton('수락하기', Colors.blue, Colors.white, 200, () {}),
+                    callButton('수락하기', Colors.blue, Colors.white, 200, () {
+                      driverAcceptController.acceptCall(matchingId);
+                    }),
                     const SizedBox(width: 15),
                     callButton('거절', const Color.fromARGB(255, 218, 218, 218), Colors.black, 120, () {
                       Navigator.pop(context);

@@ -69,13 +69,13 @@ class JoinMatchController extends GetxController {
     channel.stream.listen((message) {
       print("Received message: $message");
       currentMemberCount.value = message;
-      print("서버연결이 완료되었음");  
+      print("서버연결이 완료되었음");
     }, onError: (error) {
       print('WebSocket error: $error');
     }, onDone: () {
       print('WebSocket connection closed');
     });
-}
+  }
 
   // WebSocket 연결 해제
   void disconnectFromLobby() {
