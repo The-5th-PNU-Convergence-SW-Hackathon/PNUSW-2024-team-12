@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
-from database import user_Base, history_Base, match_Base, taxi_Base, email_code_Base
+from database import user_Base, history_Base, match_Base, taxi_Base
 from datetime import datetime
 
 
@@ -82,7 +82,7 @@ class Taxi(taxi_Base):
     car_num = Column(String(30), unique=True, nullable=False)
     car_model = Column(String(55), nullable=False)
 
-class Email_code(email_code_Base):
+class Email_code(user_Base):
     __tablename__ = "email_codes"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(String(255), unique=True, nullable=False, index=True) 
