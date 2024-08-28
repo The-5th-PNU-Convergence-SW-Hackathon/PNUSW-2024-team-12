@@ -44,7 +44,7 @@ class MainPageView extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            buildElevatedButton("빠른 매칭", Icons.link, '/writelocation'),
+                            buildElevatedButton("빠른 매칭", Icons.link, '/matching'),
                             const SizedBox(width: 10),
                             buildElevatedButton("매칭 예약", Icons.alarm, '/reservation'),
                           ],
@@ -285,12 +285,6 @@ class MainPageView extends StatelessWidget {
               ))
         ]));
   }
-
-  
-
-  
-
-  
 
   Widget buildContainer({
     required Widget child,

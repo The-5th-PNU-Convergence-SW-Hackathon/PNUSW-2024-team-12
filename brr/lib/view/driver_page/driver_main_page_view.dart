@@ -65,7 +65,9 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Get.toNamed('/drivermypage');
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

@@ -25,6 +25,7 @@ import 'package:brr/view/history_page/detail_history_page_view.dart';
 import 'package:brr/view/driver_page/driver_work_page.dart';
 import 'package:brr/view/chating_page/chating_page_view.dart';
 import 'package:brr/view/driver_page/driver_accept_page_view.dart';
+import 'package:brr/view/driver_page/driver_mypage_view.dart';
 
 class MainRouter {
   static final List<GetPage> routes = [
@@ -137,6 +138,12 @@ class MainRouter {
         name: '/driveraccept',
         page: () => DriverMainLayout(
               child: CallAcceptPageView(depart: Get.arguments['depart'], dest: Get.arguments['dest']),
-            ))
+            )),
+    GetPage(
+      name: '/drivermypage',
+      page: () => DriverMainLayout(
+        child: DriverMypageView(),
+      ),
+    ),
   ];
 }

@@ -188,3 +188,80 @@ Widget boardingInfo(String boardingTime) {
     ),
   );
 }
+
+Widget profile_custom(double garo, double sero, double iconSize, Color color) {
+  return Container(
+    width: garo,
+    height: sero,
+    decoration: BoxDecoration(
+      color: color,
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child: Icon(Icons.person, color: Colors.white, size: iconSize),
+  );
+}
+
+Widget buildRow(BuildContext context, String title, String buttonText, String routeName) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 2.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            Get.toNamed(routeName);
+          },
+          child: Row(
+            children: [
+              Text(
+                buttonText,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(width: 3),
+              const Icon(Icons.arrow_forward_ios, size: 15, color: Colors.grey),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget buildLogout(BuildContext context, String buttonText, String routeName) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 3.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Spacer(),
+        TextButton(
+          onPressed: () {
+            Get.offAllNamed(routeName);
+          },
+          child: Row(
+            children: [
+              Text(
+                buttonText,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: Colors.red,
+                ),
+              ),
+              const SizedBox(width: 3),
+              const Icon(Icons.arrow_forward_ios, size: 15, color: Colors.red),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}

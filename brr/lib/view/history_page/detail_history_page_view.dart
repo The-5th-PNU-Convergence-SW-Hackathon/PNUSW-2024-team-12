@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/controller/history_page_controller.dart';
+import 'package:brr/design_materials/design_materials.dart';
 
 class DetailHistoryPageView extends StatelessWidget {
   const DetailHistoryPageView({super.key});
@@ -36,7 +37,7 @@ class DetailHistoryPageView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                profile_custom(100, 100, 80),
+                profile_custom(100, 100, 80, Color(0xFFCCE0FF)),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
@@ -180,7 +181,7 @@ class DetailHistoryPageView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          profile_custom(40, 40, 20),
+          profile_custom(40, 40, 20, Color(0xFFCCE0FF)),
           const SizedBox(width: 10.0),
           Text(
             name,
@@ -188,18 +189,6 @@ class DetailHistoryPageView extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget profile_custom(double garo, double sero, double iconSize) {
-    return Container(
-      width: garo,
-      height: sero,
-      decoration: BoxDecoration(
-        color: Color(0xFFCCE0FF),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Icon(Icons.person, color: Colors.white, size: iconSize),
     );
   }
 }

@@ -64,6 +64,7 @@ class _WriteLocationPageViewState extends State<WriteLocationPageView> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,

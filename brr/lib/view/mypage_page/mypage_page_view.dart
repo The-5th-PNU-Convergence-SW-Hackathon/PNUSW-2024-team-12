@@ -46,10 +46,10 @@ class MypagePageView extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 50),
-                _buildRow(context, '시간표 등록', '페이지 이동', '/schedule'),
-                _buildRow(context, '선주님의 회원 정보', '회원 정보 수정', '/mydata'),
-                _buildRow(context, '이용 기록 확인', '페이지 이동', '/history'),
-                _buildLogout(context, '로그아웃', '/login'),
+                buildRow(context,'시간표 등록', '페이지 이동', '/schedule'),
+                buildRow(context, '선주님의 회원 정보', '회원 정보 수정', '/mydata'),
+                buildRow(context, '이용 기록 확인', '페이지 이동', '/history'),
+                buildLogout(context, '로그아웃', '/login'),
                 const SizedBox(height: 10),
                 Container(
                   height: 180,
@@ -111,69 +111,5 @@ class MypagePageView extends StatelessWidget {
             )));
   }
 
-  Widget _buildRow(BuildContext context, String title, String buttonText, String routeName) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Get.toNamed(routeName);
-            },
-            child: Row(
-              children: [
-                Text(
-                  buttonText,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey,
-                  ),
-                ),
-                const SizedBox(width: 3),
-                const Icon(Icons.arrow_forward_ios, size: 15, color: Colors.grey),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLogout(BuildContext context, String buttonText, String routeName) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Spacer(),
-          TextButton(
-            onPressed: () {
-              Get.offAllNamed(routeName);
-            },
-            child: Row(
-              children: [
-                Text(
-                  buttonText,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Colors.red,
-                  ),
-                ),
-                const SizedBox(width: 3),
-                const Icon(Icons.arrow_forward_ios, size: 15, color: Colors.red),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  
 }
