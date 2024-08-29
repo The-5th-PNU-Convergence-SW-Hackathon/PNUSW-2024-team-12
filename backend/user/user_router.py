@@ -8,7 +8,7 @@ from database import get_userdb, get_taxidb
 from models import User as User_model, Taxi as Taxi_model, Email_code as Email_code_model
 
 # user
-from user.user_schema import User, Taxi, Login_user, modify_password, check_certification_email, certification_email, TokenRefreshRequest
+from user.user_schema import User, Taxi, Login_user, modify_password, check_certification_email, certification_email, TokenRefreshRequest, UserResponse
 from user.user_func import decode_jwt, get_user, get_hash_password, verify_password, create_access_token, create_refresh_token, get_current_user
 
 # email 인증
@@ -294,30 +294,46 @@ def modify_pw_(user: modify_password,
     
     return {"status": "success", "detail": "정상적으로 비밀번호가 변경되었습니다."}
 
-@router.post("/brr_cash")
-def charge_brr_cash(
-        amount:int,
-        credentials: HTTPAuthorizationCredentials = Security(security), 
-        user_db: Session = Depends(get_userdb)):
-    
-    user = get_current_user(credentials, user_db)
 
-    user_info = user_db.query(User_model).filter(User_model.user_id == user.user_id).first()
 
-    if user_info:
-        current_amout = user_info.brr_cash 
-        user_info.brr_cash  = current_amout + amount
-        user_db.commit()
 
-    return user_info
 
-@router.get("/get_brr_cash")
-def brr_cash(        
+@router.get("/get_user", response_model=UserResponse)
+def get_login_user(    
     credentials: HTTPAuthorizationCredentials = Security(security), 
     user_db: Session = Depends(get_userdb)):
 
     user = get_current_user(credentials, user_db)
-    user_info = user_db.query(User_model).filter(User_model.user_id == user.user_id).first()
-    return user_info.brr_cash
 
+    user_info = UserResponse(
+        user_id=user.user_id,
+        user_name=user.user_name
+    )
+    return user_info
+    
 
+# @router.post("/brr_cash")
+# def charge_brr_cash(
+#         amount:int,
+#         credentials: HTTPAuthorizationCredentials = Security(security), 
+#         user_db: Session = Depends(get_userdb)):
+    
+#     user = get_current_user(credentials, user_db)
+
+#     user_info = user_db.query(User_model).filter(User_model.user_id == user.user_id).first()
+
+#     if user_info:
+#         current_amout = user_info.brr_cash 
+#         user_info.brr_cash  = current_amout + amount
+#         user_db.commit()
+
+#     return user_info
+
+# @router.get("/get_brr_cash")
+# def brr_cash(        
+#     credentials: HTTPAuthorizationCredentials = Security(security), 
+#     user_db: Session = Depends(get_userdb)):
+
+#     user = get_current_user(credentials, user_db)
+#     user_info = user_db.query(User_model).filter(User_model.user_id == user.user_id).first()
+#     return user_info.brr_cash

@@ -26,6 +26,10 @@ class Taxi(BaseModel):
 class TokenRefreshRequest(BaseModel):
     refresh_token: str
     
+class UserResponse(BaseModel):
+    user_id: str
+    user_name:str
+
 class Login_user(BaseModel):
     user_id: str
     password: str
