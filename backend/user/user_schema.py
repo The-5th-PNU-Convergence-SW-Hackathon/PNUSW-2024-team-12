@@ -35,7 +35,6 @@ class Login_user(BaseModel):
     password: str
 
 class modify_password(BaseModel):
-    user_id: str
     password: str
     new_password: str
  
