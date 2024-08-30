@@ -105,6 +105,10 @@ async def catch_call(
         raise HTTPException(status_code=400, detail="매칭 아이디를 입력해야함")
     user = get_current_user(credentials, user_db)
     taxi = taxi_db.query(Taxi_model).filter(Taxi_model.driver_name == user.user_name).first()
+    matching = match_db.query(Matching_model).filter(Matching_model.id == matching_id).first()
+    if matching:
+        matching.matching_taxi = 2
+        match_db.commit()
     if not taxi:
         raise HTTPException(status_code=404, detail="택시를 찾을 수 없음")
     # 택시기사
@@ -112,14 +116,10 @@ async def catch_call(
         "taxi_id" : user.id,
         "driver_name" : taxi.driver_name,
         "car_num" : taxi.car_num,
-        "phone_number" : user.phone_number
+        "phone_number" : user.phone_number,
+        "depart" : matching.depart,
+        "dest" : matching.dest
     }
-
-    # 매칭이 성사되었으니 0번방에 성사된 리스트를 제거해서 보여줌
-    matching = match_db.query(Matching_model).filter(Matching_model.id == matching_id).first()
-    if matching:
-        matching.matching_taxi = 2
-        match_db.commit()
 
     print(taxi_data)
     await lobby_manager.broadcast(matching_id, message=json.dumps(taxi_data))
