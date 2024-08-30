@@ -14,6 +14,9 @@ class CompleteMatchingViewPage extends StatelessWidget {
     final driverName = data['driver_name'];
     final carNum = data['car_num'];
     final phoneNumber = data['phone_number'];
+    final depart = data['depart'];
+    final dest = data['dest'];
+
     return Scaffold(
         body: SafeArea(
             child: Stack(
@@ -210,9 +213,9 @@ class CompleteMatchingViewPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      locationRow(circleContainer, '출발지', '부산대학교 정문'),
+                      locationRow(circleContainer, '출발지', depart),
                       const SizedBox(height: 5.0),
-                      locationRow(rectangularContainer, '도착지', '부산대학교 정문'),
+                      locationRow(rectangularContainer, '도착지', dest),
                     ],
                   ),
                 ),

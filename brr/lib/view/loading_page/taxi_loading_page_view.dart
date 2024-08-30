@@ -31,6 +31,8 @@ class TaxiLoadingPageView extends StatelessWidget {
         final String driverName = parsedData['driver_name'];
         final String carNum = parsedData['car_num'];
         final String phoneNumber = parsedData['phone_number'];
+        final String depart = parsedData['depart'];
+        final String dest = parsedData['dest'];
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (Get.currentRoute != '/completematching') {
