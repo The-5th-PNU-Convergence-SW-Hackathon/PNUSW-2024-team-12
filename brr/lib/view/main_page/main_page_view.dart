@@ -29,6 +29,7 @@ class MainPageView extends StatelessWidget {
                   buildContainer(
                     height: 150,
                     color: Colors.blue,
+                    sidecolor: Colors.blue,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -55,7 +56,8 @@ class MainPageView extends StatelessWidget {
                   const SizedBox(height: 15),
                   buildContainer(
                     height: 200,
-                    color: const Color.fromARGB(255, 243, 248, 255),
+                    color: Color(0xFFF3F8FF),
+                    sidecolor: Color(0xFFE2EAF5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -89,7 +91,8 @@ class MainPageView extends StatelessWidget {
                   ),
                   const SizedBox(height: 15.0),
                   buildContainer(
-                    color: const Color.fromARGB(255, 243, 248, 255),
+                    color: Color(0xFFF3F8FF),
+                    sidecolor: Color(0xFFE2EAF5),
                     height: 200,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -189,21 +192,10 @@ class MainPageView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 15.0),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 243, 248, 255),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 7,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
+                  buildContainer(
+                    color: Color(0xFFF3F8FF),
+                    sidecolor: Color(0xFFE2EAF5),
+                    height: 200,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -291,6 +283,7 @@ class MainPageView extends StatelessWidget {
     double height = double.infinity,
     double width = double.infinity,
     required Color color,
+    required Color sidecolor,
   }) {
     return Container(
       width: width,
@@ -299,14 +292,7 @@ class MainPageView extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 1,
-            blurRadius: 7,
-            offset: const Offset(0, 3),
-          ),
-        ],
+        border: Border.all(color: sidecolor),
       ),
       child: child,
     );

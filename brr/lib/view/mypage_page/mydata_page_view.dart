@@ -1,3 +1,4 @@
+import 'package:brr/controller/mydata_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/controller/mydata_controller.dart';
@@ -10,7 +11,7 @@ class MyDataPageView extends StatefulWidget {
 }
 
 class _MyDataPageViewState extends State<MyDataPageView> {
-  final TextEditingController _pwController = TextEditingController(text: '1234');
+  final MyPageController _myPageController = Get.put(MyPageController());
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +45,13 @@ class _MyDataPageViewState extends State<MyDataPageView> {
               ),
             ),
             const SizedBox(height: 10.0),
-            const Text(
-              '안선주',
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            Obx(() => Text(
+                  _myPageController.nickname.value,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
             const SizedBox(height: 50),
             const Center(
                 child: SizedBox(
@@ -62,12 +63,23 @@ class _MyDataPageViewState extends State<MyDataPageView> {
                       ],
                     ))),
             const SizedBox(height: 50),
-            mydata_custom('회원이름', '안선주'),
+            Obx(() => mydata_custom('닉네임', _myPageController.nickname.value)),
             const SizedBox(height: 5),
-            mydata_custom('아이디', 'sunju'),
+            Obx(() => mydata_custom('아이디', _myPageController.id.value)),
+            const SizedBox(height: 5),
             PassWordTextField(
-              text: '비밀번호',
-              controller: _pwController,
+              text: '현재 비밀번호',
+              controller: _myPageController.pwController,
+            ),
+            const SizedBox(height: 5),
+            PassWordTextField(
+              text: '새 비밀번호',
+              controller: _myPageController.newPwController,
+            ),
+            const SizedBox(height: 5),
+            PassWordTextField(
+              text: '새 비밀번호 확인',
+              controller: _myPageController.newPwCheckController,
             ),
             const SizedBox(height: 50),
             SizedBox(
@@ -75,53 +87,7 @@ class _MyDataPageViewState extends State<MyDataPageView> {
               height: 40,
               child: ElevatedButton(
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Dialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(35),
-                        ),
-                        child: Container(
-                            width: 300,
-                            height: 200,
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(35),
-                            ),
-                            child: Column(mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                              const Text(
-                                '수정 완료',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                              const Text(
-                                '회원 정보가 성공적으로 수정되었습니다.',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                ),
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  elevation: 0,
-                                ),
-                                onPressed: () {
-                                  Get.toNamed("/mypage");
-                                },
-                                child: const Text('확인', style: TextStyle(fontSize: 14, color: Colors.white)),
-                              ),
-                            ])),
-                      );
-                    },
-                  );
+                  _myPageController.changePwdButton();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
@@ -154,54 +120,74 @@ class _MyDataPageViewState extends State<MyDataPageView> {
             color: Color(0xFFE6F0FF),
           ),
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-          width: 200,
+          width: 180,
           height: 34,
           child: Align(alignment: Alignment.centerRight, child: Text(text, style: TextStyle(fontSize: 16, color: Colors.black))),
         ),
       ],
     );
   }
+}
 
-  Widget mydataPW_custom(String title, TextEditingController controller) {
-    final PasswordController passwordController = Get.put(PasswordController());
+class PassWordTextField extends StatelessWidget {
+  final String text;
+  final TextEditingController controller;
+  final RxBool isPasswordVisible = false.obs;
+
+  PassWordTextField({
+    Key? key,
+    required this.text,
+    required this.controller,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: TextStyle(fontSize: 16, color: Colors.black)),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(7),
-            color: Color(0xFFE6F0FF),
+        Text(
+          text,
+          style: const TextStyle(
+            fontSize: 16,
           ),
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-          width: 200,
-          height: 34,
-          child: Align(
-              alignment: Alignment.centerRight,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      cursorColor: Colors.blue,
-                      textAlignVertical: TextAlignVertical.center,
-                      style: const TextStyle(fontSize: 14),
-                      controller: controller,
-                      obscureText: !passwordController.isPasswordVisible.value,
-                      decoration: const InputDecoration(
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        border: InputBorder.none,
-                      ),
-                    ),
+        ),
+        const SizedBox(width: 5),
+        Container(
+          width: 180,
+          height: 35,
+          padding: const EdgeInsets.only(right: 10, left: 5),
+          decoration: BoxDecoration(
+            color: Color(0xFFE6F0FF),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Obx(() {
+            return Row(
+              children: [
+                IconButton(
+                  icon: Icon(
+                    isPasswordVisible.value ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                    size: 15,
                   ),
-                  IconButton(
-                    icon: Icon(
-                      passwordController.isPasswordVisible.value ? Icons.visibility : Icons.visibility_off,
-                      size: 15,
+                  onPressed: () {
+                    isPasswordVisible.value = !isPasswordVisible.value;
+                  },
+                ),
+                Expanded(
+                  child: TextField(
+                    cursorColor: Colors.black,
+                    controller: controller,
+                    obscureText: !isPasswordVisible.value,
+                    decoration: const InputDecoration(
+                      isDense: true,
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(vertical: 10),
                     ),
-                    onPressed: passwordController.togglePasswordVisibility,
+                    textAlign: TextAlign.right,
                   ),
-                ],
-              )),
+                ),
+              ],
+            );
+          }),
         ),
       ],
     );
@@ -250,77 +236,5 @@ class CheckBox extends StatelessWidget {
             ),
           ],
         ));
-  }
-}
-
-class PassWordTextField extends StatelessWidget {
-  final String text;
-  final TextEditingController controller;
-
-  const PassWordTextField({
-    Key? key,
-    required this.text,
-    required this.controller,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final PasswordController passwordController = Get.put(PasswordController());
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            text,
-            style: const TextStyle(
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(width: 5),
-          Container(
-            width: 200,
-            height: 35,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              color: Color(0xFFE6F0FF),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Obx(() {
-              return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
-                  child: Center(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            cursorColor: Color(0xFFE6F0FF),
-                            textAlignVertical: TextAlignVertical.center,
-                            style: const TextStyle(fontSize: 14),
-                            controller: controller,
-                            obscureText: !passwordController.isPasswordVisible.value,
-                            decoration: const InputDecoration(
-                              floatingLabelBehavior: FloatingLabelBehavior.never,
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.only(bottom: 17),
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            passwordController.isPasswordVisible.value ? Icons.visibility : Icons.visibility_off,
-                            size: 15,
-                          ),
-                          onPressed: passwordController.togglePasswordVisibility,
-                        ),
-                      ],
-                    ),
-                  ));
-            }),
-          ),
-        ],
-      ),
-    );
   }
 }

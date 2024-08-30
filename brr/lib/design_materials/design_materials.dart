@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:brr/controller/mydata_page_controller.dart';
 
 ///로그인, 회원가입 페이지 TextField
 ///
@@ -237,6 +238,7 @@ Widget buildRow(BuildContext context, String title, String buttonText, String ro
 }
 
 Widget buildLogout(BuildContext context, String buttonText, String routeName) {
+  final MyPageController _myDataPageController = Get.put(MyPageController());
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 3.0),
     child: Row(
@@ -245,6 +247,7 @@ Widget buildLogout(BuildContext context, String buttonText, String routeName) {
         Spacer(),
         TextButton(
           onPressed: () {
+            _myDataPageController.logout();
             Get.offAllNamed(routeName);
           },
           child: Row(

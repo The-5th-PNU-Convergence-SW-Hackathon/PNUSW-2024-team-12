@@ -2,9 +2,11 @@ import 'package:brr/view/main_page/main_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/design_materials/design_materials.dart';
+import 'package:brr/controller/mydata_page_controller.dart';
 
 class MypagePageView extends StatelessWidget {
-  const MypagePageView({Key? key}) : super(key: key);
+  MypagePageView({Key? key}) : super(key: key);
+  final MyPageController _myPageController = Get.put(MyPageController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +40,15 @@ class MypagePageView extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10.0),
-                const Text(
-                  '안선주',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                Obx(() => Text(
+                      _myPageController.nickname.value,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
                 const SizedBox(height: 50),
-                buildRow(context,'시간표 등록', '페이지 이동', '/schedule'),
+                buildRow(context, '시간표 등록', '페이지 이동', '/schedule'),
                 buildRow(context, '선주님의 회원 정보', '회원 정보 수정', '/mydata'),
                 buildRow(context, '이용 기록 확인', '페이지 이동', '/history'),
                 buildLogout(context, '로그아웃', '/login'),
@@ -110,6 +112,4 @@ class MypagePageView extends StatelessWidget {
               ],
             )));
   }
-
-  
 }

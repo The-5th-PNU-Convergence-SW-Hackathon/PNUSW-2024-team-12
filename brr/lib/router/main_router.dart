@@ -43,7 +43,7 @@ class MainRouter {
     ),
     GetPage(
       name: '/mypage',
-      page: () => const MainLayout(
+      page: () => MainLayout(
         child: MypagePageView(),
       ),
     ),
