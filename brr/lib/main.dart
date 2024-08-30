@@ -9,7 +9,7 @@ void main() async{
   await dotenv.load(fileName: 'assets/config/.env');
   WidgetsFlutterBinding.ensureInitialized();
   await NaverMapSdk.instance.initialize(
-      clientId: 'lpl7771v5k',
+      clientId: dotenv.env['Map_Api_Client_Id'],
       onAuthFailed: (ex) {
         print("********* 네이버맵 인증오류 : $ex *********");
       });

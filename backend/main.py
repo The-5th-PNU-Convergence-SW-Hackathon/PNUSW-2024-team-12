@@ -46,3 +46,9 @@ app.include_router(history_router, tags=["history"])
 app.include_router(matching_router, tags=["matching"])
 app.include_router(taxi_router, tags=["taxi"])
 app.include_router(chat_router, tags=["chatting"])
+
+if __name__ == "__main__":
+    import uvicorn
+
+    
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
