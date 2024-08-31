@@ -21,12 +21,43 @@ class LocationController extends GetxController {
   final String naverApiKey = dotenv.env['Map_Api_Client_Id']!;
   final String naverApiSecret = dotenv.env['Map_Api_Secret_Id']!;
   final String searchApiKey = dotenv.env['Search_Api_Key']!;
-  final String searchApiSecret = dotenv.env['Search_Api_Secret']!;
+  final String searchApiSecret = dotenv.env['Search_Api_Secret_Id']!;
   final String geocodingUrl = 'https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode';
   final String direction5Url = 'https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving';
   final String searchUrl = 'https://openapi.naver.com/v1/search/local.json';
 
-  // 위치 업데이트 함수
+  // 위치 설정 및 경로 계산을 한 번에 처리하는 함수
+  Future<bool> setLocations(String start, String end) async {
+    try {
+      startLocation.value = start;
+      Map<String, double>? startCoordinates = await _getCoordinatesFromLocation(start);
+      if (startCoordinates != null) {
+        startLatitude.value = startCoordinates['lat']!;
+        startLongitude.value = startCoordinates['lng']!;
+      } else {
+        print("출발지 좌표 설정 실패");
+        return false;
+      }
+
+
+      endLocation.value = end;
+      Map<String, double>? endCoordinates = await _getCoordinatesFromLocation(end);
+      if (endCoordinates != null) {
+        endLatitude.value = endCoordinates['lat']!;
+        endLongitude.value = endCoordinates['lng']!;
+      } else {
+        print("도착지 좌표 설정 실패");
+        return false;
+      }
+
+      await getRoute();
+      return true;
+    } catch (e) {
+      print("위치 설정 및 경로 계산 오류: $e");
+      return false;
+    }
+  }
+
   void updateStartLocation(String location) async {
     startLocation.value = location;
     Map<String, double>? coordinates = await _getCoordinatesFromLocation(location);
@@ -56,7 +87,6 @@ class LocationController extends GetxController {
       print("종료지점 설정 실패");
     }
   }
-
 
   Future<Map<String, double>?> _getCoordinatesFromLocation(String location) async {
     try {
@@ -90,8 +120,6 @@ class LocationController extends GetxController {
     return null;
   }
 
-  
-
   Future<void> getRoute() async {
     if (startLatitude.value == 0.0 || startLongitude.value == 0.0 ||
         endLatitude.value == 0.0 || endLongitude.value == 0.0) {
@@ -115,7 +143,6 @@ class LocationController extends GetxController {
         if (data['route'] != null && data['route']['trafast'] != null) {
           var route = data['route']['trafast'][0];
 
-
           pathCoordinates.clear();
           var path = route['path'];
 
@@ -129,7 +156,7 @@ class LocationController extends GetxController {
 
           print("경로 좌표 저장 완료");
         } else {
-          print("길이 존재하지않음");
+          print("길이 존재하지 않음");
         }
       } else {
         print('경로설정에 실패했음: ${response.statusCode}');
@@ -149,5 +176,4 @@ class LocationController extends GetxController {
     endLongitude.value = 0.0;
     pathCoordinates.clear();
   }
-  
 }

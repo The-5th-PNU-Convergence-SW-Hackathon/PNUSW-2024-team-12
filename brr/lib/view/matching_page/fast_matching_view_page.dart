@@ -5,13 +5,61 @@ import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/location_controller.dart';
 import 'package:brr/controller/add_match_list_controller.dart';
 
-class MatchingPageView extends StatelessWidget {
+class MatchingPageView extends StatefulWidget {
   const MatchingPageView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final LocationController locationController = Get.put(LocationController());
+  _MatchingPageViewState createState() => _MatchingPageViewState();
+}
 
+class _MatchingPageViewState extends State<MatchingPageView> {
+  late NaverMapController _mapController;
+  final LocationController locationController = Get.put(LocationController());
+
+  void _updateMap() async {
+    await _mapController.clearOverlays();
+
+    if (locationController.startLatitude.value != 0.0 &&
+        locationController.startLongitude.value != 0.0) {
+      final startMarker = NMarker(
+        id: "startMarker",
+        position: NLatLng(locationController.startLatitude.value, locationController.startLongitude.value),
+        iconTintColor: Colors.red,
+      );
+      await _mapController.addOverlay(startMarker);
+    }
+
+    if (locationController.endLatitude.value != 0.0 &&
+        locationController.endLongitude.value != 0.0) {
+      final endMarker = NMarker(
+        id: "endMarker",
+        position: NLatLng(locationController.endLatitude.value, locationController.endLongitude.value),
+        iconTintColor: Colors.green,
+      );
+      await _mapController.addOverlay(endMarker);
+    }
+
+    if (locationController.pathCoordinates.isNotEmpty) {
+      Set<NAddableOverlay> overlays = {};
+
+      for (var path in locationController.pathCoordinates) {
+        final multipartPathOverlay = NMultipartPathOverlay(
+          id: DateTime.now().toIso8601String(),
+          paths: [
+            NMultipartPath(coords: path),
+          ],
+        );
+        overlays.add(multipartPathOverlay);
+      }
+
+      await _mapController.addOverlayAll(overlays);
+    }
+    
+    setState(() {}); 
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -28,44 +76,9 @@ class MatchingPageView extends StatelessWidget {
                   locale: Locale('kr'),
                   locationButtonEnable: true,
                 ),
-                onMapReady: (controller) async {
-                  await controller.clearOverlays();
-
-                  if (locationController.startLatitude.value != 0.0 &&
-                      locationController.startLongitude.value != 0.0) {
-                    final startMarker = NMarker(
-                      id: "startMarker",
-                      position: NLatLng(locationController.startLatitude.value, locationController.startLongitude.value),
-                      iconTintColor: Colors.red,
-                    );
-                    await controller.addOverlay(startMarker);
-                  }
-
-                  if (locationController.endLatitude.value != 0.0 &&
-                      locationController.endLongitude.value != 0.0) {
-                    final endMarker = NMarker(
-                      id: "endMarker",
-                      position: NLatLng(locationController.endLatitude.value, locationController.endLongitude.value),
-                      iconTintColor: Colors.green,
-                    );
-                    await controller.addOverlay(endMarker);
-                  }
-
-                  if (locationController.pathCoordinates.isNotEmpty) {
-                    Set<NAddableOverlay> overlays = {};
-
-                    for (var path in locationController.pathCoordinates) {
-                      final multipartPathOverlay = NMultipartPathOverlay(
-                        id: DateTime.now().toIso8601String(),
-                        paths: [
-                          NMultipartPath(coords: path),
-                        ],
-                      );
-                      overlays.add(multipartPathOverlay);
-                    }
-
-                    await controller.addOverlayAll(overlays);
-                  }
+                onMapReady: (controller) {
+                  _mapController = controller;
+                  _updateMap();
                 },
               ),
             ),
@@ -240,9 +253,13 @@ class MatchingPageView extends StatelessWidget {
                   goBackButton(),
                   const SizedBox(width: 10.0),
                   ElevatedButton(
-                    onPressed: () {
-                      Get.toNamed('/writelocation');
-                    },
+                    onPressed: () async {
+                        final result = await Get.toNamed('/writelocation');
+                        if (result == true) {
+                          await locationController.getRoute();
+                          _updateMap();  // 먼저 맵을 빌드하고  // 경로를 저장한 후 // 다시 맵을 빌드
+                        }
+                      },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),

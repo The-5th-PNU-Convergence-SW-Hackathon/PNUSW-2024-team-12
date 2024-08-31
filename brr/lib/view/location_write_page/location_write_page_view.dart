@@ -11,50 +11,38 @@ class WriteLocationPageView extends StatefulWidget {
 }
 
 class _WriteLocationPageViewState extends State<WriteLocationPageView> {
-  bool isEditingStartLocation = false;
-  bool isEditingEndLocation = false;
   final TextEditingController startLocationController = TextEditingController();
   final TextEditingController endLocationController = TextEditingController();
 
   final LocationController locationController = Get.put(LocationController());
 
-  void _toggleStartLocationEdit() {
-    setState(() {
-      if (isEditingEndLocation) {
-        // 도착지 수정 중이면 도착지 수정 종료
-        locationController.updateEndLocation(endLocationController.text);
-        isEditingEndLocation = false;
-      }
-      isEditingStartLocation = true;
-      startLocationController.text = locationController.startLocation.value;
-    });
-  }
+  Future<void> _saveLocations() async {
+    String startLocation = startLocationController.text.trim();
+    String endLocation = endLocationController.text.trim();
 
-  void _toggleEndLocationEdit() {
-    setState(() {
-      if (isEditingStartLocation) {
-        // 출발지 수정 중이면 출발지 수정 종료
-        locationController.updateStartLocation(startLocationController.text);
-        isEditingStartLocation = false;
-      }
-      isEditingEndLocation = true;
-      endLocationController.text = locationController.endLocation.value;
-    });
-  }
+    if (startLocation.isEmpty || endLocation.isEmpty) {
 
-  void _saveLocations() {
-    setState(() {
-      if (isEditingStartLocation) {
-        locationController.updateStartLocation(startLocationController.text);
-        isEditingStartLocation = false;
-      }
-      if (isEditingEndLocation) {
-        locationController.updateEndLocation(endLocationController.text);
-        isEditingEndLocation = false;
-      }
-      FocusScope.of(context).unfocus();
-      Get.back();
-    });
+      Get.snackbar(
+        "입력 오류",
+        "출발지와 도착지를 모두 입력해주세요.",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+
+    bool success = await locationController.setLocations(startLocation, endLocation);
+
+    if (success) {
+
+      Get.back(result: true);
+    } else {
+      Get.snackbar(
+        "경로 계산 실패",
+        "출발지 또는 도착지의 좌표를 찾을 수 없거나 경로 계산에 실패했습니다.",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
   @override
@@ -85,81 +73,51 @@ class _WriteLocationPageViewState extends State<WriteLocationPageView> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              isEditingStartLocation
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Row(
-                        children: [
-                          circleContainer,
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: TextField(
-                              controller: startLocationController,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: '출발지를 입력해주세요',
-                              ),
-                              onSubmitted: (value) => _saveLocations(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : TextButton(
-                      onPressed: _toggleStartLocationEdit,
-                      child: Row(
-                        children: [
-                          circleContainer,
-                          const SizedBox(width: 10),
-                          Obx(() => Text(
-                                '출발지 : ${locationController.startLocation.value}',
-                                style: const TextStyle(fontSize: 20, color: Colors.black),
-                              )),
-                        ],
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  children: [
+                    circleContainer,
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: TextField(
+                        controller: startLocationController,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: '출발지를 입력해주세요',
+                        ),
                       ),
                     ),
+                  ],
+                ),
+              ),
               const SizedBox(height: 20),
-              isEditingEndLocation
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Row(
-                        children: [
-                          rectangularContainer,
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: TextField(
-                              controller: endLocationController,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: '도착지를 입력해주세요',
-                              ),
-                              onSubmitted: (value) => _saveLocations(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : TextButton(
-                      onPressed: _toggleEndLocationEdit,
-                      child: Row(
-                        children: [
-                          rectangularContainer,
-                          const SizedBox(width: 10),
-                          Obx(() => Text(
-                                '도착지 : ${locationController.endLocation.value}',
-                                style: const TextStyle(fontSize: 20, color: Colors.black),
-                              )),
-                        ],
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  children: [
+                    rectangularContainer,
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: TextField(
+                        controller: endLocationController,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: '도착지를 입력해주세요',
+                        ),
                       ),
                     ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
