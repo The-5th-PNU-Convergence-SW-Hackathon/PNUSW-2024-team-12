@@ -16,6 +16,9 @@ class LocationController extends GetxController {
 
   // 경로 좌표를 저장할 리스트
   var pathCoordinates = <List<NLatLng>>[].obs;  
+  var distance = 0.0.obs; // 거리 (미터)
+  var duration = 0.0.obs; // 소요 시간 (초)
+  var taxiFare = 0.0.obs; // 예상 택시 요금 (원)
 
   // 네이버 API 키와 엔드포인트
   final String naverApiKey = dotenv.env['Map_Api_Client_Id']!;
@@ -143,9 +146,9 @@ class LocationController extends GetxController {
         if (data['route'] != null && data['route']['trafast'] != null) {
           var route = data['route']['trafast'][0];
 
+          // 경로 좌표 저장
           pathCoordinates.clear();
           var path = route['path'];
-
           List<NLatLng> part = [];
           for (var point in path) {
             double latitude = point[1];  // 위도
@@ -154,7 +157,13 @@ class LocationController extends GetxController {
           }
           pathCoordinates.add(part);
 
-          print("경로 좌표 저장 완료");
+          // 거리, 소요시간, 택시 요금 저장
+          distance.value = route['summary']['distance'].toDouble();
+          duration.value = route['summary']['duration'].toDouble();  // 소요 시간을 초 단위로 저장
+          taxiFare.value = route['summary']['taxiFare'].toDouble();
+
+          print("경로 좌표, 거리, 소요시간, 택시 요금 저장 완료");
+          print("거리 ${distance.value}, 소요시간 ${duration.value}, 택시예상요금 ${taxiFare.value}");
         } else {
           print("길이 존재하지 않음");
         }

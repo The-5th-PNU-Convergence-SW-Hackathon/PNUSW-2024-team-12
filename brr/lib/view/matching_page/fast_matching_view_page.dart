@@ -4,7 +4,7 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/location_controller.dart';
 import 'package:brr/controller/add_match_list_controller.dart';
-
+import 'package:intl/intl.dart';
 class MatchingPageView extends StatefulWidget {
   const MatchingPageView({super.key});
 
@@ -56,6 +56,11 @@ class _MatchingPageViewState extends State<MatchingPageView> {
     }
     
     setState(() {}); 
+  }
+
+  String _getDurationInMinutes(double durationInSeconds) {
+    int minutes = (durationInSeconds / 60000).round(); // 초를 분으로 변환
+    return minutes.toString();
   }
 
   @override
@@ -111,10 +116,10 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                               ),
                             ),
                             const SizedBox(height: 15),
-                            const Text(
-                              '약 13분 소요',
-                              style: TextStyle(fontSize: 12),
-                            ),
+                            Obx(() => Text(
+                              '약 ${_getDurationInMinutes(locationController.duration.value)}분 소요',
+                              style: const TextStyle(fontSize: 12),
+                            )),
                             const SizedBox(height: 15),
                             const Divider(color: Colors.grey, thickness: 1),
                             const SizedBox(height: 15),
@@ -126,10 +131,10 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                _matchpeopleButton('2인 이상', '5500원 이상', 2),
-                                _matchpeopleButton('3인 이상', '3700원 이상', 3),
-                                _matchpeopleButton('4인 ', '2850원 이상', 4),
-                                _matchpeopleButton('상관\n없음', '', 1),
+                                _matchpeopleButton('2인 이상', 2),
+                                _matchpeopleButton('3인 이상', 3),
+                                _matchpeopleButton('4인 ', 4),
+                                _matchpeopleButton('상관없음', 1),
                               ],
                             ),
                             const SizedBox(height: 15),
@@ -292,7 +297,7 @@ class _MatchingPageViewState extends State<MatchingPageView> {
     );
   }
 
-  Widget _matchpeopleButton(String text, String subtext, int minMember) {
+  Widget _matchpeopleButton(String text, int minMember) {
     final AddMatchListController addMatchListController = Get.put(AddMatchListController());
 
     return Padding(
@@ -330,15 +335,13 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                         color: addMatchListController.selectedMinMember.value == minMember ? Colors.blue : Colors.white,
                       ),
                     ),
-                    subtext == ''
-                        ? Container()
-                        : Text(
-                            subtext,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: addMatchListController.selectedMinMember.value == minMember ? Colors.blue : Colors.white,
-                            ),
-                          ),
+                    Text(
+                      _calculateFare(minMember),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: addMatchListController.selectedMinMember.value == minMember ? Colors.blue : Colors.white,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -346,6 +349,23 @@ class _MatchingPageViewState extends State<MatchingPageView> {
           )),
     );
   }
+
+  String _calculateFare(int minMember) {
+  double baseFare = locationController.taxiFare.value;
+
+  final formatter = NumberFormat(',###,###');
+
+  switch (minMember) {
+    case 2:
+      return '~ ${formatter.format((baseFare / 2).round())}원';
+    case 3:
+      return '~ ${formatter.format((baseFare / 3).round())}원';
+    case 4:
+      return ' ${formatter.format((baseFare / 4).round())}원';
+    default:
+      return '~ ${formatter.format((baseFare / 1).round())}원';
+  }
+}
 
   Widget locationRow(Widget icon, String title, String subtitle) {
     return Row(
