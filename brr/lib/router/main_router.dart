@@ -136,8 +136,6 @@ class MainRouter {
         name: '/driveraccept',
         page: () => DriverMainLayout(
               child: CallAcceptPageView(
-                depart: Get.arguments['depart'],
-                dest: Get.arguments['dest'],
                 matchingId: Get.arguments['matching_id'],
               ),
             )),

@@ -148,8 +148,6 @@ class _DriverWorkPageView extends State<DriverWorkPageView> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => CallAcceptPageView(
-                                              depart: quickMatch['depart'],
-                                              dest: quickMatch['dest'],
                                               matchingId: quickMatch['id'],
                                             ),
                                           ),

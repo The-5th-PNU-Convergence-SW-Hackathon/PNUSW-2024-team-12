@@ -36,8 +36,8 @@ class AddMatchListController extends GetxController {
     final startLocation = locationController.startLocation.value;
     final endLocation = locationController.endLocation.value;
     final taxi_fare = locationController.taxiFare.value;
-    final distance = locationController.distance.value;
-    final duration = locationController.duration.value;
+    final distance = (locationController.distance.value / 1000).round();
+    final duration = (locationController.duration.value / 60000).round();
     print("$distance , $duration, $taxi_fare");
     final data = {
       "matching_type": matchingType,

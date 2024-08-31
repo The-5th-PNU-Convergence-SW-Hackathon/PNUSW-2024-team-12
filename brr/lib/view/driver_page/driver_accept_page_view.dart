@@ -4,60 +4,71 @@ import 'package:brr/controller/driver_call_controller.dart';
 import 'package:get/get.dart';
 
 class CallAcceptPageView extends StatelessWidget {
-  final String depart;
-  final String dest;
   final int matchingId;
 
-  CallAcceptPageView({required this.depart, required this.dest, required this.matchingId});
+  CallAcceptPageView({required this.matchingId});
 
   final DriverAcceptController driverAcceptController = Get.put(DriverAcceptController());
 
   @override
   Widget build(BuildContext context) {
+    driverAcceptController.fetchCallInfo(matchingId);
+
     return Scaffold(
         appBar: AppBar(
             automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
             titleSpacing: 25.0,
             title: Row(
-              children: [brrLogo(), const SizedBox(width: 22), const Text('기사앱', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold))],
+              children: [
+                brrLogo(),
+                const SizedBox(width: 22),
+                const Text('기사앱', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold))
+              ],
             )),
         backgroundColor: Colors.white,
-        body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                locationInfo('출발', depart, '현재 위치에서 3km'),
-                CustomPaint(
-                  size: Size(40, 40),
-                  painter: ArrowPainter(),
-                ),
-                locationInfo('도착', dest, ''),
-                const SizedBox(height: 60),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: Obx(() {
+          if (driverAcceptController.callInfo.isEmpty) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            var callInfo = driverAcceptController.callInfo;
+            return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    detailInfo('예상요금/거리', '16780원/25km'),
-                    detailInfo('소요시간', '28분'),
+                    locationInfo('출발', callInfo['depart'], '현재 위치에서 3km'),
+                    CustomPaint(
+                      size: Size(40, 40),
+                      painter: ArrowPainter(),
+                    ),
+                    locationInfo('도착', callInfo['dest'], ''),
+                    const SizedBox(height: 60),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        detailInfo('예상요금/거리', '${callInfo['taxi_fare']}원/${callInfo['distance']}km'),
+                        detailInfo('소요시간', '${callInfo['duration']}분'),
+                      ],
+                    ),
+                    const SizedBox(height: 60),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        callButton('수락하기', Colors.blue, Colors.white, 200, () {
+                          driverAcceptController.acceptCall(matchingId);
+                        }),
+                        const SizedBox(width: 15),
+                        callButton('거절', const Color.fromARGB(255, 218, 218, 218), Colors.black, 120, () {
+                          Navigator.pop(context);
+                        }),
+                      ],
+                    )
                   ],
-                ),
-                const SizedBox(height: 60),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    callButton('수락하기', Colors.blue, Colors.white, 200, () {
-                      driverAcceptController.acceptCall(matchingId);
-                    }),
-                    const SizedBox(width: 15),
-                    callButton('거절', const Color.fromARGB(255, 218, 218, 218), Colors.black, 120, () {
-                      Navigator.pop(context);
-                    }),
-                  ],
-                )
-              ],
-            )));
+                ));
+          }
+        }));
   }
 
   Widget locationInfo(String title, String location, String length) {
