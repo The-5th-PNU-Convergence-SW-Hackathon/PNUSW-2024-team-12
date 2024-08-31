@@ -1,45 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:uuid/uuid.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
-
-class DatabaseHelper {
-  static final DatabaseHelper _instance = DatabaseHelper._internal();
-
-  factory DatabaseHelper() => _instance;
-
-  DatabaseHelper._internal();
-
-  static Database? _database;
-
-  Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await _initDatabase();
-    return _database!;
-  }
-
-  Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), 'schedule.db');
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: (db, version) async {
-        await db.execute('''
-          CREATE TABLE schedules (
-            id TEXT PRIMARY KEY,
-            jsonData TEXT
-          )
-        ''');
-        await db.execute('''
-          CREATE TABLE schedule_ids (
-            id TEXT PRIMARY KEY
-          )
-        ''');
-      },
-    );
-  }
-}
+import 'package:brr/util.dart';
 
 // Global Variables
 List<String> week = ['월', '화', '수', '목', '금', '토', '일'];
@@ -51,67 +11,6 @@ String startTimeDropDownValue = '9:00';
 String endTimeDropDownValue = '17:00';
 String locationValue = '';
 String lectureValue = '';
-
-const Uuid uuid = Uuid();
-
-final DatabaseHelper dbHelper = DatabaseHelper();
-
-Future<void> saveSchedule(String id, Map<String, dynamic> jsonData) async {
-  final db = await dbHelper.database;
-  String jsonString = jsonEncode(jsonData);
-  await db.insert(
-    'schedules',
-    {'id': id, 'jsonData': jsonString},
-    conflictAlgorithm: ConflictAlgorithm.replace,
-  );
-}
-
-Future<Map<String, dynamic>> getSchedule(String id) async {
-  final db = await dbHelper.database;
-  List<Map<String, dynamic>> results = await db.query(
-    'schedules',
-    where: 'id = ?',
-    whereArgs: [id],
-  );
-  if (results.isNotEmpty) {
-    String jsonString = results.first['jsonData'] as String;
-    return jsonDecode(jsonString);
-  }
-  return {};
-}
-
-Future<void> delSchedule(String id) async {
-  final db = await dbHelper.database;
-  await db.delete(
-    'schedules',
-    where: 'id = ?',
-    whereArgs: [id],
-  );
-}
-
-Future<List<String>> getAllScheduleIds() async {
-  final db = await dbHelper.database;
-  List<Map<String, dynamic>> results = await db.query('schedule_ids');
-  return results.map((row) => row['id'] as String).toList();
-}
-
-Future<void> saveScheduleId(String id) async {
-  final db = await dbHelper.database;
-  await db.insert(
-    'schedule_ids',
-    {'id': id},
-    conflictAlgorithm: ConflictAlgorithm.replace,
-  );
-}
-
-Future<void> delScheduleId(String id) async {
-  final db = await dbHelper.database;
-  await db.delete(
-    'schedule_ids',
-    where: 'id = ?',
-    whereArgs: [id],
-  );
-}
 
 List<String> generateTimeList(String strStartTime, String strEndTime) {
   List<String> listStartTime = strStartTime.split(":");
@@ -259,21 +158,30 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                 width: 100,
                 child: GestureDetector(
                   onTap: () {
-                    _showDeleteConfirmationDialog(context, box['id']); // context를 사용하여 함수 호출
+                    _showDeleteConfirmationDialog(context, box['id']);
                   },
                   child: Container(
                     color: Colors.green,
+                    alignment: Alignment.topLeft,
+                    padding: const EdgeInsets.all(1),
                     child: Column(
                       children: [
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              '${box['lecture']}',
-                              style: const TextStyle(color: Colors.white, fontSize: 10),
+                            SizedBox(
+                              width: 45,
+                              child: Text(
+                                '${box['lecture']}',
+                                style: const TextStyle(color: Colors.white, fontSize: 10),
+                              ),
                             ),
-                            Text(
-                              '${box['location']}',
-                              style: const TextStyle(color: Colors.white, fontSize: 8),
+                            SizedBox(
+                              width: 45,
+                              child: Text(
+                                '${box['location']}',
+                                style: const TextStyle(color: Colors.white, fontSize: 8),
+                              ),
                             )
                           ],
                         ),

@@ -4,27 +4,64 @@ import 'package:brr/constants/bottom_navigation/bottom_navigation_controller.dar
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/join_match_controller.dart';
 import 'package:brr/controller/quickmatch_list_controller.dart';
+import 'package:brr/util.dart';
 
-class MainPageView extends StatelessWidget {
-  MainPageView({super.key});
+class MainPageView extends StatefulWidget {
+  const MainPageView({super.key});
+
+  @override
+  State<MainPageView> createState() => _MainPageViewState();
+}
+
+class _MainPageViewState extends State<MainPageView> {
   final QuickMatchController quickMatchController = Get.put(QuickMatchController());
   final JoinMatchController joinMatchController = Get.put(JoinMatchController());
   final _bottomNavController = Get.put(MyBottomNavigationBarController());
 
+  String courseName = "";
+  String startTime = "";
+  String endTime = "";
+  String location = "";
+
+  @override
+  void initState() {
+    super.initState();
+    fetchClosestSchedule();
+  }
+
+  Future<void> fetchClosestSchedule() async {
+    Map<String, dynamic>? closestSchedule = await getNextSchedule();
+    setState(() {
+      courseName = closestSchedule['lecture'] ?? '예정된 수업 없음';
+      startTime = closestSchedule['startTime'];
+      endTime = closestSchedule['endTime'];
+      location = closestSchedule['location'];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: CustomScrollView(slivers: [
+      backgroundColor: Colors.white,
+      body: CustomScrollView(
+        slivers: [
           SliverAppBar(
-              pinned: true,
-              backgroundColor: Colors.white,
-              leading: const SizedBox(),
-              flexibleSpace: FlexibleSpaceBar(titlePadding: const EdgeInsetsDirectional.only(start: 25.0), title: Align(alignment: Alignment.centerLeft, child: brrLogo()))),
+            pinned: true,
+            backgroundColor: Colors.white,
+            leading: const SizedBox(),
+            flexibleSpace: FlexibleSpaceBar(
+              titlePadding: const EdgeInsetsDirectional.only(start: 25.0),
+              title: Align(
+                alignment: Alignment.centerLeft,
+                child: brrLogo(),
+              ),
+            ),
+          ),
           SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
                   const SizedBox(height: 10),
                   buildContainer(
                     height: 150,
@@ -56,8 +93,8 @@ class MainPageView extends StatelessWidget {
                   const SizedBox(height: 15),
                   buildContainer(
                     height: 200,
-                    color: Color(0xFFF3F8FF),
-                    sidecolor: Color(0xFFE2EAF5),
+                    color: const Color(0xFFF3F8FF),
+                    sidecolor: const Color(0xFFE2EAF5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -91,8 +128,8 @@ class MainPageView extends StatelessWidget {
                   ),
                   const SizedBox(height: 15.0),
                   buildContainer(
-                    color: Color(0xFFF3F8FF),
-                    sidecolor: Color(0xFFE2EAF5),
+                    color: const Color(0xFFF3F8FF),
+                    sidecolor: const Color(0xFFE2EAF5),
                     height: 200,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -115,26 +152,26 @@ class MainPageView extends StatelessWidget {
                               color: Colors.blue,
                             ),
                             const SizedBox(width: 4),
-                            const Column(
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "발상과 표현",
-                                  style: TextStyle(
+                                  courseName,
+                                  style: const TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
-                                  "09:00 ~ 10:30, 704-406",
-                                  style: TextStyle(
+                                  "$startTime ~ $endTime, $location",
+                                  style: const TextStyle(
                                     fontSize: 8,
                                     color: Color.fromARGB(255, 153, 153, 153),
                                   ),
                                 ),
                                 Text(
-                                  "15분 후 수업이 시작합니다.",
-                                  style: TextStyle(
+                                  getTimeDifferenceString(startTime),
+                                  style: const TextStyle(
                                     fontSize: 8,
                                     color: Color.fromARGB(255, 153, 153, 153),
                                   ),
@@ -158,8 +195,8 @@ class MainPageView extends StatelessWidget {
                                   size: 15,
                                   color: Colors.blue,
                                 ),
-                                label: const Text(
-                                  "부산대학교\n조형관",
+                                label: Text(
+                                  location,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 12,
@@ -193,8 +230,8 @@ class MainPageView extends StatelessWidget {
                   ),
                   const SizedBox(height: 15.0),
                   buildContainer(
-                    color: Color(0xFFF3F8FF),
-                    sidecolor: Color(0xFFE2EAF5),
+                    color: const Color(0xFFF3F8FF),
+                    sidecolor: const Color(0xFFE2EAF5),
                     height: 200,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -212,7 +249,10 @@ class MainPageView extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(width: 5),
-                                IconButton(onPressed: () {}, icon: const Icon(Icons.refresh, size: 20))
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.refresh, size: 20),
+                                )
                               ],
                             ),
                             TextButton(
@@ -235,10 +275,12 @@ class MainPageView extends StatelessWidget {
                           if (quickMatchController.quickMatches.isEmpty) {
                             return const Center(child: Text("빠른 매칭이 없습니다."));
                           }
-                          int itemCount = quickMatchController.quickMatches.length < 3 ? quickMatchController.quickMatches.length : 3;
+                          int itemCount = quickMatchController.quickMatches.length < 3
+                              ? quickMatchController.quickMatches.length
+                              : 3;
                           return ListView.builder(
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: itemCount,
                             itemBuilder: (context, index) {
                               int reverseIndex = quickMatchController.quickMatches.length - index - 1;
@@ -272,11 +314,16 @@ class MainPageView extends StatelessWidget {
                         }),
                       ],
                     ),
-                  )
-                ]),
-              ))
-        ]));
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
+
 
   Widget buildContainer({
     required Widget child,
