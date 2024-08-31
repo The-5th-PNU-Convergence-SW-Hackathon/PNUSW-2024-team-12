@@ -35,13 +35,19 @@ class AddMatchListController extends GetxController {
     }
     final startLocation = locationController.startLocation.value;
     final endLocation = locationController.endLocation.value;
-
+    final taxi_fare = locationController.taxiFare.value;
+    final distance = locationController.distance.value;
+    final duration = locationController.duration.value;
+    print("$distance , $duration, $taxi_fare");
     final data = {
       "matching_type": matchingType,
       "boarding_time": boardingTime,
       "depart": startLocation.isEmpty ? '' : startLocation,
       "dest": endLocation.isEmpty ? '' : endLocation,
       "min_member": minMember,
+      "taxi_fare": taxi_fare,
+      "distance": distance,
+      "duration": duration
     };
 
     final url = '${Urls.apiUrl}matching/create';

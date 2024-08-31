@@ -17,3 +17,12 @@ class CompletetCallTaxi(BaseModel):
     driver_name: str
     car_num: str
     phone_number: str
+
+
+class CallInfo(BaseModel):
+    id: int
+    depart: str
+    dest: str 
+    taxi_fare : int
+    distance: int
+    duration: int

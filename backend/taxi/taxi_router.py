@@ -6,7 +6,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from database import get_matchdb, get_userdb, get_historydb, get_taxidb
 from models import Matching as Matching_model, Lobby as Lobby_model, User as User_model, Taxi as Taxi_model
-
+from taxi.taxi_schema import CallInfo
 # user
 from user.user_func import get_current_user
 
@@ -90,6 +90,32 @@ async def calling_taxi(call_type:int = None,
     # JSON으로 직렬화하여 웹소켓을 통해 방송합니다.
     await connection_manager.broadcast(taxi_room_id=0, message=json.dumps(matching_dicts))
     return matching_dicts
+@router.get("/call_info", response_model=CallInfo)
+async def call_info(
+    matching_id: int,
+    credentials: HTTPAuthorizationCredentials = Security(security),
+    user_db: Session = Depends(get_userdb),
+    match_db: Session = Depends(get_matchdb)
+):
+    if not matching_id:
+        raise HTTPException(status_code=400, detail="매칭 아이디를 입력해야함")
+
+    user = get_current_user(credentials, user_db)
+    matching = match_db.query(Matching_model).filter(Matching_model.id == matching_id).first()
+
+    if not matching:
+        raise HTTPException(status_code=404, detail="매칭을 찾을 수 없음")
+
+    call_info_data = CallInfo(
+        id=matching.id,
+        depart=matching.depart,
+        dest=matching.dest,
+        taxi_fare=matching.taxi_fare,
+        distance=matching.distance,
+        duration=matching.duration
+    )
+
+    return call_info_data
 
 # 택시기사가 콜을 잡을 때
 @router.post("/catch_call")
