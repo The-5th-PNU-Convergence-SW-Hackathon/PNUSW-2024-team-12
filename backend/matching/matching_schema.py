@@ -7,6 +7,9 @@ class MatchingCreate(BaseModel):
     depart: str
     dest: str
     min_member: int
+    taxi_fare: int
+    duration: int
+    distance: int
 
 class MatchingResponse(BaseModel):
     id: int
@@ -16,6 +19,9 @@ class MatchingResponse(BaseModel):
     dest: str
     min_member: int
     current_member: int
+    taxi_fare: int
+    duration: int
+    distance: int
 
     class Config:
         orm_mode = True

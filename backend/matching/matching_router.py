@@ -101,7 +101,10 @@ def create_matching(
         current_member=1,
         created_by=user.user_id,  
         mate=str(user.user_id),
-        matching_taxi=0
+        matching_taxi=0,
+        taxi_fare = matching.taxi_fare,
+        duration = matching.duration,
+        distance = matching.distance
     )
     match_db.add(db_matching)
     match_db.commit()
