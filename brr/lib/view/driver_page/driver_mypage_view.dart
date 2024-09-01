@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:brr/design_materials/design_materials.dart';
+import 'package:brr/controller/mydata_page_controller.dart';
+import 'package:get/get.dart';
 
-class DriverMypageView extends StatelessWidget {
+class DriverMainPageView extends StatefulWidget {
+  const DriverMainPageView({Key? key}) : super(key:key);
+  @override
+  _DriverMainPageViewState createState() => _DriverMainPageViewState();
+}
+
+
+class _DriverMainPageViewState extends State<DriverMainPageView> {
+  final MyPageController _myPageController = Get.put(MyPageController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,16 +48,16 @@ class DriverMypageView extends StatelessWidget {
                   children: [
                     profile_custom(90, 90, 80, Colors.blue),
                     const SizedBox(height: 5.0),
-                    Text(
-                      "권민준",
+                    Obx(()=>Text(
+                      _myPageController.nickname.value,
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
-                    ),
+                    ),)
                   ],
                 ),
                 const SizedBox(height: 80),
-                mydata_custom('이름', '권민준'),
+                Obx(() => mydata_custom('이름', _myPageController.nickname.value),),
                 const SizedBox(height: 15),
-                mydata_custom('아이디', 'abcde12345'),
+                Obx(() => mydata_custom('아이디', _myPageController.id.value),),
                 const SizedBox(height: 4),
                 buildRow(context, '개인정보 수정', '페이지 이동', ''),
                 buildRow(context, '비밀번호 변경', '페이지 이동', ''),
