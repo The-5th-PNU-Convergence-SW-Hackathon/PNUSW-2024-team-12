@@ -138,18 +138,21 @@
    <img src="/docs/brr 유저 전체 페이지.jpg" width="800px" title="유저 전체 플로우 차트" alt="Alt text"></img>
 
    2-2) 유저 회원가입 플로우 차트
-   > 회원가입 플로우 차트입니다.
-   > 
-   > 회원은 왼쪽의 경로를, 택시기사는 오른쪽의 경로를 통해 회원가입을 진행합니다.
+   > 유저 회원가입 플로우 차트입니다.
    
-   <img src="/docs/유저 플로우 차트 - 회원가입.jpg" width="800px" title="유저 회원가입 플로우 차" alt="Alt text"></img>
-   
+   <img src="/docs/회원 플로우 차트 - 회원가입.jpg" width="800px" title="회원 회원가입 플로우 차트" alt="Alt text"></img>
+
    2-3) 기사 전체 플로우 차트
    > 택시기사의 전체 플로우 차트입니다.
    
    <img src="/docs/brr 기사 전체 페이지.jpg" width="600px" title="기사 전체 플로우 차트" alt="Alt text"></img>
+
+   2-4) 기사 회원가입 플로우 차트
+   > 기사 회원가입 플로우 차트입니다.
+
+   <img src="/docs/기사 플로우 차트 - 회원가입.jpg" width="800px" title="기사 회원가입 플로우 차트" alt="Alt text"></img>
    
-3) 테스크 플로우 차트
+2) 테스크 플로우 차트
  
    3-1) 로그인 및 회원가입 플로우 차트
    > 로그인과 회원가입의 플로우 차트입니다.
@@ -163,7 +166,7 @@
     로그인 시 회원일 경우 회원페이지로, 택시기사의 경우 택시기사 페이지로 이동합니다.
    <img src="/docs/로그인 및 회원가입 플로우차트.jpg" width="800px" title="Title" alt="Alt text"></img>
  
-4) 시스템 플로우 차트
+3) 시스템 플로우 차트
  
    4-1) 이메일 인증 플로우 차트
    > 이메일 인증 플로우 차트입니다.
@@ -175,7 +178,7 @@
    
    <img src="/docs/brr 매칭 플로우차트.jpg" width="800px" title="Title" alt="Alt text"></img>
    
-5) ERD
+4) ERD
 
    5-1) database ERD
    > BRR 전체 database ERD입니다. 
