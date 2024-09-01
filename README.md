@@ -129,13 +129,32 @@
 
 ### 3. 개발결과
 #### 가. 전체시스템 흐름도
+1) IA(Information Architecture)
+2) 유저 플로우 차트
+   2-1) 유저 전체 플로우 차트
+   <img src="/docs/brr 유저 전체 페이지.jpg" width="600px" title="Title" alt="Alt text"></img>
 
-<img src="/docs/brr ERD.jpg" width="600px" title="Title" alt="Alt text"></img>
-<img src="/docs/로그인 및 회원가입 플로우차트.jpg" width="600px" title="Title" alt="Alt text"></img>
-<img src="/docs/brr 유저 전체 페이지.jpg" width="600px" title="Title" alt="Alt text"></img>
-<img src="/docs/brr 기사 전체 페이지.jpg" width="600px" title="Title" alt="Alt text"></img>
-<img src="/docs/brr 매칭 플로우차트.jpg" width="600px" title="Title" alt="Alt text"></img>
-<img src="/docs/brr 이메일 인증 플로우 차트.jpg" width="600px" title="Title" alt="Alt text"></img>
+   2-2) 유저 회원가입 플로우 차트
+   <img src="/docs/brr 유저 전체 페이지.jpg" width="600px" title="Title" alt="Alt text"></img>
+   2-3) 기사 전체 플로우 차트
+   <img src="/docs/brr 기사 전체 페이지.jpg" width="600px" title="Title" alt="Alt text"></img>
+   
+3) 테스크 플로우 차트
+   3-1) 로그인 및 회원가입 플로우 차트
+   <img src="/docs/로그인 및 회원가입 플로우차트.jpg" width="600px" title="Title" alt="Alt text"></img>
+ 
+4) 시스템 플로우 차트
+   4-1) 이메일 인증 플로우 차트
+   <img src="/docs/brr 이메일 인증 플로우 차트.jpg" width="600px" title="Title" alt="Alt text"></img>
+   4-2) 매칭 플로우 차트
+   <img src="/docs/brr 매칭 플로우차트.jpg" width="600px" title="Title" alt="Alt text"></img>
+5) ERD
+   <img src="/docs/brr ERD.jpg" width="600px" title="Title" alt="Alt text"></img>
+
+
+
+
+
 
 #### 나. 기능설명
 > 각 페이지 마다 사용자의 입력의 종류와 입력에 따른 결과 설명 및 시연 영상.
