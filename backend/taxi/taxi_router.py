@@ -6,7 +6,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from database import get_matchdb, get_userdb, get_historydb, get_taxidb
 from models import Matching as Matching_model, Lobby as Lobby_model, User as User_model, Taxi as Taxi_model
-from taxi.taxi_schema import CallInfo
+from taxi.taxi_schema import CallInfo, TaxiResponse
 # user
 from user.user_func import get_current_user
 
@@ -17,6 +17,7 @@ from history.history_router import create_history
 from datetime import datetime
 from typing import List,Dict
 import json
+
 
 security = HTTPBearer()
 router = APIRouter(
@@ -90,6 +91,8 @@ async def calling_taxi(call_type:int = None,
     # JSON으로 직렬화하여 웹소켓을 통해 방송합니다.
     await connection_manager.broadcast(taxi_room_id=0, message=json.dumps(matching_dicts))
     return matching_dicts
+
+
 @router.get("/call_info", response_model=CallInfo)
 async def call_info(
     matching_id: int,
@@ -118,7 +121,7 @@ async def call_info(
     return call_info_data
 
 # 택시기사가 콜을 잡을 때
-@router.post("/catch_call")
+@router.post("/catch_call", response_model=TaxiResponse)
 async def catch_call(
     matching_id: int,
     credentials: HTTPAuthorizationCredentials = Security(security),
@@ -127,6 +130,7 @@ async def catch_call(
     match_db: Session = Depends(get_matchdb)
 ):
     from matching.matching_router import lobby_manager
+
     if not matching_id:
         raise HTTPException(status_code=400, detail="매칭 아이디를 입력해야함")
     user = get_current_user(credentials, user_db)
@@ -138,17 +142,17 @@ async def catch_call(
     if not taxi:
         raise HTTPException(status_code=404, detail="택시를 찾을 수 없음")
     # 택시기사
-    taxi_data = {
-        "taxi_id" : user.id,
-        "driver_name" : taxi.driver_name,
-        "car_num" : taxi.car_num,
-        "phone_number" : user.phone_number,
-        "depart" : matching.depart,
-        "dest" : matching.dest
-    }
+    taxi_data = TaxiResponse(
+        user_id=user.user_id,
+        driver_name = taxi.driver_name,
+        car_num = taxi.car_num,
+        phone_number = user.phone_number,
+        depart = matching.depart,
+        dest = matching.dest
+    )
 
     print(taxi_data)
-    await lobby_manager.broadcast(matching_id, message=json.dumps(taxi_data))
+    await lobby_manager.broadcast(matching_id, message=taxi_data.dict())
     await calling_taxi(1, match_db)
     return taxi_data
 
@@ -214,3 +218,4 @@ async def complete_drive(
     match_db.commit()
 
     return {"message": "운행이 완료되어 매칭 정보가 기록되었습니다."}
+

@@ -1,9 +1,12 @@
 from pydantic import BaseModel
 
 class TaxiResponse(BaseModel):
+    user_id: str
     driver_name: str
     car_num: str
-    car_model: str
+    phone_number: str
+    depart: str
+    dest: str
 
 # 택시한테 보낼 정보
 class CallTaxi(BaseModel):
@@ -26,3 +29,8 @@ class CallInfo(BaseModel):
     taxi_fare : int
     distance: int
     duration: int
+
+
+
+
+
