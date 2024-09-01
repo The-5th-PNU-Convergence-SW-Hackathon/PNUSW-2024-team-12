@@ -135,7 +135,7 @@
    <img src="/docs/brr 유저 전체 페이지.jpg" width="600px" title="Title" alt="Alt text"></img>
 
    2-2) 유저 회원가입 플로우 차트
-   <img src="/docs/brr 유저 전체 페이지.jpg" width="600px" title="Title" alt="Alt text"></img>
+   <img src="/docs/brr 유저 플로우 차트 - 회원가입.jpg" width="600px" title="Title" alt="Alt text"></img>
    2-3) 기사 전체 플로우 차트
    <img src="/docs/brr 기사 전체 페이지.jpg" width="600px" title="Title" alt="Alt text"></img>
    
