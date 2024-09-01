@@ -176,14 +176,20 @@
    > 매칭 플로우 차트입니다.
    
    <img src="/docs/brr 매칭 플로우차트.jpg" width="800px" title="Title" alt="Alt text"></img>
+
+   4-3) 결제 로직
+   > 결제 플로우 차트입니다.
+
+
+   <img src="/docs/결제 로직.jpg" width="800px" title="Title" alt="Alt text"></img>
+
    
-4) ERD
+5) ERD
 
    5-1) database ERD
    > BRR 전체 database ERD입니다. 
    
    <img src="/docs/brr ERD.jpg" width="800px" title="Title" alt="Alt text"></img>
-
 
 
 
