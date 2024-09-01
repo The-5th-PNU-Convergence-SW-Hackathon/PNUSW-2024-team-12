@@ -118,11 +118,11 @@
 
 
 ### 2. 상세설계
-#### 2.1. 시스템 구성도
+#### 가. 시스템 구성도
 <img src="/docs/ERD.jpg" width="600px" title="Title" alt="Alt text"></img>
-<img src="/docs/플로우차트.jpg" width="600px" title="Title" alt="Alt text"></img>
+<img src="/docs/brr로그인및회원가입.jpg" width="600px" title="Title" alt="Alt text"></img>
 
-#### 2.1. 사용 기술
+#### 나. 사용 기술
 > 스택 별(backend, frontend, designer등) 사용한 기술 및 버전을 작성하세요.
 > 
 > ex) React.Js - React14, Node.js - v20.0.2
