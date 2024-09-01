@@ -3,14 +3,14 @@ import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/mydata_page_controller.dart';
 import 'package:get/get.dart';
 
-class DriverMainPageView extends StatefulWidget {
-  const DriverMainPageView({Key? key}) : super(key:key);
+class DriverMypageView extends StatefulWidget {
+  const DriverMypageView({Key? key}) : super(key:key);
   @override
-  _DriverMainPageViewState createState() => _DriverMainPageViewState();
+  _DriverMyDataPageViewState createState() => _DriverMyDataPageViewState();
 }
 
 
-class _DriverMainPageViewState extends State<DriverMainPageView> {
+class _DriverMyDataPageViewState extends State<DriverMypageView> {
   final MyPageController _myPageController = Get.put(MyPageController());
 
   @override
