@@ -137,20 +137,17 @@
    
    <img src="/docs/brr 유저 전체 페이지.jpg" width="800px" title="유저 전체 플로우 차트" alt="Alt text"></img>
 
-   2-2) 유저 회원가입 플로우 차트
-   > 유저 회원가입 플로우 차트입니다.
    
-   <img src="/docs/회원 플로우 차트 - 회원가입.jpg" width="800px" title="회원 회원가입 플로우 차트" alt="Alt text"></img>
+
+   2-2) 회원가입 플로우 차트
+   > 회원가입 플로우 차트입니다.
+   
+   <img src="/docs/회원가입 플로우 차트.jpg" width="800px" title="유저 전체 플로우 차트" alt="Alt text"></img>
 
    2-3) 기사 전체 플로우 차트
    > 택시기사의 전체 플로우 차트입니다.
    
    <img src="/docs/brr 기사 전체 페이지.jpg" width="600px" title="기사 전체 플로우 차트" alt="Alt text"></img>
-
-   2-4) 기사 회원가입 플로우 차트
-   > 기사 회원가입 플로우 차트입니다.
-
-   <img src="/docs/기사 플로우 차트 - 회원가입.jpg" width="800px" title="기사 회원가입 플로우 차트" alt="Alt text"></img>
    
 2) 테스크 플로우 차트
  
