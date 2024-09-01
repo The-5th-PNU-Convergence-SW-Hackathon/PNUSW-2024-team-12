@@ -119,8 +119,13 @@
 
 ### 2. 상세설계
 #### 가. 시스템 구성도
-<img src="/docs/ERD.jpg" width="600px" title="Title" alt="Alt text"></img>
-<img src="/docs/brr로그인및회원가입.jpg" width="600px" title="Title" alt="Alt text"></img>
+<img src="/docs/brr ERD.jpg" width="600px" title="Title" alt="Alt text"></img>
+<img src="/docs/로그인 및 회원가입 플로우차트.jpg" width="600px" title="Title" alt="Alt text"></img>
+<img src="/docs/brr 유저 전체 페이지.jpg" width="600px" title="Title" alt="Alt text"></img>
+<img src="/docs/brr 기사 전체 페이지.jpg" width="600px" title="Title" alt="Alt text"></img>
+<img src="/docs/brr 매칭 플로우차트.jpg" width="600px" title="Title" alt="Alt text"></img>
+<img src="/docs/brr 이메일 인증 플로우 차트.jpg" width="600px" title="Title" alt="Alt text"></img>
+
 
 #### 나. 사용 기술
 > 스택 별(backend, frontend, designer등) 사용한 기술 및 버전을 작성하세요.
