@@ -142,15 +142,15 @@ async def catch_call(
     if not taxi:
         raise HTTPException(status_code=404, detail="택시를 찾을 수 없음")
     # 택시기사
-    taxi_data = TaxiResponse(
-        lobby_id=matching_id,
-        driver_name = taxi.driver_name,
-        car_num = taxi.car_num,
-        phone_number = user.phone_number,
-        depart = matching.depart,
-        dest = matching.dest,
-        path = matching.path
-    )
+    taxi_data = {
+        "taxi_id" : user.id,
+        "driver_name" : taxi.driver_name,
+        "car_num" : taxi.car_num,
+        "phone_number" : user.phone_number,
+        "depart" : matching.depart,
+        "dest" : matching.dest,
+        "path" : matching.path
+    }
 
     print(taxi_data)
     await lobby_manager.broadcast(matching_id, message=json.dumps(taxi_data))
