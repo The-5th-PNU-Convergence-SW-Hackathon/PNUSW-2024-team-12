@@ -143,7 +143,7 @@ async def catch_call(
         raise HTTPException(status_code=404, detail="택시를 찾을 수 없음")
     # 택시기사
     taxi_data = TaxiResponse(
-        user_id=user.user_id,
+        lobby_id=matching_id,
         driver_name = taxi.driver_name,
         car_num = taxi.car_num,
         phone_number = user.phone_number,

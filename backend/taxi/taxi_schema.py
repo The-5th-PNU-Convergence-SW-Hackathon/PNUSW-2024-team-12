@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 class TaxiResponse(BaseModel):
-    user_id: str
+    lobby_id: int
     driver_name: str
     car_num: str
     phone_number: str
