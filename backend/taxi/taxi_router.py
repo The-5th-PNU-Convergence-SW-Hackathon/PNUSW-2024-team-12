@@ -153,7 +153,7 @@ async def catch_call(
     )
 
     print(taxi_data)
-    await lobby_manager.broadcast(matching_id, message=taxi_data.dict())
+    await lobby_manager.broadcast(matching_id, message=json.dumps(taxi_data))
     await calling_taxi(1, match_db)
     return taxi_data
 
