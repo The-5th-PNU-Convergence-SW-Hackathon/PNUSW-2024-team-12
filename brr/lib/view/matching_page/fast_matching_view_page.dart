@@ -24,10 +24,17 @@ class _MatchingPageViewState extends State<MatchingPageView> {
       final startMarker = NMarker(
         id: "startMarker",
         position: NLatLng(locationController.startLatitude.value, locationController.startLongitude.value),
-        iconTintColor: Colors.red,
+        iconTintColor: Colors.yellow,
       );
       await _mapController.addOverlay(startMarker);
     }
+    final cameraUpdate = NCameraUpdate.withParams(
+      target: NLatLng(locationController.startLatitude.value != 0.0 ? locationController.startLatitude.value :35.2339681,
+         locationController.startLongitude.value != 0.0 ? locationController.startLongitude.value :129.0806855 ),
+      zoom: 16,
+      bearing: 0,
+    );
+    await _mapController.updateCamera(cameraUpdate);
 
     if (locationController.endLatitude.value != 0.0 &&
         locationController.endLongitude.value != 0.0) {
@@ -54,31 +61,34 @@ class _MatchingPageViewState extends State<MatchingPageView> {
 
       await _mapController.addOverlayAll(overlays);
     }
-    
-    setState(() {}); 
-  }
 
+    setState(() {});
+  }
+  
   String _getDurationInMinutes(double durationInSeconds) {
-    int minutes = (durationInSeconds / 60000).round(); // 초를 분으로 변환
+    int minutes = (durationInSeconds / 60000).round();
     return minutes.toString();
   }
 
   @override
   Widget build(BuildContext context) {
+    final  startLat = locationController.startLatitude.value;
+    final  startLong = locationController.startLongitude.value;
+    print("$startLat, $startLong");
     return Scaffold(
       body: SafeArea(
         child: Stack(
           children: [
             Positioned.fill(
               child: NaverMap(
-                options: const NaverMapViewOptions(
+                options: NaverMapViewOptions(
                   initialCameraPosition: NCameraPosition(
-                    target: NLatLng(35.2339681, 129.0806855),
+                    target: NLatLng(35.2339681, 129.0806855), 
                     zoom: 15,
                     bearing: 0,
                     tilt: 0,
                   ),
-                  locale: Locale('kr'),
+                  locale: const Locale('kr'),
                   locationButtonEnable: true,
                 ),
                 onMapReady: (controller) {
@@ -94,8 +104,11 @@ class _MatchingPageViewState extends State<MatchingPageView> {
               builder: (context, scrollController) {
                 return Container(
                   decoration: const BoxDecoration(
-                    color: Colors.white, 
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
                   ),
                   child: ListView(
                     controller: scrollController,
@@ -111,15 +124,15 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                               width: 50,
                               height: 5,
                               decoration: BoxDecoration(
-                                color: Colors.grey, 
-                                borderRadius: BorderRadius.circular(5)
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.circular(5),
                               ),
                             ),
                             const SizedBox(height: 15),
                             Obx(() => Text(
-                              '약 ${_getDurationInMinutes(locationController.duration.value)}분 소요',
-                              style: const TextStyle(fontSize: 12),
-                            )),
+                                  '약 ${_getDurationInMinutes(locationController.duration.value)}분 소요',
+                                  style: const TextStyle(fontSize: 12),
+                                )),
                             const SizedBox(height: 15),
                             const Divider(color: Colors.grey, thickness: 1),
                             const SizedBox(height: 15),
@@ -173,8 +186,8 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                                       ),
                                       TextButton(
                                         onPressed: () {},
-                                        child: const Row(
-                                          children: [
+                                        child: Row(
+                                          children: const [
                                             Icon(Icons.add, size: 15, color: Colors.blue),
                                             SizedBox(width: 3),
                                             Text(
@@ -195,7 +208,7 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                                     children: [
                                       BRRcashIcon(),
                                       const SizedBox(width: 10),
-                                      Text(
+                                      const Text(
                                         "15,800 캐시",
                                         style: TextStyle(
                                           fontSize: 30,
@@ -221,9 +234,12 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                                 onPressed: () {
                                   final AddMatchListController addMatchListController = Get.put(AddMatchListController());
 
-                                  if (addMatchListController.selectedMinMember.value == 0 && locationController.startLocation.value == '' && locationController.endLocation.value == '') {
+                                  if (addMatchListController.selectedMinMember.value == 0 &&
+                                      locationController.startLocation.value == '' &&
+                                      locationController.endLocation.value == '') {
                                     Get.snackbar('Error', '매칭 조건(출발지/도착지/인원)을 모두 채워주세요.');
-                                  } else if (locationController.startLocation.value == '' || locationController.endLocation.value == '') {
+                                  } else if (locationController.startLocation.value == '' ||
+                                      locationController.endLocation.value == '') {
                                     Get.snackbar('Error', '출발지와 도착지를 채워주세요.');
                                   } else if (addMatchListController.selectedMinMember.value == 0) {
                                     Get.snackbar('Error', '매칭 할 인원을 선택해주세요.');
@@ -246,9 +262,9 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                         ),
                       ),
                     ],
-                  )
+                  ),
                 );
-              }
+              },
             ),
             Positioned(
               top: 50.0,
@@ -259,12 +275,12 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                   const SizedBox(width: 10.0),
                   ElevatedButton(
                     onPressed: () async {
-                        final result = await Get.toNamed('/writelocation');
-                        if (result == true) {
-                          await locationController.getRoute();
-                          _updateMap();  // 먼저 맵을 빌드하고  // 경로를 저장한 후 // 다시 맵을 빌드
-                        }
-                      },
+                      final result = await Get.toNamed('/writelocation');
+                      if (result == true) {
+                        await locationController.getRoute();
+                        _updateMap(); // 먼저 맵을 빌드하고 경로를 저장한 후 다시 맵을 빌드
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
@@ -302,70 +318,72 @@ class _MatchingPageViewState extends State<MatchingPageView> {
 
     return Padding(
       padding: const EdgeInsets.all(5),
-      child: Obx(() => SizedBox(
-            width: 80,
-            height: 60,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                foregroundColor: addMatchListController.selectedMinMember.value == minMember ? Colors.blue : Colors.white,
-                backgroundColor: addMatchListController.selectedMinMember.value == minMember ? Colors.white : Colors.blue,
-                side: addMatchListController.selectedMinMember.value == minMember ? const BorderSide(color: Colors.blue, width: 2) : BorderSide.none,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: EdgeInsets.zero,
+      child: Obx(
+        () => SizedBox(
+          width: 80,
+          height: 60,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: addMatchListController.selectedMinMember.value == minMember ? Colors.blue : Colors.white,
+              backgroundColor: addMatchListController.selectedMinMember.value == minMember ? Colors.white : Colors.blue,
+              side: addMatchListController.selectedMinMember.value == minMember ? const BorderSide(color: Colors.blue, width: 2) : BorderSide.none,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
-              onPressed: () {
-                if (addMatchListController.selectedMinMember.value == minMember) {
-                  addMatchListController.selectedMinMember.value = 0;
-                } else {
-                  addMatchListController.selectedMinMember.value = minMember;
-                }
-              },
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      text,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: addMatchListController.selectedMinMember.value == minMember ? Colors.blue : Colors.white,
-                      ),
+              padding: EdgeInsets.zero,
+            ),
+            onPressed: () {
+              if (addMatchListController.selectedMinMember.value == minMember) {
+                addMatchListController.selectedMinMember.value = 0;
+              } else {
+                addMatchListController.selectedMinMember.value = minMember;
+              }
+            },
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    text,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: addMatchListController.selectedMinMember.value == minMember ? Colors.blue : Colors.white,
                     ),
-                    Text(
-                      _calculateFare(minMember),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: addMatchListController.selectedMinMember.value == minMember ? Colors.blue : Colors.white,
-                      ),
+                  ),
+                  Text(
+                    _calculateFare(minMember),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: addMatchListController.selectedMinMember.value == minMember ? Colors.blue : Colors.white,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 
   String _calculateFare(int minMember) {
-  double baseFare = locationController.taxiFare.value;
+    double baseFare = locationController.taxiFare.value;
 
-  final formatter = NumberFormat(',###,###');
+    final formatter = NumberFormat(',###,###');
 
-  switch (minMember) {
-    case 2:
-      return '~ ${formatter.format((baseFare / 2).round())}원';
-    case 3:
-      return '~ ${formatter.format((baseFare / 3).round())}원';
-    case 4:
-      return ' ${formatter.format((baseFare / 4).round())}원';
-    default:
-      return '~ ${formatter.format((baseFare / 1).round())}원';
+    switch (minMember) {
+      case 2:
+        return '~ ${formatter.format((baseFare / 2).round())}원';
+      case 3:
+        return '~ ${formatter.format((baseFare / 3).round())}원';
+      case 4:
+        return ' ${formatter.format((baseFare / 4).round())}원';
+      default:
+        return '~ ${formatter.format((baseFare / 1).round())}원';
+    }
   }
-}
 
   Widget locationRow(Widget icon, String title, String subtitle) {
     return Row(

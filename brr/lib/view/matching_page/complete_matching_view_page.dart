@@ -1,10 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/location_controller.dart';
+import 'dart:convert';
 
-class CompleteMatchingViewPage extends StatelessWidget {
+class CompleteMatchingViewPage extends StatefulWidget {
   const CompleteMatchingViewPage({super.key});
+
+  @override
+  _CompleteMatchingViewPageState createState() => _CompleteMatchingViewPageState();
+}
+
+class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
+  late NaverMapController _mapController;
+
+  List<NLatLng> convertToLatLng(List<Map<String, dynamic>> pathData) {
+    return pathData.map((point) {
+      return NLatLng(point['lat'], point['lng']);
+    }).toList();
+  }
+
+  void _updateMap(List<List<NLatLng>> latLngLists, NLatLng start, NLatLng end) async {
+    await _mapController.clearOverlays();
+
+    final startMarker = NMarker(
+      id: "startMarker",
+      position: start,
+      iconTintColor: Colors.red,
+    );
+    await _mapController.addOverlay(startMarker);
+
+    final endMarker = NMarker(
+      id: "endMarker",
+      position: end,
+      iconTintColor: Colors.green,
+    );
+    await _mapController.addOverlay(endMarker);
+
+    if (latLngLists.isNotEmpty) {
+      Set<NAddableOverlay> overlays = {};
+
+      for (var latLngList in latLngLists) {
+        final multipartPathOverlay = NMultipartPathOverlay(
+          id: DateTime.now().toIso8601String(),
+          paths: [
+            NMultipartPath(coords: latLngList),
+          ],
+          width: 5,
+        );
+        overlays.add(multipartPathOverlay);
+      }
+
+      await _mapController.addOverlayAll(overlays);
+    }
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,29 +68,49 @@ class CompleteMatchingViewPage extends StatelessWidget {
     final phoneNumber = data['phone_number'];
     final depart = data['depart'];
     final dest = data['dest'];
+    final String pathString = data['path'];
+    final List<Map<String, dynamic>> pathData = List<Map<String, dynamic>>.from(jsonDecode(pathString));
+    final List<NLatLng> latLngList = convertToLatLng(pathData);
+
+    final start = latLngList.first;
+    final end = latLngList.last;
 
     return Scaffold(
-        body: SafeArea(
-            child: Stack(
-      children: [
-        Positioned.fill(
-          child: Container(
-            color: Colors.blueGrey,
-            child: const Center(
-              child: Image(
-                image: AssetImage('assets/images/map.png'),
-                fit: BoxFit.fill,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: NaverMap(
+                options: NaverMapViewOptions(
+                  initialCameraPosition: NCameraPosition(
+                    target: start,
+                    zoom: 16,
+                    bearing: 0,
+                    tilt: 0,
+                  ),
+                  locale: Locale('kr'),
+                  locationButtonEnable: true,
+                ),
+                onMapReady: (controller) {
+                  _mapController = controller;
+                  
+                  _updateMap([latLngList], start, end);
+                },
               ),
             ),
-          ),
-        ),
-        DraggableScrollableSheet(
-            initialChildSize: 0.24,
-            minChildSize: 0.12,
-            maxChildSize: 0.7,
-            builder: (context, scrollController) {
-              return Container(
-                  decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+            DraggableScrollableSheet(
+              initialChildSize: 0.24,
+              minChildSize: 0.12,
+              maxChildSize: 0.7,
+              builder: (context, scrollController) {
+                return Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
                   child: ListView(
                     controller: scrollController,
                     children: [
@@ -52,7 +124,10 @@ class CompleteMatchingViewPage extends StatelessWidget {
                               margin: const EdgeInsets.only(top: 10),
                               width: 50,
                               height: 5,
-                              decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(5)),
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
                             ),
                             const SizedBox(height: 15),
                             Row(
@@ -63,24 +138,27 @@ class CompleteMatchingViewPage extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                                      circleContainer,
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        "약 3분 후 도착",
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12,
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        circleContainer,
+                                        const SizedBox(width: 5),
+                                        const Text(
+                                          "약 3분 후 도착",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                          ),
                                         ),
-                                      ),
-                                    ]),
+                                      ],
+                                    ),
                                     Row(
                                       children: [
                                         circleContainer,
                                         const SizedBox(width: 5),
-                                        Text(
+                                        const Text(
                                           "목적지 부산역 (고속철도)",
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             color: Colors.grey,
                                             fontSize: 12,
                                           ),
@@ -88,7 +166,7 @@ class CompleteMatchingViewPage extends StatelessWidget {
                                       ],
                                     ),
                                   ],
-                                )
+                                ),
                               ],
                             ),
                             contactRow("기사님께 연락하기...", Icon(Icons.phone, color: Colors.blue, size: 20)),
@@ -96,21 +174,21 @@ class CompleteMatchingViewPage extends StatelessWidget {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
+                                const Text(
                                   "매칭 완료",
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18,
                                   ),
                                 ),
                                 const SizedBox(width: 10),
-                                Text(
+                                const Text(
                                   "안선주 이지헌",
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: Colors.grey,
                                     fontSize: 12,
                                   ),
-                                )
+                                ),
                               ],
                             ),
                             const SizedBox(height: 10),
@@ -118,9 +196,9 @@ class CompleteMatchingViewPage extends StatelessWidget {
                             const SizedBox(height: 30),
                             Align(
                               alignment: Alignment.centerLeft,
-                              child: Text(
+                              child: const Text(
                                 "예상 결제 비용",
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 18,
                                 ),
@@ -140,7 +218,7 @@ class CompleteMatchingViewPage extends StatelessWidget {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
+                                      const Text(
                                         "부르릉 캐시",
                                         style: TextStyle(
                                           fontSize: 16,
@@ -151,9 +229,9 @@ class CompleteMatchingViewPage extends StatelessWidget {
                                         onPressed: () {},
                                         child: Row(
                                           children: [
-                                            Icon(Icons.add, size: 15, color: Colors.blue),
-                                            SizedBox(width: 3),
-                                            Text(
+                                            const Icon(Icons.add, size: 15, color: Colors.blue),
+                                            const SizedBox(width: 3),
+                                            const Text(
                                               '충전하기',
                                               style: TextStyle(
                                                 fontSize: 10,
@@ -165,13 +243,13 @@ class CompleteMatchingViewPage extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 15),
+                                  const SizedBox(height: 15),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       BRRcashIcon(),
-                                      SizedBox(width: 10),
-                                      Text(
+                                      const SizedBox(width: 10),
+                                      const Text(
                                         "15,800 캐시",
                                         style: TextStyle(
                                           fontSize: 30,
@@ -187,44 +265,48 @@ class CompleteMatchingViewPage extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ));
-            }),
-        Positioned(
-          top: 50.0,
-          left: 30.0,
-          child: Row(
-            children: [
-              const SizedBox(width: 10.0),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
                   ),
-                  elevation: 5,
-                  shadowColor: Colors.black.withOpacity(0.1),
-                ),
-                child: SizedBox(
-                  width: 270.0,
-                  height: 70,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      locationRow(circleContainer, '출발지', depart),
-                      const SizedBox(height: 5.0),
-                      locationRow(rectangularContainer, '도착지', dest),
-                    ],
+                );
+              },
+            ),
+            Positioned(
+              top: 50.0,
+              left: 30.0,
+              child: Row(
+                children: [
+                  const SizedBox(width: 10.0),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      elevation: 5,
+                      shadowColor: Colors.black.withOpacity(0.1),
+                    ),
+                    child: SizedBox(
+                      width: 270.0,
+                      height: 70,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          locationRow(circleContainer, '출발지', depart),
+                          const SizedBox(height: 5.0),
+                          locationRow(rectangularContainer, '도착지', dest),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              )
-            ],
-          ),
-        )
-      ],
-    )));
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget locationRow(Widget icon, String title, String subtitle) {
@@ -307,7 +389,7 @@ class CompleteMatchingViewPage extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.transparent,
               elevation: 0,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -318,7 +400,7 @@ class CompleteMatchingViewPage extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14,
                     color: Colors.grey,
                   ),
@@ -326,7 +408,7 @@ class CompleteMatchingViewPage extends StatelessWidget {
                 const Icon(
                   Icons.near_me,
                   color: Colors.blue,
-                )
+                ),
               ],
             ),
           ),
