@@ -33,12 +33,16 @@ class AddMatchListController extends GetxController {
     } else {
       boardingTime = DateTime.now().toString(); // 빠른 매칭의 경우 현재 시간
     }
+
     final startLocation = locationController.startLocation.value;
     final endLocation = locationController.endLocation.value;
     final taxi_fare = locationController.taxiFare.value;
     final distance = (locationController.distance.value / 1000).round();
     final duration = (locationController.duration.value / 60000).round();
-    print("$distance , $duration, $taxi_fare");
+    final pathJson = locationController.convertPathToJson(locationController.pathCoordinates[0]);
+
+    print("$distance , $duration, $taxi_fare, $pathJson");
+
     final data = {
       "matching_type": matchingType,
       "boarding_time": boardingTime,
@@ -47,7 +51,8 @@ class AddMatchListController extends GetxController {
       "min_member": minMember,
       "taxi_fare": taxi_fare,
       "distance": distance,
-      "duration": duration
+      "duration": duration,
+      "path": pathJson  
     };
 
     final url = '${Urls.apiUrl}matching/create';
@@ -77,6 +82,7 @@ class AddMatchListController extends GetxController {
       print('Error occurred while sending match data: $e');
     }
   }
+
 
   void joinLobby(int lobbyId) {
     final url = 'ws://${Urls.wsUrl}matching/lobbies/$lobbyId/ws';
