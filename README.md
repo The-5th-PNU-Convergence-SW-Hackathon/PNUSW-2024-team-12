@@ -153,7 +153,7 @@
    
    <img src="/docs/brr 기사 전체 페이지.jpg" width="600px" title="기사 전체 플로우 차트" alt="Alt text"></img>
    
-2) 테스크 플로우 차트
+3) 테스크 플로우 차트
  
    3-1) 로그인 및 회원가입 플로우 차트
    > 로그인과 회원가입의 플로우 차트입니다.
@@ -165,9 +165,9 @@
     택시기사는 아이디, 비밀번호, 이름, 전호번호, 자동차 번호, 자동차 모델을 입력합니다.
 
     로그인 시 사용자일 경우 사용자페이지로, 택시기사의 경우 택시기사 페이지로 이동합니다.
-   <img src="/docs/로그인 및 회원가입 플로우차트.jpg" width="800px" title="brr 로그인 및 회원가입 플로우 차트" alt="Alt text"></img>
+   <img src="/docs/brr 로그인 및 회원가입 플로우 차트.jpg" width="800px" title="brr 로그인 및 회원가입 플로우 차트" alt="Alt text"></img>
  
-3) 시스템 플로우 차트
+4) 시스템 플로우 차트
  
    4-1) 이메일 인증 플로우 차트
    > 이메일 인증 플로우 차트입니다.
@@ -192,7 +192,6 @@
    > BRR 전체 database ERD입니다. 
    
    <img src="/docs/brr ERD.jpg" width="800px" title="Title" alt="Alt text"></img>
-
 
 
 
