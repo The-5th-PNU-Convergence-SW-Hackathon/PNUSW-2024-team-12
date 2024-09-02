@@ -7,6 +7,7 @@ class TaxiResponse(BaseModel):
     phone_number: str
     depart: str
     dest: str
+    path: str
 
 # 택시한테 보낼 정보
 class CallTaxi(BaseModel):
@@ -29,6 +30,7 @@ class CallInfo(BaseModel):
     taxi_fare : int
     distance: int
     duration: int
+    path: str
 
 
 

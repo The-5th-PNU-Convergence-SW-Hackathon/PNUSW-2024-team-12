@@ -148,7 +148,8 @@ async def catch_call(
         car_num = taxi.car_num,
         phone_number = user.phone_number,
         depart = matching.depart,
-        dest = matching.dest
+        dest = matching.dest,
+        path = matching.path
     )
 
     print(taxi_data)
