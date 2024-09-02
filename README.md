@@ -130,7 +130,9 @@
 ### 3. 개발결과
 #### 가. 전체시스템 흐름도
 1) IA(Information Architecture)
-   > 정보나 시스템의 구조를 도식화하여 보여줍니다.
+   > BRR의 구조를 도식화하여 보여줍니다.
+   
+   <img src="/docs/IA.jpg" width="800px" title="Title" alt="Alt text"></img>
    
 2) 유저 플로우 차트
    
