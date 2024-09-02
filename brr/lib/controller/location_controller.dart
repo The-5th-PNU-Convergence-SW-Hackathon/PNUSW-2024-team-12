@@ -185,4 +185,11 @@ class LocationController extends GetxController {
     endLongitude.value = 0.0;
     pathCoordinates.clear();
   }
+
+  String convertPathToJson(List<NLatLng> path) {
+  List<Map<String, double>> jsonPath = path
+      .map((point) => {'lat': point.latitude, 'lng': point.longitude})
+      .toList();
+  return json.encode(jsonPath);
+}
 }

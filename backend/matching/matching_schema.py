@@ -10,6 +10,7 @@ class MatchingCreate(BaseModel):
     taxi_fare: int
     duration: int
     distance: int
+    path: str
 
 class MatchingResponse(BaseModel):
     id: int
