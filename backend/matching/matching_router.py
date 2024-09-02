@@ -104,7 +104,8 @@ def create_matching(
         matching_taxi=0,
         taxi_fare = matching.taxi_fare,
         duration = matching.duration,
-        distance = matching.distance
+        distance = matching.distance,
+        path = matching.path
     )
     match_db.add(db_matching)
     match_db.commit()

@@ -49,6 +49,7 @@ class Matching(match_Base):
     taxi_fare = Column(Integer)
     duration = Column(Integer)
     distance = Column(Integer)
+    path = Column(Text)
     lobby = relationship("Lobby", back_populates="matching")
 
 

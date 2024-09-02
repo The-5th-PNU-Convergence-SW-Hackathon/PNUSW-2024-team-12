@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/design_materials/design_materials.dart';
+import 'package:brr/controller/mydata_page_controller.dart';
 
 class DriverMainPageView extends StatefulWidget {
-  DriverMainPageView({super.key});
+  const DriverMainPageView({super.key});
 
   @override
   State<DriverMainPageView> createState() => _DriverMainPageViewState();
 }
 
 class _DriverMainPageViewState extends State<DriverMainPageView> {
+  final MyPageController _myPageController = Get.put(MyPageController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,13 +29,13 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              driverProfile('권민준', '효원운수'),
+              Obx(()=> driverProfile(_myPageController.nickname.value, '효원운수')),
               const SizedBox(height: 15),
               carProfile('아이오닉5 / 중형/ 모범', '부산 12바 2901'),
               const SizedBox(height: 15),
               workButton(),
               const SizedBox(height: 5),
-              Text("현재 위치 : 부산광역시 금정구 장전 1동", style: const TextStyle(fontSize: 20, color: Colors.black)),
+              const Text("현재 위치 : 부산광역시 금정구 장전 1동", style: const TextStyle(fontSize: 20, color: Colors.black)),
             ],
           ),
         ));

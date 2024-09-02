@@ -1,7 +1,6 @@
 import 'package:brr/controller/mydata_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:brr/controller/mydata_controller.dart';
 
 class MyDataPageView extends StatefulWidget {
   const MyDataPageView({Key? key}) : super(key: key);
