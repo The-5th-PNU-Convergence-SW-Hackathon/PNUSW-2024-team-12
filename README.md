@@ -129,14 +129,14 @@
 
 ### 3. 개발결과
 #### 가. 전체시스템 흐름도
-1) IA(Information Architecture)
+1 ) IA(Information Architecture)
    > BRR의 구조를 도식화하여 보여줍니다.
    
    BRR은 사용자(손님)와 택시기사로 구분하여 페이지가 구성되어있습니다.
    
    <img src="/docs/IA.jpg" width="800px" title="Title" alt="Alt text"></img>
    
-2) 유저 플로우 차트
+2 ) 유저 플로우 차트
    
    2-1) 사용자 전체 플로우 차트
    > 사용자의 전체 플로우 차트입니다.
@@ -153,9 +153,9 @@
 
    기사는 *출근하기* 버튼을 클릭하면 콜대기 화면으로 이동하여 사용자가 택시를 부르면 자동으로 리스트업이 되어 콜 수락을 할 수 있습니다.
    
-   <img src="/docs/brr 기사 전체 페이지.jpg" width="600px" title="기사 전체 플로우 차트" alt="Alt text"></img>
+   <img src="/docs/brr 기사 전체 페이지.jpg" width="400px" title="기사 전체 플로우 차트" alt="Alt text"></img>
 
-      2-3) 회원가입 플로우 차트
+   2-3) 회원가입 플로우 차트
    > 회원가입 플로우 차트입니다.
 
    왼쪽은 사용자의 회원가입 과정, 오른쪽은 택시기사의 회원가입 과정입니다.
@@ -164,7 +164,7 @@
 
    <img src="/docs/전체 회원가입 플로우 차트.jpg" width="800px" title="회원가입 플로우 차트" alt="Alt text"></img>
    
-3) 테스크 플로우 차트
+3 ) 테스크 플로우 차트
  
    3-1) 로그인 및 회원가입 플로우 차트
    > 로그인과 회원가입의 플로우 차트입니다.
@@ -179,7 +179,7 @@
    
    <img src="/docs/brr 로그인 및 회원가입 플로우 차트.jpg" width="800px" title="brr 로그인 및 회원가입 플로우 차트" alt="Alt text"></img>
  
-4) 시스템 플로우 차트
+4 ) 시스템 플로우 차트
  
    4-1) 이메일 인증 플로우 차트
    > 이메일 인증 플로우 차트입니다.
@@ -217,7 +217,7 @@
    <img src="/docs/결제 로직.jpg" width="800px" title="Title" alt="Alt text"></img>
 
    
-7) ERD
+5 ) ERD
 
    5-1) database ERD
    > BRR 전체 database ERD입니다. 
