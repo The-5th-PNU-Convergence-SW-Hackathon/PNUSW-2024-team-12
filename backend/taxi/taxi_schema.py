@@ -30,7 +30,7 @@ class CallInfo(BaseModel):
     taxi_fare : int
     distance: int
     duration: int
-    path: str
+    
 
 
 
