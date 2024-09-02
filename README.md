@@ -146,7 +146,7 @@
    2-2) 회원가입 플로우 차트
    > 회원가입 플로우 차트입니다.
    
-   <img src="/docs/회원가입 플로우 차트.jpg" width="800px" title="회원가입 플로우 차트" alt="Alt text"></img>
+   <img src="/docs/전체 회원가입 플로우 차트.jpg" width="800px" title="회원가입 플로우 차트" alt="Alt text"></img>
 
    2-3) 기사 전체 플로우 차트
    > 택시기사의 전체 플로우 차트입니다.
