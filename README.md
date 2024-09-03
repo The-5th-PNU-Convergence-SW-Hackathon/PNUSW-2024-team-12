@@ -150,7 +150,7 @@
 ### 2. 상세설계
 #### 가. 시스템 구성도
 
-
+<img src="/docs/시스템 구성도.png" width="800px" title="Title" alt="Alt text"></img>
 
 #### 나. 사용 기술
 > 스택 별(backend, frontend, designer등) 사용한 기술 및 버전을 작성하세요.
