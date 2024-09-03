@@ -113,7 +113,7 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                     controller: scrollController,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -163,69 +163,61 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            Container(
-                              height: 180,
-                              width: double.infinity,
-                              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-                              decoration: BoxDecoration(
-                                color: Colors.blue[50],
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: Column(
+                            
+                                  
+                                 Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        "부르릉 캐시",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {},
-                                        child: Row(
-                                          children: const [
-                                            Icon(Icons.add, size: 15, color: Colors.blue),
-                                            SizedBox(width: 3),
-                                            Text(
-                                              '충전하기',
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                                  Container(
+                                    width: 200,
+                                    height: 130,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
-                                  const SizedBox(height: 15),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      BRRcashIcon(),
-                                      const SizedBox(width: 10),
-                                      const Text(
-                                        "15,800 캐시",
-                                        style: TextStyle(
-                                          fontSize: 30,
-                                          color: Colors.blue,
+                                  const SizedBox(width: 10),
+                                  const Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '라이언 치즈 체크카드',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
+                                        Text(
+                                          'NH농협카드',
+                                          style: TextStyle(
+                                            fontSize: 8,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        SizedBox(height: 30),
+                                        
+                                      ],
+                                    ),
+                                  ),]),
+                                
+                    ]),
+                                
+                              
+                            
                             const SizedBox(height: 20),
                             SizedBox(
                               width: double.infinity,
                               height: 50,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
+                                  backgroundColor: Color(0xFF1479FF),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -323,9 +315,9 @@ class _MatchingPageViewState extends State<MatchingPageView> {
           height: 60,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              foregroundColor: addMatchListController.selectedMinMember.value == minMember ? Colors.blue : Colors.white,
-              backgroundColor: addMatchListController.selectedMinMember.value == minMember ? Colors.white : Colors.blue,
-              side: addMatchListController.selectedMinMember.value == minMember ? const BorderSide(color: Colors.blue, width: 2) : BorderSide.none,
+              foregroundColor: addMatchListController.selectedMinMember.value == minMember ? Color(0xFF1479FF) : Colors.white,
+              backgroundColor: addMatchListController.selectedMinMember.value == minMember ? Colors.white : Color(0xFF1479FF),
+              side: addMatchListController.selectedMinMember.value == minMember ? const BorderSide(color: Color(0xFF1479FF), width: 2) : BorderSide.none,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -348,14 +340,14 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: addMatchListController.selectedMinMember.value == minMember ? Colors.blue : Colors.white,
+                      color: addMatchListController.selectedMinMember.value == minMember ? Color(0xFF1479FF) : Colors.white,
                     ),
                   ),
                   Text(
                     _calculateFare(minMember),
                     style: TextStyle(
                       fontSize: 12,
-                      color: addMatchListController.selectedMinMember.value == minMember ? Colors.blue : Colors.white,
+                      color: addMatchListController.selectedMinMember.value == minMember ? Color(0xFF1479FF) : Colors.white,
                     ),
                   ),
                 ],
@@ -425,7 +417,7 @@ class _MatchingPageViewState extends State<MatchingPageView> {
         },
         shape: const CircleBorder(),
         backgroundColor: Colors.white,
-        foregroundColor: Colors.blue,
+        foregroundColor: Color(0xFF1479FF),
         elevation: 4.0,
         child: const Icon(
           Icons.arrow_back,
