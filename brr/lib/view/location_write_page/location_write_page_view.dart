@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/location_controller.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 
 class WriteLocationPageView extends StatefulWidget {
   const WriteLocationPageView({super.key});
@@ -66,6 +67,11 @@ class _WriteLocationPageViewState extends State<WriteLocationPageView> {
               Navigator.pop(context);
             },
           ),
+          title: const Text(
+    '위치 설정',
+    style: TextStyle(color: Colors.black),
+  ),
+  centerTitle: true,
           actions: [
             IconButton(
               icon: const Icon(Icons.check, color: Colors.blue),
@@ -78,44 +84,76 @@ class _WriteLocationPageViewState extends State<WriteLocationPageView> {
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                width: double.infinity,
+                height: 55,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(30),
+                  color: Color(0XFFE6F0FF),
+                  borderRadius: BorderRadius.circular(15),
                 ),
                 child: Row(
                   children: [
-                    circleContainer,
-                    const SizedBox(width: 10),
+                    Row(
+                      children: [
+                        circleContainer,
+                        const SizedBox(width: 10),
+                        const Text(
+                          '출발지 : ',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Color(0xFF676767),
+                          ),
+                        ),
+                      ],
+                    ),
+                    
                     Expanded(
                       child: TextField(
                         controller: startLocationController,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
-                          hintText: '출발지를 입력해주세요',
+                          hintText: '출발지 입력',
+                          hintStyle: TextStyle(
+                            color: Color(0xFF676767),),
+                        
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                width: double.infinity,
+                height: 55,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(30),
-                ),
+                  color: Color(0XFFE6F0FF),
+                  borderRadius: BorderRadius.circular(15),),
                 child: Row(
                   children: [
-                    rectangularContainer,
-                    const SizedBox(width: 10),
+                    Row(
+                      children: [
+                        rectangularContainer,
+                        const SizedBox(width: 10),
+                        const Text(
+                          '도착지 : ',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Color(0xFF676767),
+                            
+                          ),
+                        ),
+                      ],
+                    ),
                     Expanded(
                       child: TextField(
                         controller: endLocationController,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
-                          hintText: '도착지를 입력해주세요',
+                          hintText: '도착지 입력',
+                          hintStyle: TextStyle(
+                            color: Color(0xFF676767),),
                         ),
                       ),
                     ),
