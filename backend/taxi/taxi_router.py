@@ -222,7 +222,7 @@ async def complete_drive(
 
 
 # 택시기사가 매칭 id로 get을하면 
-@router.get("get_path")
+@router.get("/get_path")
 def path(
     matching_id: int,
     match_db: Session = Depends(get_matchdb),
