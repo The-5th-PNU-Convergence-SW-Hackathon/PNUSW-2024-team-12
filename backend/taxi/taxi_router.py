@@ -220,3 +220,19 @@ async def complete_drive(
 
     return {"message": "운행이 완료되어 매칭 정보가 기록되었습니다."}
 
+
+# 택시기사가 매칭 id로 get을하면 
+@router.get("get_path")
+def path(
+    matching_id: int,
+    match_db: Session = Depends(get_matchdb),
+):
+    matching = match_db.query(Matching_model).filter(Matching_model.id == matching_id).first()
+
+    if not matching:
+        raise HTTPException(status_code=400, detail="해당하는 매칭이 없습니다.")
+    
+    path = matching.path
+    print(path)
+    return path
+    
