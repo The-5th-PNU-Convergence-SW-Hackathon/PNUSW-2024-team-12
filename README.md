@@ -5,7 +5,7 @@
 1) **부산대학교 순환버스(금정7)는 만성적인 공급 부족 문제에 시달리고 있으며, 안전사고 발생 가능성이 높음.**
 - **순환버스 내 다중밀집 사고 우려**
   - 우리 대학 총학생회 측의 22년도 조사에 따르면, 기점인 부산대역의 등교 시간대의 대기인원은 최대 81명에 육박하며, 등교 시간대 탑승인원이 최대 65명임을 알 수 있음.
-    <img src="/docs/표1_순환버스 현황조사.png" width="800px" title="Title" alt="Alt text"></img>
+    <img src="//표1_순환버스 현황조사.png" width="800px" title="Title" alt="Alt text"></img>
   - 특히 우리 대학 순환버스(현대 뉴 슈퍼 에어로시티)의 제조사 규정 최대 탑승인원은 43명인데, 이보다 1.5배가 더 많은 인원이 피크타임인 23분 이후로 계속 탑승하고 있음.
       이처럼 순환버스 내 탑승 인원이 너무 많다 보니, 순환버스 내 다중밀집사고 우려도 지속적으로 제기되고 있으며(채널PNU, 2022. 11. 03 보도), 많은 사람이 밀집해서 탑승하다 보니 전반적인 순환버스 만족도로 굉장히 낮음.
 - **열악한 순환버스 이외에 선택지가 없는 학생들**
@@ -150,7 +150,7 @@
 ### 2. 상세설계
 #### 가. 시스템 구성도
 
-<img src="/docs/시스템 구성도.png" width="800px" title="Title" alt="Alt text"></img>
+<img src="/img/시스템 구성도.png" width="800px" title="Title" alt="Alt text"></img>
 
 #### 나. 사용 기술
 > 스택 별(backend, frontend, designer등) 사용한 기술 및 버전을 작성하세요.
@@ -164,7 +164,7 @@
    
    BRR은 사용자(손님)와 택시기사로 구분하여 페이지가 구성되어있습니다.
    
-   <img src="/docs/IA.jpg" width="800px" title="Title" alt="Alt text"></img>
+   <img src="/img/IA.jpg" width="800px" title="Title" alt="Alt text"></img>
    
 2 ) 유저 플로우 차트
    
@@ -175,7 +175,7 @@
    
    또한 시간표 등록을 통해 *메인페이지*에서 시간표에 따른 추천 도착지도 설정 가능합니다.
    
-   <img src="/docs/brr 사용자 전체 페이지.jpg" width="800px" title="사용자 전체 플로우 차트" alt="Alt text"></img>
+   <img src="/img/brr 사용자 전체 페이지.jpg" width="800px" title="사용자 전체 플로우 차트" alt="Alt text"></img>
 
 
    2-2) 기사 전체 플로우 차트
@@ -183,7 +183,7 @@
 
    기사는 *출근하기* 버튼을 클릭하면 콜대기 화면으로 이동하여 사용자가 택시를 부르면 자동으로 리스트업이 되어 콜 수락을 할 수 있습니다.
    
-   <img src="/docs/brr 기사 전체 페이지.jpg" width="400px" title="기사 전체 플로우 차트" alt="Alt text"></img>
+   <img src="/img/brr 기사 전체 페이지.jpg" width="400px" title="기사 전체 플로우 차트" alt="Alt text"></img>
 
    2-3) 회원가입 플로우 차트
    > 회원가입 플로우 차트입니다.
@@ -192,7 +192,7 @@
 
    사용자는 부산대 학생으로 제한하기 때문에 학번과 이메일 인증 과정을 거칩니다.
 
-   <img src="/docs/전체 회원가입 플로우 차트.jpg" width="800px" title="회원가입 플로우 차트" alt="Alt text"></img>
+   <img src="/img/전체 회원가입 플로우 차트.jpg" width="800px" title="회원가입 플로우 차트" alt="Alt text"></img>
    
 3 ) 테스크 플로우 차트
  
@@ -207,7 +207,7 @@
    
    로그인 시 사용자일 경우 *사용자 페이지*로, 택시 기사의 경우 *택시 기사 페이지*로 이동합니다.
    
-   <img src="/docs/brr 로그인 및 회원가입 플로우 차트.jpg" width="800px" title="brr 로그인 및 회원가입 플로우 차트" alt="Alt text"></img>
+   <img src="/img/brr 로그인 및 회원가입 플로우 차트.jpg" width="800px" title="brr 로그인 및 회원가입 플로우 차트" alt="Alt text"></img>
  
 4 ) 시스템 플로우 차트
  
@@ -218,7 +218,7 @@
 
    받은 이메일을 입력한 후 일치하면 이메일 인증이 성공합니다.
    
-   <img src="/docs/brr 이메일 인증 플로우 차트.jpg" width="800px" title="Title" alt="Alt text"></img>
+   <img src="/img/brr 이메일 인증 플로우 차트.jpg" width="800px" title="Title" alt="Alt text"></img>
    
    4-2) 매칭 플로우 차트
    > 매칭 플로우 차트입니다.
@@ -233,7 +233,7 @@
 
    탑승 후 하차한 경우 택시기사가 *운행 종료* 버튼을 클릭하면 매칭 과정이 종료되고 이용기록이 저장됩니다.
 
-   <img src="/docs/brr 매칭 플로우차트.jpg" width="800px" title="Title" alt="Alt text"></img>
+   <img src="/img/brr 매칭 플로우차트.jpg" width="800px" title="Title" alt="Alt text"></img>
 
    4-3) 결제 로직
    > 결제 플로우 차트입니다.
@@ -246,7 +246,7 @@
 
    이후 운행이 완료되면 실제금액을 바탕으로 n등분한 가격을 결제합니다. 
 
-   <img src="/docs/결제 플로우 차트.jpg" width="800px" title="결제 플로우 차트" alt="Alt text"></img>
+   <img src="/img/결제 플로우 차트.jpg" width="800px" title="결제 플로우 차트" alt="Alt text"></img>
 
    
 5 ) ERD
@@ -267,7 +267,7 @@
    >>
    >> email_codes : 이메일 인증 코드를 임시로 저장하는 테이블 
    
-   <img src="/docs/brr ERD.jpg" width="800px" title="Title" alt="Alt text"></img>
+   <img src="/img/brr ERD.jpg" width="800px" title="Title" alt="Alt text"></img>
 
 
 
@@ -353,7 +353,7 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 
 1 ) 회원가입
 
-<img src="/docs/다_회원가입.png" width="500px" title="Title" alt="Alt text"></img>
+<img src="/img/다_회원가입.png" width="500px" title="Title" alt="Alt text"></img>
 
 
 
@@ -377,7 +377,7 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 
 2 ) 로그인 
 
-<img src="/docs/다_로그인 페이지.png" width="200px" title="Title" alt="Alt text"></img>
+<img src="/img/다_로그인 페이지.png" width="200px" title="Title" alt="Alt text"></img>
 
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
@@ -389,7 +389,7 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 
 3 ) 메인페이지 
 
-<img src="/docs/다_메인페이지.png" width="200px" title="Title" alt="Alt text"></img>
+<img src="/img/다_메인페이지.png" width="200px" title="Title" alt="Alt text"></img>
 
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
@@ -431,7 +431,7 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 
 7 ) 매칭 목록
 
-<img src="/docs/다_매칭 목록.png" width="200px" title="Title" alt="Alt text"></img>
+<img src="/img/다_매칭 목록.png" width="200px" title="Title" alt="Alt text"></img>
 
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
@@ -451,7 +451,7 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 
 9 ) 회원 정보
 
-<img src="/docs/다_회원정보.png" width="200px" title="Title" alt="Alt text"></img>
+<img src="/img/다_회원정보.png" width="200px" title="Title" alt="Alt text"></img>
 
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
@@ -508,7 +508,7 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 
 | 권민준 | 김태우 | 김효정 | 안선주 | 이지헌 | 정희철 |
 |:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| <img width="80px" alt="MEMBER3" src="/docs/권민준.png" /> | <img width="80px" alt="MEMBER3" src="/docs/김태우.png" /> | <img width="80px" alt="MEMBER3" src="/docs/김효정.png" /> | <img width="80px" alt="MEMBER3" src="/docs/안선주.png" /> | <img width="80px" alt="MEMBER3" src="/docs/이지헌.png" /> | <img width="80px" alt="MEMBER3" src="/docs/정희철.png" /> |
+| <img width="80px" alt="MEMBER3" src="/img/권민준.png" /> | <img width="80px" alt="MEMBER3" src="/img/김태우.png" /> | <img width="80px" alt="MEMBER3" src="/img/김효정.png" /> | <img width="80px" alt="MEMBER3" src="/img/안선주.png" /> | <img width="80px" alt="MEMBER3" src="/img/이지헌.png" /> | <img width="80px" alt="MEMBER3" src="/img/정희철.png" /> |
 | mjiun13@pusan.ac.kr | minecoby@pusan.ac.kr | hyojeong0109@pusan.ac.kr | pusanju83@pusan.ac.kr | leejiheon0516@pusan.ac.kr | gmlcjf0419@pusan.ac.kr |
 | 디자이너 | 인프라 구축 <br/> 백앤드 개발 | 팀장 <br/> 프론트앤드 개발 | 디자이너 | 디자이너 <br/> 프론트앤드 개발 | DB 설계 <br/> 백앤드 개발 |
 
