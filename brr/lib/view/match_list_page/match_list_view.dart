@@ -145,7 +145,7 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                     width: 35,
                     height: 35,
                     decoration: const BoxDecoration(
-                      color: Colors.blue,
+                      color: Color(0xFF1479FF),
                       shape: BoxShape.circle,
                     ),
                     child: Align(

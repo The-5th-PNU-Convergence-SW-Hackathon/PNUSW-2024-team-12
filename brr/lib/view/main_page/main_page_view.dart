@@ -67,8 +67,8 @@ class _MainPageViewState extends State<MainPageView> {
                   const SizedBox(height: 10),
                   buildContainer(
                     height: 150,
-                    color: Colors.blue,
-                    sidecolor: Colors.blue,
+                    color: Color(0xFF1479FF),
+                    sidecolor: Color(0xFF1479FF),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -113,7 +113,7 @@ class _MainPageViewState extends State<MainPageView> {
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
-                            backgroundColor: Colors.blue,
+                            backgroundColor: Color(0xFF1479FF),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -151,7 +151,7 @@ class _MainPageViewState extends State<MainPageView> {
                             Container(
                               width: 4,
                               height: 36,
-                              color: Colors.blue,
+                              color: Color(0xFF1479FF),
                             ),
                             const SizedBox(width: 4),
                             Column(
@@ -195,7 +195,7 @@ class _MainPageViewState extends State<MainPageView> {
                                 icon: const Icon(
                                   Icons.location_on,
                                   size: 15,
-                                  color: Colors.blue,
+                                  color: Color(0xFF1479FF),
                                 ),
                                 label: Text(
                                   location,
@@ -219,7 +219,7 @@ class _MainPageViewState extends State<MainPageView> {
                           },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
-                            backgroundColor: Colors.blue,
+                            backgroundColor: Color(0xFF1479FF),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),

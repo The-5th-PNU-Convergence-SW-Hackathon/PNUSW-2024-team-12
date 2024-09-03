@@ -48,7 +48,7 @@ class JoinMatchLoadingPageView extends StatelessWidget {
                           controller.currentMemberCount.value.toString(),
                           style: const TextStyle(
                             fontSize: 16,
-                            color: Colors.blue,
+                            color: Color(0xFF1479FF),
                           ),
                         )),
                     const Text(
