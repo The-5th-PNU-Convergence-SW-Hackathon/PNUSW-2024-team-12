@@ -140,7 +140,25 @@ class _MainPageViewState extends State<MainPageView> {
                       children: [
                         title_custom("목적지 추천", "시간표", '/schedule'),
                       
-                        Row(
+                        if (courseName == '다음 수업이 없습니다.')
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "다음 수업이 없습니다.",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color : Colors.grey,
+                                ),
+                              ),
+                            ],
+                          )
+                        else
+                          Column(
+                            children: [
+                              Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
@@ -226,6 +244,8 @@ class _MainPageViewState extends State<MainPageView> {
                             ),
                           ),
                         ),
+                            ],
+                          )
                       ],
                     ),
                   ),
