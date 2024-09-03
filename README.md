@@ -6,7 +6,7 @@
 우리 대학 총학생회 측의 22년도 조사에 따르면, 기점인 부산대역의 등교 시간대의 대기인원은 최대 81명에 육박하며, 등교 시간대 탑승인원이 최대 65명임을 알 수 있음.
 
 
-https://github.com/user-attachments/assets/c1adef1e-9112-450c-a8fd-c0485175e635
+
 
 
 #### 나. 개발 목표 및 주요 내용
@@ -242,6 +242,9 @@ https://github.com/user-attachments/assets/c1adef1e-9112-450c-a8fd-c0485175e635
 - 회원가입을 한 후 아이디와 비밀번호를 입력한 후 계정이 있는지 확인
 - 계정이 없으면, 경고문구가 나타남
 - 계정이 있는 경우 user type이 사용자인 경우 *사용자 페이지*로, 택시기사인 경우 *택시 기사 페이지*로 이동함
+
+![로그인 시연 영상](https://github.com/user-attachments/assets/579ece3e-8482-435b-a28a-9adc040063ff)
+
   
 2 ) 회원가입
    > 회원가입은 사용자와 기사로 나뉨
