@@ -37,7 +37,7 @@ class _MyDataPageViewState extends State<MyDataPageView> {
               ],
             ),
             const SizedBox(height: 25.0),
-            profile_custom(100, 100, 80, Colors.blue),
+            profile_custom(100, 100, 80, Color(0xFF1479FF)),
             const SizedBox(height: 10.0),
             Obx(() => Text(
                   _myPageController.nickname.value,
@@ -75,7 +75,7 @@ class _MyDataPageViewState extends State<MyDataPageView> {
                   
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Color(0xFF1479FF),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
