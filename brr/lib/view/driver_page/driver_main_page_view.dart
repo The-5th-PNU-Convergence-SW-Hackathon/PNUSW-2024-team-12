@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/mydata_page_controller.dart';
-
+import 'package:timer_builder/timer_builder.dart';
+import 'package:intl/intl.dart';
 class DriverMainPageView extends StatefulWidget {
   const DriverMainPageView({super.key});
 
@@ -12,7 +13,6 @@ class DriverMainPageView extends StatefulWidget {
 
 class _DriverMainPageViewState extends State<DriverMainPageView> {
   final MyPageController _myPageController = Get.put(MyPageController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +21,16 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
             backgroundColor: Colors.white,
             titleSpacing: 25.0,
             title: Row(
-              children: [brrLogo(), const SizedBox(width: 22), const Text('기사앱', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold))],
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [Row(children: [brrLogo(), const SizedBox(width: 22), const Text('기사앱', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+              TimerBuilder.periodic(Duration(seconds: 1),
+                      builder: (context) {
+                        return Text(
+                          "${DateFormat('yyy. M. d. h:mm:s').format(DateTime.now())}",
+                          style: TextStyle(fontSize: 12),
+                        );
+                      },
+                    ),],)],
             )),
         backgroundColor: Colors.white,
         body: Padding(
