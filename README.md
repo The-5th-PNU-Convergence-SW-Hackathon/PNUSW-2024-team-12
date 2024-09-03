@@ -166,7 +166,7 @@
 ### 2. 상세설계
 #### 가. 시스템 구성도
 
-
+<img src="/img/시스템 구성도.png" width="800px" title="Title" alt="Alt text"></img>
 
 #### 나. 사용 기술
 > 스택 별(backend, frontend, designer등) 사용한 기술 및 버전을 작성하세요.
@@ -180,7 +180,7 @@
    
    BRR은 사용자(손님)와 택시기사로 구분하여 페이지가 구성되어있습니다.
    
-   <img src="/docs/IA.jpg" width="800px" title="Title" alt="Alt text"></img>
+   <img src="/img/IA.jpg" width="800px" title="Title" alt="Alt text"></img>
    
 2 ) 유저 플로우 차트
    
@@ -191,7 +191,7 @@
    
    또한 시간표 등록을 통해 *메인페이지*에서 시간표에 따른 추천 도착지도 설정 가능합니다.
    
-   <img src="/docs/brr 사용자 전체 페이지.jpg" width="800px" title="사용자 전체 플로우 차트" alt="Alt text"></img>
+   <img src="/img/brr 사용자 전체 페이지.jpg" width="800px" title="사용자 전체 플로우 차트" alt="Alt text"></img>
 
 
    2-2) 기사 전체 플로우 차트
@@ -199,7 +199,7 @@
 
    기사는 *출근하기* 버튼을 클릭하면 콜대기 화면으로 이동하여 사용자가 택시를 부르면 자동으로 리스트업이 되어 콜 수락을 할 수 있습니다.
    
-   <img src="/docs/brr 기사 전체 페이지.jpg" width="400px" title="기사 전체 플로우 차트" alt="Alt text"></img>
+   <img src="/img/brr 기사 전체 페이지.jpg" width="400px" title="기사 전체 플로우 차트" alt="Alt text"></img>
 
    2-3) 회원가입 플로우 차트
    > 회원가입 플로우 차트입니다.
@@ -208,7 +208,7 @@
 
    사용자는 부산대 학생으로 제한하기 때문에 학번과 이메일 인증 과정을 거칩니다.
 
-   <img src="/docs/전체 회원가입 플로우 차트.jpg" width="800px" title="회원가입 플로우 차트" alt="Alt text"></img>
+   <img src="/img/전체 회원가입 플로우 차트.jpg" width="800px" title="회원가입 플로우 차트" alt="Alt text"></img>
    
 3 ) 테스크 플로우 차트
  
@@ -223,7 +223,7 @@
    
    로그인 시 사용자일 경우 *사용자 페이지*로, 택시 기사의 경우 *택시 기사 페이지*로 이동합니다.
    
-   <img src="/docs/brr 로그인 및 회원가입 플로우 차트.jpg" width="800px" title="brr 로그인 및 회원가입 플로우 차트" alt="Alt text"></img>
+   <img src="/img/brr 로그인 및 회원가입 플로우 차트.jpg" width="800px" title="brr 로그인 및 회원가입 플로우 차트" alt="Alt text"></img>
  
 4 ) 시스템 플로우 차트
  
@@ -234,7 +234,7 @@
 
    받은 이메일을 입력한 후 일치하면 이메일 인증이 성공합니다.
    
-   <img src="/docs/brr 이메일 인증 플로우 차트.jpg" width="800px" title="Title" alt="Alt text"></img>
+   <img src="/img/brr 이메일 인증 플로우 차트.jpg" width="800px" title="Title" alt="Alt text"></img>
    
    4-2) 매칭 플로우 차트
    > 매칭 플로우 차트입니다.
@@ -249,7 +249,7 @@
 
    탑승 후 하차한 경우 택시기사가 *운행 종료* 버튼을 클릭하면 매칭 과정이 종료되고 이용기록이 저장됩니다.
 
-   <img src="/docs/brr 매칭 플로우차트.jpg" width="800px" title="Title" alt="Alt text"></img>
+   <img src="/img/brr 매칭 플로우차트.jpg" width="800px" title="Title" alt="Alt text"></img>
 
    4-3) 결제 로직
    > 결제 플로우 차트입니다.
@@ -262,7 +262,7 @@
 
    이후 운행이 완료되면 실제금액을 바탕으로 n등분한 가격을 결제합니다. 
 
-   <img src="/docs/결제 플로우 차트.jpg" width="800px" title="결제 플로우 차트" alt="Alt text"></img>
+   <img src="/img/결제 플로우 차트.jpg" width="800px" title="결제 플로우 차트" alt="Alt text"></img>
 
    
 5 ) ERD
@@ -283,7 +283,7 @@
    >>
    >> email_codes : 이메일 인증 코드를 임시로 저장하는 테이블 
    
-   <img src="/docs/brr ERD.jpg" width="800px" title="Title" alt="Alt text"></img>
+   <img src="/img/brr ERD.jpg" width="800px" title="Title" alt="Alt text"></img>
 
 
 
@@ -369,7 +369,7 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 
 1 ) 회원가입
 
-<img src="/docs/다_회원가입.png" width="500px" title="Title" alt="Alt text"></img>
+<img src="/img/다_회원가입.png" width="500px" title="Title" alt="Alt text"></img>
 
 
 
@@ -393,7 +393,7 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 
 2 ) 로그인 
 
-<img src="/docs/다_로그인 페이지.png" width="200px" title="Title" alt="Alt text"></img>
+<img src="/img/다_로그인 페이지.png" width="200px" title="Title" alt="Alt text"></img>
 
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
@@ -405,7 +405,7 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 
 3 ) 메인페이지 
 
-<img src="/docs/다_메인페이지.png" width="200px" title="Title" alt="Alt text"></img>
+<img src="/img/다_메인페이지.png" width="200px" title="Title" alt="Alt text"></img>
 
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
@@ -447,7 +447,7 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 
 7 ) 매칭 목록
 
-<img src="/docs/다_매칭 목록.png" width="200px" title="Title" alt="Alt text"></img>
+<img src="/img/다_매칭 목록.png" width="200px" title="Title" alt="Alt text"></img>
 
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
@@ -467,7 +467,7 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 
 9 ) 회원 정보
 
-<img src="/docs/다_회원정보.png" width="200px" title="Title" alt="Alt text"></img>
+<img src="/img/다_회원정보.png" width="200px" title="Title" alt="Alt text"></img>
 
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
@@ -524,7 +524,7 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 
 | 권민준 | 김태우 | 김효정 | 안선주 | 이지헌 | 정희철 |
 |:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| <img width="80px" alt="MEMBER3" src="/docs/권민준.png" /> | <img width="80px" alt="MEMBER3" src="/docs/김태우.png" /> | <img width="80px" alt="MEMBER3" src="/docs/김효정.png" /> | <img width="80px" alt="MEMBER3" src="/docs/안선주.png" /> | <img width="80px" alt="MEMBER3" src="/docs/이지헌.png" /> | <img width="80px" alt="MEMBER3" src="/docs/정희철.png" /> |
+| <img width="80px" alt="MEMBER3" src="/img/권민준.png" /> | <img width="80px" alt="MEMBER3" src="/img/김태우.png" /> | <img width="80px" alt="MEMBER3" src="/img/김효정.png" /> | <img width="80px" alt="MEMBER3" src="/img/안선주.png" /> | <img width="80px" alt="MEMBER3" src="/img/이지헌.png" /> | <img width="80px" alt="MEMBER3" src="/img/정희철.png" /> |
 | mjiun13@pusan.ac.kr | minecoby@pusan.ac.kr | hyojeong0109@pusan.ac.kr | pusanju83@pusan.ac.kr | leejiheon0516@pusan.ac.kr | gmlcjf0419@pusan.ac.kr |
 | 디자이너 | 인프라 구축 <br/> 백앤드 개발 | 팀장 <br/> 프론트앤드 개발 | 디자이너 | 디자이너 <br/> 프론트앤드 개발 | DB 설계 <br/> 백앤드 개발 |
 
@@ -547,7 +547,7 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
   > 안녕하세요
 
 - 정희철
-  > SW 중심대학의 프로그램에 입학부터 꾸준히 참여했습니다. 참여할 때마다 개발 실력이 향상되는 것을 느꼈지만, 이번 해커톤을 통해 더 큰 폭의 실력 향상을 체감했습니다. 담당 업무는 백엔드였지만, 이전에는 백엔드를 거의 접해보지 못해 어디서부터 시작해야 할지 몰랐습니다. 무작정 공부하면서 동시에 개발을 진행했습니다. 6월에 작성한 코드를 보면 수정하고 싶은 부분이 많을 정도입니다. 해커톤을 진행하며 많은 오류를 만났고, 이를 해결하는 과정에서 성장했기에 SW 해커톤에 참여한 것이 매우 기쁩니다.
+  > SW 중심대학의 프로그램에 입학부터 꾸준히 참여했습니다. 참여할 때마다 개발 실력이 향상되는 것을 느꼈지만, 이번 해커톤을 통해 더 큰 폭의 실력 향상을 체감했습니다. 담당 업무는 백엔드였지만, 이전에는 백엔드를 거의 접해보지 못해 어디서부터 시작해야 할지 몰랐습니다. 무작정 공부하면서 동시에 개발을 진행했습니다. 6월에 작성한 코드를 보면 수정하고 싶은 부분이 많을 정도입니다. 해커톤을 진행하며 많은 오류를 만났고, 이를 해결하는 과정에서 성장했기에 SW 해커톤에 참여한 것이 매우 뿌듯하다.
 
 
 
