@@ -88,4 +88,46 @@ class DriverAcceptController extends GetxController {
       );
     }
   }
+  Future<void> completeCall(int matchingId, int amount) async {
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString('access_token');
+
+    if (accessToken == null) {
+      Get.offAllNamed('/login');
+      return;
+    }
+
+    String apiUrl = '${Urls.apiUrl}taxi/$matchingId/complete?amount=$amount';
+
+    try {
+      var response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        Get.snackbar(
+          'Success',
+          '성공적으로 운행이 완료되었습니다.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+
+      } else {
+        Get.snackbar(
+          'Error',
+          '운행완료에 실패했습니다. 다시시도해주세요 Status Code: ${response.statusCode}',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        '서버연결에 실패했습니다. : $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
 }
