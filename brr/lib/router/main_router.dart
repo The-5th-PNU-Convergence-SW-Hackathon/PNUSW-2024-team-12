@@ -28,6 +28,7 @@ import 'package:brr/view/chating_page/chating_page_view.dart';
 import 'package:brr/view/driver_page/driver_accept_page_view.dart';
 import 'package:brr/view/driver_page/driver_mypage_view.dart';
 import 'package:brr/view/driver_page/driver_callstart_page_view.dart';
+import 'package:brr/view/driver_page/driver_decide_navigation_page_view.dart';
 
 class MainRouter {
   static final List<GetPage> routes = [
@@ -150,6 +151,12 @@ class MainRouter {
     GetPage(name: '/callstart',
         page: () => DriverMainLayout(
               child: DriverCallstartPageView(),
+            )),
+    GetPage(name: '/decidenavigation',
+        page: () => DriverMainLayout(
+              child: DriverDecideNavigationPageView(
+                matchingId: Get.arguments['matching_id'],
+              ),
             )),
   ];
 }
