@@ -9,6 +9,7 @@ class DriverDecideNavigationPageView extends StatelessWidget {
   DriverDecideNavigationPageView({required this.matchingId});
 
   final DriverAcceptController driverAcceptController = Get.put(DriverAcceptController());
+  final TextEditingController fareController = TextEditingController(); // 금액 입력 컨트롤러 추가
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +55,9 @@ class DriverDecideNavigationPageView extends StatelessWidget {
                     ),
                     const SizedBox(height: 40),
                     Column(children: [
-                      text_Button('길안내','drivermain'),
+                      text_Button('길안내', 'drivermain'),
                       const SizedBox(height: 20),
-                      text_Button('운행 완료','drivermain'),
+                      text_Button('운행 완료', '', context), // context를 넘기도록 수정
                     ],)
                   ],
                 ));
@@ -95,27 +96,77 @@ class DriverDecideNavigationPageView extends StatelessWidget {
     );
   }
 
-  Widget text_Button (String text, String route) {
+  Widget text_Button(String text, String route, [BuildContext? context]) {
     return Container(
       width: 200,
       height: 50,
-      child:  ElevatedButton(
-      onPressed: () {
-        Get.toNamed(route);
-      },
-      child: Text(text, style: TextStyle(fontSize: 20, color: Colors.white)),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: text == '길안내' ? Colors.white : Color(0xFF1479FF),
-        foregroundColor: text == '길안내' ? Color(0xFF1479FF) : Colors.white,
-        minimumSize: Size(200, 50), 
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+      child: ElevatedButton(
+        onPressed: () {
+          if (text == '운행 완료' && context != null) {
+            showFareInputDialog(context); // 팝업 창 표시
+          } else {
+            Get.toNamed(route);
+          }
+        },
+        child: Text(text, style: TextStyle(fontSize: 20, color: Colors.white)),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: text == '길안내' ? Colors.white : Color(0xFF1479FF),
+          foregroundColor: text == '길안내' ? Color(0xFF1479FF) : Colors.white,
+          minimumSize: Size(200, 50), 
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       ),
-    ),
     );
   }
 
+  void showFareInputDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('운행 완료'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: fareController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: '금액 입력',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // 팝업 창 닫기
+              },
+              child: Text('취소하기'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                int fare = int.parse(fareController.text);
+                if (fare != 0) {
+                  driverAcceptController.completeCall(matchingId, fare); // 원하는 함수 호출
+                  Get.toNamed("/drivercomplete",arguments: matchingId); // 팝업 창 닫기
+                }
+              },
+              child: Text('운행 완료하기'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void completeRide(String fare) {
+    // 운행 완료 처리 로직을 여기에 추가
+    print("운행이 완료되었습니다. 최종 금액: $fare 원");
+  }
 }
 
 class ArrowPainter extends CustomPainter {

@@ -156,13 +156,13 @@ class MainRouter {
     GetPage(name: '/decidenavigation',
         page: () => DriverMainLayout(
               child: DriverDecideNavigationPageView(
-                matchingId: Get.arguments['matching_id'],
+                matchingId: Get.arguments,
               ),
             )),
     GetPage(name: '/drivercomplete',
         page: () => DriverMainLayout(
               child: DriverCompletePageView(
-                matchingId: Get.arguments['matching_id'],
+                matchingId: Get.arguments,
               ),
             )),
   ];

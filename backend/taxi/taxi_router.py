@@ -168,6 +168,7 @@ async def complete_drive(
     history_db: Session = Depends(get_historydb),
     taxi_db: Session = Depends(get_taxidb)
 ):
+    from matching.matching_router import lobby_manager
     user = get_current_user(credentials, user_db)
     
     # 매칭 정보 가져오기
@@ -217,7 +218,7 @@ async def complete_drive(
     # 매칭 삭제
     match_db.delete(matching)
     match_db.commit()
-
+    await lobby_manager.broadcast(matching_id, message="운행완료")
     return {"message": "운행이 완료되어 매칭 정보가 기록되었습니다."}
 
 
