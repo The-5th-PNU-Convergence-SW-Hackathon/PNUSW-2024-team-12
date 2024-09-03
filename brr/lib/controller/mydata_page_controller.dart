@@ -112,12 +112,55 @@ class MyPageController extends GetxController {
 
       if (response.statusCode == 200) {
         // 비밀번호 변경 성공 처리
-        Get.snackbar(
-          '비밀번호 변경 성공',
-          '비밀번호가 성공적으로 변경되었습니다.',  
-          snackPosition: SnackPosition.BOTTOM,
-        );
-        Get.offAllNamed('/setting');
+        Get.dialog(
+    Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(35),
+      ),
+      child: Container(
+        width: 300,
+        height: 200,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(35),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Text(
+              '수정 완료',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            const Text(
+              '회원 정보가 성공적으로 수정되었습니다.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                elevation: 0,
+              ),
+              onPressed: () {
+                Get.offAllNamed("/mypage");  // "/mypage"로 이동
+              },
+              child: const Text('확인', style: TextStyle(fontSize: 14, color: Colors.white)),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
       } else {
         // 비밀번호 변경 실패 처리
         Get.snackbar(
