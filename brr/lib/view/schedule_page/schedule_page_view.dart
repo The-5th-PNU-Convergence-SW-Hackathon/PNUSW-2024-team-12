@@ -273,7 +273,7 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                 decoration: BoxDecoration(color: const Color(0xffCCE0FF), borderRadius: BorderRadius.circular(8)),
                 child: TextField(
                   controller: _locationTextController,
-                  onEditingComplete: () {
+                  onChanged: (text) {
                     setState(() {
                       locationValue = _locationTextController.text;
                     });
@@ -292,7 +292,7 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                 decoration: BoxDecoration(color: const Color(0xffCCE0FF), borderRadius: BorderRadius.circular(8)),
                 child: TextField(
                   controller: _lectureTextController,
-                  onEditingComplete: () {
+                  onChanged: (text) {
                     setState(() {
                       lectureValue = _lectureTextController.text;
                     });
