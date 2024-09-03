@@ -3,10 +3,10 @@ import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/driver_call_controller.dart';
 import 'package:get/get.dart';
 
-class CallAcceptPageView extends StatelessWidget {
+class DriverDecideNavigationPageView extends StatelessWidget {
   final int matchingId;
 
-  CallAcceptPageView({required this.matchingId});
+  DriverDecideNavigationPageView({required this.matchingId});
 
   final DriverAcceptController driverAcceptController = Get.put(DriverAcceptController());
 
@@ -52,20 +52,12 @@ class CallAcceptPageView extends StatelessWidget {
                         detailInfo('소요시간', '${callInfo['duration']}분'),
                       ],
                     ),
-                    const SizedBox(height: 60),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        callButton('수락하기', Colors.blue, Colors.white, 200, () {
-                          driverAcceptController.acceptCall(matchingId);
-                          Get.toNamed('/decidenavigation', arguments: matchingId);
-                        }),
-                        const SizedBox(width: 15),
-                        callButton('거절', const Color.fromARGB(255, 218, 218, 218), Colors.black, 120, () {
-                          Navigator.pop(context);
-                        }),
-                      ],
-                    )
+                    const SizedBox(height: 40),
+                    Column(children: [
+                      text_Button('길안내','drivermain'),
+                      const SizedBox(height: 20),
+                      text_Button('운행 완료','drivermain'),
+                    ],)
                   ],
                 ));
           }
@@ -103,30 +95,27 @@ class CallAcceptPageView extends StatelessWidget {
     );
   }
 
-  Widget callButton(String text, Color backgroundColor, Color textColor, double width, VoidCallback onPressed) {
+  Widget text_Button (String text, String route) {
     return Container(
-      width: width,
-      height: 70,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: textColor,
-          backgroundColor: backgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-          textStyle: TextStyle(
-            fontSize: 32.0,
-            fontWeight: FontWeight.w600,
-          ),
-          elevation: 7,
-          shadowColor: Colors.blue.withOpacity(0.3),
+      width: 200,
+      height: 50,
+      child:  ElevatedButton(
+      onPressed: () {
+        Get.toNamed(route);
+      },
+      child: Text(text, style: TextStyle(fontSize: 20, color: Colors.white)),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: text == '길안내' ? Colors.white : Color(0xFF1479FF),
+        foregroundColor: text == '길안내' ? Color(0xFF1479FF) : Colors.white,
+        minimumSize: Size(200, 50), 
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
         ),
-        onPressed: onPressed,
-        child: Text(text),
       ),
+    ),
     );
   }
+
 }
 
 class ArrowPainter extends CustomPainter {
