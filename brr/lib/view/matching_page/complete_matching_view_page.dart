@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:brr/design_materials/design_materials.dart';
+import 'package:brr/controller/join_match_controller.dart';
 import 'package:brr/controller/location_controller.dart';
+import 'package:brr/controller/add_match_list_controller.dart';
 import 'dart:convert';
 
 class CompleteMatchingViewPage extends StatefulWidget {
@@ -14,6 +16,33 @@ class CompleteMatchingViewPage extends StatefulWidget {
 
 class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
   late NaverMapController _mapController;
+  final JoinMatchController controller = Get.put(JoinMatchController());
+  final AddMatchListController controllerAdd = Get.put(AddMatchListController());
+
+  @override
+  void initState() {
+    super.initState();
+    setupWebSocketListener(); // WebSocket 메시지 수신을 설정합니다.
+  }
+
+  void setupWebSocketListener() {
+    controllerAdd.currentMemberStatus.listen((status) {
+      if (status == '운행완료') {
+        // "운행완료" 메시지를 받으면 다른 페이지로 이동합니다.
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Get.toNamed('/ridecomplete'); 
+        });
+      }
+    });
+    controller.currentMemberCount.listen((status) {
+      if (status == '운행완료') {
+        // "운행완료" 메시지를 받으면 다른 페이지로 이동합니다.
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Get.toNamed('/ridecomplete'); 
+        });
+      }
+    });
+  }
 
   List<NLatLng> convertToLatLng(List<Map<String, dynamic>> pathData) {
     return pathData.map((point) {
@@ -93,7 +122,6 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                 ),
                 onMapReady: (controller) {
                   _mapController = controller;
-                  
                   _updateMap([latLngList], start, end);
                 },
               ),
@@ -249,7 +277,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                                     children: [
                                       BRRcashIcon(),
                                       const SizedBox(width: 10),
-                                       Text(
+                                      const Text(
                                         " 캐시",
                                         style: TextStyle(
                                           fontSize: 30,

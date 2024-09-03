@@ -163,7 +163,8 @@ class MainRouter {
     GetPage(name: '/drivercomplete',
         page: () => DriverMainLayout(
               child: DriverCompletePageView(
-                matchingId: Get.arguments,
+                matchingId: Get.arguments['matchingId'],
+                fare: Get.arguments['fare'],
               ),
             )),
             GetPage(
