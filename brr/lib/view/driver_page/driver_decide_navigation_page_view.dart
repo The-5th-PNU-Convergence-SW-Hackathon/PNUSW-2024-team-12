@@ -97,29 +97,39 @@ class DriverDecideNavigationPageView extends StatelessWidget {
   }
 
   Widget text_Button(String text, String route, [BuildContext? context]) {
-    return Container(
-      width: 200,
-      height: 50,
-      child: ElevatedButton(
-        onPressed: () {
-          if (text == '운행 완료' && context != null) {
-            showFareInputDialog(context); // 팝업 창 표시
-          } else {
-            Get.toNamed(route);
-          }
-        },
-        child: Text(text, style: TextStyle(fontSize: 20, color: Colors.white)),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: text == '길안내' ? Colors.white : Color(0xFF1479FF),
-          foregroundColor: text == '길안내' ? Color(0xFF1479FF) : Colors.white,
-          minimumSize: Size(200, 50), 
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+  return Container(
+    width: 200,
+    height: 50,
+    child: ElevatedButton(
+      onPressed: () {
+        if (text == '운행 완료' && context != null) {
+          showFareInputDialog(context); // 팝업 창 표시
+        } else {
+          Get.toNamed(route);
+        }
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: text == '길안내' ? Colors.white : Color(0xFF1479FF),
+        foregroundColor: text == '길안내' ? Color(0xFF1479FF) : Colors.white,
+        minimumSize: Size(200, 50), 
+        side: text == '길안내' 
+              ? BorderSide(color: Color(0xFF1479FF), width: 2)
+              : null,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
         ),
       ),
-    );
-  }
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 16, 
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+  );
+}
+
 
   void showFareInputDialog(BuildContext context) {
     showDialog(
