@@ -1,3 +1,4 @@
+import 'package:brr/view/driver_page/driver_callstart_page_view.dart';
 import 'package:brr/view/location_write_page/location_write_page_view.dart';
 import 'package:brr/view/history_page/history_page_view.dart';
 import 'package:brr/view/matching_page/reservation_matching_view_page.dart';
@@ -26,6 +27,7 @@ import 'package:brr/view/driver_page/driver_work_page.dart';
 import 'package:brr/view/chating_page/chating_page_view.dart';
 import 'package:brr/view/driver_page/driver_accept_page_view.dart';
 import 'package:brr/view/driver_page/driver_mypage_view.dart';
+import 'package:brr/view/driver_page/driver_callstart_page_view.dart';
 
 class MainRouter {
   static final List<GetPage> routes = [
@@ -145,5 +147,9 @@ class MainRouter {
         child: DriverMypageView(),
       ),
     ),
+    GetPage(name: '/callstart',
+        page: () => DriverMainLayout(
+              child: DriverCallstartPageView(),
+            )),
   ];
 }
