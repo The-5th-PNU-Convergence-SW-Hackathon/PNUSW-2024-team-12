@@ -7,7 +7,7 @@ import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/location_controller.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:brr/controller/add_match_list_controller.dart';
-
+import 'package:flutter_naver_map/flutter_naver_map.dart';
 String hourDropDownValue = DateTime.now().hour < 10 ? '0${DateTime.now().hour}' : '${DateTime.now().hour}';
 String minDropDownValue = DateTime.now().minute < 10 ? '0${DateTime.now().minute}' : '${DateTime.now().minute}';
 DateTime selectedDateTime = DateTime.now();
@@ -49,26 +49,91 @@ class _ReservationMatchingPageViewState extends State<ReservationMatchingPageVie
     DateTime.now().month,
     DateTime.now().day,
   );
+  late NaverMapController _mapController;
+  final LocationController locationController = Get.put(LocationController());
+
+  void _updateMap() async {
+    await _mapController.clearOverlays();
+
+    if (locationController.startLatitude.value != 0.0 &&
+        locationController.startLongitude.value != 0.0) {
+      final startMarker = NMarker(
+        id: "startMarker",
+        position: NLatLng(locationController.startLatitude.value, locationController.startLongitude.value),
+        iconTintColor: Colors.yellow,
+      );
+      await _mapController.addOverlay(startMarker);
+    }
+    final cameraUpdate = NCameraUpdate.withParams(
+      target: NLatLng(locationController.startLatitude.value != 0.0 ? locationController.startLatitude.value :35.2339681,
+         locationController.startLongitude.value != 0.0 ? locationController.startLongitude.value :129.0806855 ),
+      zoom: 16,
+      bearing: 0,
+    );
+    await _mapController.updateCamera(cameraUpdate);
+
+    if (locationController.endLatitude.value != 0.0 &&
+        locationController.endLongitude.value != 0.0) {
+      final endMarker = NMarker(
+        id: "endMarker",
+        position: NLatLng(locationController.endLatitude.value, locationController.endLongitude.value),
+        iconTintColor: Colors.green,
+      );
+      await _mapController.addOverlay(endMarker);
+    }
+
+    if (locationController.pathCoordinates.isNotEmpty) {
+      Set<NAddableOverlay> overlays = {};
+
+      for (var path in locationController.pathCoordinates) {
+        final multipartPathOverlay = NMultipartPathOverlay(
+          id: DateTime.now().toIso8601String(),
+          paths: [
+            NMultipartPath(coords: path),
+          ],
+        );
+        overlays.add(multipartPathOverlay);
+      }
+
+      await _mapController.addOverlayAll(overlays);
+    }
+
+    setState(() {});
+  }
+  
+  String _getDurationInMinutes(double durationInSeconds) {
+    int minutes = (durationInSeconds / 60000).round();
+    return minutes.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
     final LocationController locationController = Get.put(LocationController());
+    final  startLat = locationController.startLatitude.value;
+    final  startLong = locationController.startLongitude.value;
+    print("$startLat, $startLong");
 
     return Scaffold(
         body: SafeArea(
             child: Stack(
-      children: [
-        Positioned.fill(
-          child: Container(
-            color: Colors.blueGrey,
-            child: const Center(
-              child: Image(
-                image: AssetImage('assets/images/map.png'),
-                fit: BoxFit.fill,
-              ),
-            ),
-          ),
-        ),
+              children: [
+                Positioned.fill(
+                  child: NaverMap(
+                    options: NaverMapViewOptions(
+                      initialCameraPosition: NCameraPosition(
+                        target: NLatLng(35.2339681, 129.0806855), 
+                        zoom: 15,
+                        bearing: 0,
+                        tilt: 0,
+                      ),
+                      locale: const Locale('kr'),
+                      locationButtonEnable: true,
+                    ),
+                    onMapReady: (controller) {
+                      _mapController = controller;
+                    },
+                  ),
+                ),
         DraggableScrollableSheet(
             initialChildSize: 0.6,
             minChildSize: 0.12,
@@ -161,36 +226,8 @@ class _ReservationMatchingPageViewState extends State<ReservationMatchingPageVie
           child: Row(
             children: [
               gobackButton(),
-              const SizedBox(width: 10.0),
-              ElevatedButton(
-                onPressed: () {
-                  Get.toNamed('/writelocation');
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  elevation: 5,
-                  shadowColor: Colors.black.withOpacity(0.1),
-                ),
-                child: SizedBox(
-                  width: 270.0,
-                  height: 70,
-                  child: Obx(() => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          locationRow(circleContainer, '출발지', locationController.startLocation.value.isEmpty ? '' : locationController.startLocation.value),
-                          const SizedBox(height: 5.0),
-                          locationRow(rectangularContainer, '도착지', locationController.endLocation.value.isEmpty ? '' : locationController.endLocation.value),
-                        ],
-                      )),
-                ),
-              )
             ],
-          ),
+          )
         )
       ],
     )));

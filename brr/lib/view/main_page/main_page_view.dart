@@ -4,6 +4,7 @@ import 'package:brr/constants/bottom_navigation/bottom_navigation_controller.dar
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/join_match_controller.dart';
 import 'package:brr/controller/quickmatch_list_controller.dart';
+import 'package:brr/controller/location_controller.dart';  // 추가
 import 'package:brr/util.dart';
 
 class MainPageView extends StatefulWidget {
@@ -17,6 +18,7 @@ class _MainPageViewState extends State<MainPageView> {
   final QuickMatchController quickMatchController = Get.put(QuickMatchController());
   final JoinMatchController joinMatchController = Get.put(JoinMatchController());
   final _bottomNavController = Get.put(MyBottomNavigationBarController());
+  final LocationController locationController = Get.put(LocationController()); 
 
   String courseName = "";
   String startTime = "";
@@ -65,8 +67,8 @@ class _MainPageViewState extends State<MainPageView> {
                   const SizedBox(height: 10),
                   buildContainer(
                     height: 150,
-                    color: Colors.blue,
-                    sidecolor: Colors.blue,
+                    color: Color(0xFF1479FF),
+                    sidecolor: Color(0xFF1479FF),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -97,8 +99,9 @@ class _MainPageViewState extends State<MainPageView> {
                     sidecolor: const Color(0xFFE2EAF5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        title_custom("예약목록", "자세히보기", "/mainpage"),
                         const Text(
                           "예약 목록이 없습니다.",
                           style: TextStyle(
@@ -111,7 +114,7 @@ class _MainPageViewState extends State<MainPageView> {
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
-                            backgroundColor: Colors.blue,
+                            backgroundColor: Color(0xFF1479FF),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -133,23 +136,35 @@ class _MainPageViewState extends State<MainPageView> {
                     height: 200,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        const Text(
-                          "*** 님의 시간표에 맞는 목적지 입니다.",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
+                        title_custom("목적지 추천", "시간표", '/schedule'),
+                      
+                        if (courseName == '다음 수업이 없습니다.')
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "다음 수업이 없습니다.",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color : Colors.grey,
+                                ),
+                              ),
+                            ],
+                          )
+                        else
+                          Column(
+                            children: [
+                              Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
                               width: 4,
                               height: 36,
-                              color: Colors.blue,
+                              color: Color(0xFF1479FF),
                             ),
                             const SizedBox(width: 4),
                             Column(
@@ -193,12 +208,12 @@ class _MainPageViewState extends State<MainPageView> {
                                 icon: const Icon(
                                   Icons.location_on,
                                   size: 15,
-                                  color: Colors.blue,
+                                  color: Color(0xFF1479FF),
                                 ),
                                 label: Text(
                                   location,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 12,
                                     overflow: TextOverflow.visible,
                                   ),
@@ -210,10 +225,14 @@ class _MainPageViewState extends State<MainPageView> {
                         ),
                         const SizedBox(height: 15.0),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            // 목적지 선택 시 endLocation 값을 업데이트
+                            locationController.endLocation.value = location;
+                            Get.toNamed('/matching');
+                          },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
-                            backgroundColor: Colors.blue,
+                            backgroundColor: Color(0xFF1479FF),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -225,6 +244,8 @@ class _MainPageViewState extends State<MainPageView> {
                             ),
                           ),
                         ),
+                            ],
+                          )
                       ],
                     ),
                   ),
@@ -232,45 +253,13 @@ class _MainPageViewState extends State<MainPageView> {
                   buildContainer(
                     color: const Color(0xFFF3F8FF),
                     sidecolor: const Color(0xFFE2EAF5),
-                    height: 200,
+                    height: 290,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                const Text(
-                                  "매칭 목록",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(width: 5),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.refresh, size: 20),
-                                )
-                              ],
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Get.toNamed("/matchlist");
-                                _bottomNavController.changeIndex(0);
-                              },
-                              child: const Text(
-                                "더보기",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        title_custom("매칭 목록", "더보기", "/matchlist"),
+                            
                         Obx(() {
                           if (quickMatchController.quickMatches.isEmpty) {
                             return const Center(child: Text("빠른 매칭이 없습니다."));
@@ -335,7 +324,7 @@ class _MainPageViewState extends State<MainPageView> {
     return Container(
       width: width,
       height: height,
-      padding: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(20),
@@ -366,4 +355,50 @@ class _MainPageViewState extends State<MainPageView> {
       ),
     );
   }
+}
+
+
+Widget title_custom(String title, String buttonText, String destination) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      if (title == '매칭 목록')
+        Row(children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              Get.find<QuickMatchController>().refreshQuickMatches();
+            },
+            icon: const Icon(Icons.refresh, size: 20, color : Colors.black),
+          ),
+        ],)
+      else
+        Text(
+        title,
+        style: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      TextButton(
+        onPressed: () {
+          Get.toNamed(destination);
+        },
+        child: Text(
+          "${buttonText} >",
+          style: TextStyle(
+            color: Colors.black.withOpacity(0.5),
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ],
+  );
 }

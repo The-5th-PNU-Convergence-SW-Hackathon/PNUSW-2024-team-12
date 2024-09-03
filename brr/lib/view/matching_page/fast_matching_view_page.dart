@@ -93,7 +93,6 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                 ),
                 onMapReady: (controller) {
                   _mapController = controller;
-                  _updateMap();
                 },
               ),
             ),

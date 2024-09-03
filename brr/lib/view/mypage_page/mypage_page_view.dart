@@ -29,87 +29,97 @@ class MypagePageView extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 25.0),
-                const CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                    size: 40,
-                  ),
-                ),
+                profile_custom(100, 100, 80, Color(0xFF1479FF)),
                 const SizedBox(height: 10.0),
                 Obx(() => Text(
                       _myPageController.nickname.value,
                       style: TextStyle(
-                        fontSize: 16.0,
+                        fontSize: 25.0,
                         fontWeight: FontWeight.bold,
                       ),
                     )),
                 const SizedBox(height: 50),
                 buildRow(context, '시간표 등록', '페이지 이동', '/schedule'),
-                buildRow(context, '선주님의 회원 정보', '회원 정보 수정', '/mydata'),
+                buildRow(context, '${_myPageController.nickname.value}님의 회원 정보', '회원 정보 수정', '/mydata'),
                 buildRow(context, '이용 기록 확인', '페이지 이동', '/history'),
                 buildLogout(context, '로그아웃', '/login'),
                 const SizedBox(height: 10),
                 Container(
-                  height: 180,
+                  height: 190,
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                   decoration: BoxDecoration(
-                    color: Colors.blue[50],
-                    borderRadius: BorderRadius.circular(30),
+                    color: Color(0xFFE6F0FF),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "부르릉 캐시",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: Row(
-                              children: [
-                                Icon(Icons.add, size: 15, color: Colors.blue),
-                                SizedBox(width: 3),
-                                Text(
-                                  '충전하기',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Colors.grey,
+                        const Text("결제 수단", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                        TextButton(
+                                    onPressed: () {},
+                                    child: Row(children: [
+                                      const Text(
+                                      '+',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF1479FF),
+                                      ),
+                                    ),
+                                    Text(
+                                      ' 추가하기',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    ],)
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          BRRcashIcon(),
-                          SizedBox(width: 10),
-                          Text(
-                            "15,800 캐시",
-                            style: TextStyle(
-                              fontSize: 30,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                      ],),
+                                
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 170,
+                                    height: 110,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '라이언 치즈 체크카드',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        Text(
+                                          'NH농협카드',
+                                          style: TextStyle(
+                                            fontSize: 8,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        SizedBox(height: 30),
+                                        
+                                      ],
+                                    ),
+                                  ),]),
+                                
+                    ]),   ),
               ],
             )));
   }
 }
+ 

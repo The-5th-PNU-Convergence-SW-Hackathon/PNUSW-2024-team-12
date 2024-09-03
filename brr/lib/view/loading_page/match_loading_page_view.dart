@@ -54,7 +54,7 @@ class MatchLoadingPageView extends StatelessWidget {
                               controller.currentMemberStatus.value,
                               style: const TextStyle(
                                 fontSize: 16,
-                                color: Colors.blue,
+                                color: Color(0xFF1479FF),
                               ),
                             )),
                         const Text(
@@ -79,9 +79,9 @@ class MatchLoadingPageView extends StatelessWidget {
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.local_taxi_outlined, color: Colors.blue, size: 50),
+                        Icon(Icons.local_taxi_outlined, color: Color(0xFF1479FF),size: 50),
                         SizedBox(width: 8),
-                        Icon(Icons.people_outline_outlined, color: Colors.blue, size: 50),
+                        Icon(Icons.people_outline_outlined, color: Color(0xFF1479FF),size: 50),
                       ],
                     ),
                     const SizedBox(height: 50),

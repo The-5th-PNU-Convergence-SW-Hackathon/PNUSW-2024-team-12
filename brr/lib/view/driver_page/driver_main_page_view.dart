@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/mydata_page_controller.dart';
-
+import 'package:timer_builder/timer_builder.dart';
+import 'package:intl/intl.dart';
 class DriverMainPageView extends StatefulWidget {
   const DriverMainPageView({super.key});
 
@@ -12,17 +13,43 @@ class DriverMainPageView extends StatefulWidget {
 
 class _DriverMainPageViewState extends State<DriverMainPageView> {
   final MyPageController _myPageController = Get.put(MyPageController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
-            titleSpacing: 25.0,
-            title: Row(
-              children: [brrLogo(), const SizedBox(width: 22), const Text('기사앱', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold))],
-            )),
+    automaticallyImplyLeading: false,
+    backgroundColor: Colors.white,
+    titleSpacing: 25.0,
+    title: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        // 왼쪽에 로고와 텍스트 "기사앱"
+        Row(
+          children: [
+            brrLogo(), // 로고 위젯
+            const SizedBox(width: 22),
+            const Text(
+              '기사앱',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Colors.black, 
+              ),
+            ),
+          ],
+        ),
+        TimerBuilder.periodic(Duration(seconds: 1), builder: (context) {
+          return Text(
+            "${DateFormat('yyyy. M. d. h:mm:ss').format(DateTime.now())}",
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+            ),
+          );
+        }),
+      ],
+    ),
+  ),
         backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),

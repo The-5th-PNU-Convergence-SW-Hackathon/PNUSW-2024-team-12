@@ -161,7 +161,7 @@ class _SchedulePageViewState extends State<SchedulePageView> {
                     _showDeleteConfirmationDialog(context, box['id']);
                   },
                   child: Container(
-                    color: Colors.green,
+                    color: Colors.blue,
                     alignment: Alignment.topLeft,
                     padding: const EdgeInsets.all(1),
                     child: Column(
