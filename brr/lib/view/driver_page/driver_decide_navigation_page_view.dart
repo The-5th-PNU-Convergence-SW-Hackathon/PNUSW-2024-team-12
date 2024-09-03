@@ -153,7 +153,7 @@ class DriverDecideNavigationPageView extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // 팝업 창 닫기
+                Navigator.of(context).pop(); 
               },
               child: Text('취소하기'),
             ),
@@ -161,8 +161,10 @@ class DriverDecideNavigationPageView extends StatelessWidget {
               onPressed: () {
                 int fare = int.parse(fareController.text);
                 if (fare != 0) {
-                  driverAcceptController.completeCall(matchingId, fare); // 원하는 함수 호출
-                  Get.toNamed("/drivercomplete",arguments: matchingId); // 팝업 창 닫기
+                  driverAcceptController.completeCall(matchingId, fare);
+                  Get.toNamed("/drivercomplete",arguments: {
+                                                    'matchingId': matchingId,
+                                                    'fare': fare}); 
                 }
               },
               child: Text('운행 완료하기'),
