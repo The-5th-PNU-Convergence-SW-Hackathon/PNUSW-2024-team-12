@@ -4,7 +4,7 @@ import 'package:brr/constants/bottom_navigation/bottom_navigation_controller.dar
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/join_match_controller.dart';
 import 'package:brr/controller/quickmatch_list_controller.dart';
-import 'package:brr/controller/location_controller.dart';  // 추가
+import 'package:brr/controller/location_controller.dart'; // 추가
 import 'package:brr/util.dart';
 
 class MainPageView extends StatefulWidget {
@@ -15,10 +15,12 @@ class MainPageView extends StatefulWidget {
 }
 
 class _MainPageViewState extends State<MainPageView> {
-  final QuickMatchController quickMatchController = Get.put(QuickMatchController());
-  final JoinMatchController joinMatchController = Get.put(JoinMatchController());
+  final QuickMatchController quickMatchController =
+      Get.put(QuickMatchController());
+  final JoinMatchController joinMatchController =
+      Get.put(JoinMatchController());
   final _bottomNavController = Get.put(MyBottomNavigationBarController());
-  final LocationController locationController = Get.put(LocationController()); 
+  final LocationController locationController = Get.put(LocationController());
 
   String courseName = "";
   String startTime = "";
@@ -67,8 +69,8 @@ class _MainPageViewState extends State<MainPageView> {
                   const SizedBox(height: 10),
                   buildContainer(
                     height: 150,
-                    color: Color(0xFF1479FF),
-                    sidecolor: Color(0xFF1479FF),
+                    color: const Color(0xFF1479FF),
+                    sidecolor: const Color(0xFF1479FF),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -84,9 +86,11 @@ class _MainPageViewState extends State<MainPageView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            buildElevatedButton("빠른 매칭", Icons.link, '/matching'),
+                            buildElevatedButton(
+                                "빠른 매칭", Icons.link, '/matching'),
                             const SizedBox(width: 10),
-                            buildElevatedButton("매칭 예약", Icons.alarm, '/reservation'),
+                            buildElevatedButton(
+                                "매칭 예약", Icons.alarm, '/reservation'),
                           ],
                         ),
                       ],
@@ -102,28 +106,53 @@ class _MainPageViewState extends State<MainPageView> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         title_custom("예약목록", "자세히보기", "/mainpage"),
-                        const Text(
-                          "예약 목록이 없습니다.",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 25.0, vertical: 12.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: const Color(0xFFE2EAF5)),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Color(0xFF1479FF),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: const Text(
-                            "매칭 예약 하러 가기",
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    children: [
+                                      locationRow_reser(
+                                          circleContainer, "출발지", "부산대정문"),
+                                      const SizedBox(height: 5),
+                                      locationRow_reser(
+                                          rectangularContainer, "도착지", "부산대정문"),
+                                    ],
+                                  ),
+                                  const Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text("12시 탑승 예정",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          )),
+                                      Text("3/4",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ))
+                                    ],
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              const Text(
+                                '3분 뒤 출발',
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.black),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -139,111 +168,120 @@ class _MainPageViewState extends State<MainPageView> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         title_custom("목적지 추천", "시간표", '/schedule'),
-                      
                         if (courseName == '다음 수업이 없습니다.')
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          const Column(
                             children: [
-                              Text(
-                                "다음 수업이 없습니다.",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color : Colors.grey,
-                                ),
-                              ),
+                              SizedBox(height: 50),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "다음 수업이 없습니다.",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
                           )
                         else
                           Column(
                             children: [
                               Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 4,
-                              height: 36,
-                              color: Color(0xFF1479FF),
-                            ),
-                            const SizedBox(width: 4),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  courseName,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 4,
+                                    height: 36,
+                                    color: const Color(0xFF1479FF),
                                   ),
-                                ),
-                                Text(
-                                  "$startTime ~ $endTime, $location",
-                                  style: const TextStyle(
-                                    fontSize: 8,
-                                    color: Color.fromARGB(255, 153, 153, 153),
+                                  const SizedBox(width: 4),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        courseName,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        "$startTime ~ $endTime, $location",
+                                        style: const TextStyle(
+                                          fontSize: 8,
+                                          color: Color.fromARGB(
+                                              255, 153, 153, 153),
+                                        ),
+                                      ),
+                                      Text(
+                                        getTimeDifferenceString(startTime),
+                                        style: const TextStyle(
+                                          fontSize: 8,
+                                          color: Color.fromARGB(
+                                              255, 153, 153, 153),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                ),
-                                Text(
-                                  getTimeDifferenceString(startTime),
-                                  style: const TextStyle(
-                                    fontSize: 8,
-                                    color: Color.fromARGB(255, 153, 153, 153),
-                                  ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(width: 10),
-                            SizedBox(
-                              width: 155,
-                              child: ElevatedButton.icon(
-                                onPressed: () {},
+                                  const SizedBox(width: 10),
+                                  SizedBox(
+                                    width: 155,
+                                    child: ElevatedButton.icon(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                        foregroundColor: Colors.black,
+                                        backgroundColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      icon: const Icon(
+                                        Icons.location_on,
+                                        size: 15,
+                                        color: Color(0xFF1479FF),
+                                      ),
+                                      label: Text(
+                                        location,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          overflow: TextOverflow.visible,
+                                        ),
+                                        softWrap: true,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 15.0),
+                              ElevatedButton(
+                                onPressed: () {
+                                  // 목적지 선택 시 endLocation 값을 업데이트
+                                  locationController.endLocation.value =
+                                      location;
+                                  Get.toNamed('/matching');
+                                },
                                 style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.black,
-                                  backgroundColor: Colors.white,
+                                  foregroundColor: Colors.white,
+                                  backgroundColor: const Color(0xFF1479FF),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                icon: const Icon(
-                                  Icons.location_on,
-                                  size: 15,
-                                  color: Color(0xFF1479FF),
-                                ),
-                                label: Text(
-                                  location,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
+                                child: const Text(
+                                  "목적지를 이곳으로 선택",
+                                  style: TextStyle(
                                     fontSize: 12,
-                                    overflow: TextOverflow.visible,
                                   ),
-                                  softWrap: true,
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 15.0),
-                        ElevatedButton(
-                          onPressed: () {
-                            // 목적지 선택 시 endLocation 값을 업데이트
-                            locationController.endLocation.value = location;
-                            Get.toNamed('/matching');
-                          },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Color(0xFF1479FF),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: const Text(
-                            "목적지를 이곳으로 선택",
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
                             ],
                           )
                       ],
@@ -259,41 +297,53 @@ class _MainPageViewState extends State<MainPageView> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         title_custom("매칭 목록", "더보기", "/matchlist"),
-                            
                         Obx(() {
                           if (quickMatchController.quickMatches.isEmpty) {
                             return const Center(child: Text("빠른 매칭이 없습니다."));
                           }
-                          int itemCount = quickMatchController.quickMatches.length < 3
-                              ? quickMatchController.quickMatches.length
-                              : 3;
+                          int itemCount =
+                              quickMatchController.quickMatches.length < 3
+                                  ? quickMatchController.quickMatches.length
+                                  : 3;
                           return ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: itemCount,
                             itemBuilder: (context, index) {
-                              int reverseIndex = quickMatchController.quickMatches.length - index - 1;
-                              final quickMatch = quickMatchController.quickMatches[reverseIndex];
+                              int reverseIndex =
+                                  quickMatchController.quickMatches.length -
+                                      index -
+                                      1;
+                              final quickMatch = quickMatchController
+                                  .quickMatches[reverseIndex];
                               return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5.0),
                                 child: ElevatedButton(
                                   style: buttonStyle(),
                                   onPressed: () {
-                                    joinMatchController.joinMatch(quickMatch.id);
+                                    joinMatchController
+                                        .joinMatch(quickMatch.id);
                                   },
                                   child: Row(
                                     children: [
                                       Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          locationRow(circleContainer, "출발지", quickMatch.depart),
+                                          locationRow(circleContainer, "출발지",
+                                              quickMatch.depart),
                                           const SizedBox(height: 5.0),
-                                          locationRow(rectangularContainer, "도착지", quickMatch.dest),
+                                          locationRow(rectangularContainer,
+                                              "도착지", quickMatch.dest),
                                         ],
                                       ),
                                       const Spacer(),
-                                      boardingInfo(quickMatch.boardingTime.toString().substring(11, 16)),
+                                      boardingInfo(quickMatch.boardingTime
+                                          .toString()
+                                          .substring(11, 16)),
                                     ],
                                   ),
                                 ),
@@ -312,7 +362,6 @@ class _MainPageViewState extends State<MainPageView> {
       ),
     );
   }
-
 
   Widget buildContainer({
     required Widget child,
@@ -357,46 +406,73 @@ class _MainPageViewState extends State<MainPageView> {
   }
 }
 
-
 Widget title_custom(String title, String buttonText, String destination) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       if (title == '매칭 목록')
-        Row(children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+        Row(
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: () {
-              Get.find<QuickMatchController>().refreshQuickMatches();
-            },
-            icon: const Icon(Icons.refresh, size: 20, color : Colors.black),
-          ),
-        ],)
+            IconButton(
+              onPressed: () {
+                Get.find<QuickMatchController>().refreshQuickMatches();
+              },
+              icon: const Icon(Icons.refresh, size: 20, color: Colors.black),
+            ),
+          ],
+        )
       else
         Text(
-        title,
-        style: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
+          title,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
       TextButton(
         onPressed: () {
           Get.toNamed(destination);
         },
         child: Text(
-          "${buttonText} >",
+          "$buttonText >",
           style: TextStyle(
             color: Colors.black.withOpacity(0.5),
             fontSize: 14,
             fontWeight: FontWeight.bold,
           ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget locationRow_reser(Widget icon, String label, String text) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      icon,
+      const SizedBox(width: 10.0),
+      Text(
+        label,
+        style: const TextStyle(
+          fontSize: 14.0,
+          color: Color(0xFF676767),
+        ),
+      ),
+      const SizedBox(width: 10.0),
+      Text(
+        text,
+        style: const TextStyle(
+          fontSize: 15.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
         ),
       ),
     ],
