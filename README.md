@@ -327,9 +327,7 @@
 - 손님이 목적지에 하차한 후 운행 완료하면 이용 내역이 저장됨
   
 #### 다. 기능명세서
-> 개발한 제품에 대한 기능명세서를 작성해 제출하세요.
-> 
-> 노션 링크, 한글 문서, pdf 파일, 구글 스프레드 시트 등...
+> BRR의 주요 기능입니다.
 
 1 ) 회원가입
 |라벨|이름|상세|
@@ -353,7 +351,7 @@
 
 2 ) 로그인 
 
-<img src="/docs/다_로그인 페이지.png" width="800px" title="Title" alt="Alt text"></img>
+<img src="/docs/다_로그인 페이지.png" width="200px" title="Title" alt="Alt text"></img>
 
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
@@ -361,7 +359,7 @@
 | S1 | 비밀번호              | - 비밀번호 입력 <br/> - 유효성 검사 |
 | S2 | 로그인 완료 | - 비어 있는 입력 칸이 없는지 검증 <br/> - 조건을 만족하면 로그인 성공  |
 | S3 | 아이디/비밀번호 찾기               | - 클릭 시 *아이디/비밀번호 찾기 페이지*로 이동 |
-| S4 | 로그인                        | - 클릭 시 *회원가입 페이지*로 이동 |
+| S4 | 회원가입                        | - 클릭 시 *회원가입 페이지*로 이동 |
 
 3 ) 메인페이지 
 |라벨|이름|상세|
@@ -403,14 +401,53 @@
 | S4 | 채팅          | - 사용자들과 위치 공유를 위한 채팅 |
 
 7 ) 매칭 목록
+|라벨|이름|상세|
+|:---:|:----------------------------:|:---|
+| S0 | 매칭 타입              | - 빠른 매칭 또는 예약 매칭 선택 |
+| S1 | 도착지               | - 도착지 입력 |
+| S2 | 검색              | - 출발지, 또는 도착지에 따른 매칭 방 탐색 |
+| S3 | 매칭 정보          | - 현재 매칭 중인 방의 정보 <br/> - 클릭 시 매칭 참여|
 
 8 ) 마이페이지
+|라벨|이름|상세|
+|:---:|:----------------------------:|:---|
+| S0 | 회원 이름              | - 회원의 이름을 나타냄 |
+| S1 | 회원 정보          | - 클릭 시 *회원 정보 페이지*로 이동 |
+| S2 | 시간표 등록              | - 클릭 시 *시간표 등록 페이지*로 이동 |
+| S3 | 이용기록 확인              | - 클릭 시 *이용기록 확인 페이지*로 이동 |
+| S4 | 로그아웃          | - 로그아웃 기능 |
 
 9 ) 회원 정보
+|라벨|이름|상세|
+|:---:|:----------------------------:|:---|
+| S0 | 회원 이름              | - 회원의 이름을 나타냄 |
+| S1 | 아이디           | - 클릭 시 *회원 정보 페이지*로 이동 |
+| S2 | 비밀번호              | - 클릭 시 *시간표 등록 페이지*로 이동 |
 
 10 ) 시간표 
+|라벨|이름|상세|
+|:---:|:----------------------------:|:---|
+| S0 | 요일             | - 수업의 요일을 선택 |
+| S1 | 시간         | - 수업 시간 선택 |
+| S2 | 장소              | - 수업 장소 입력 |
+| S3 | 수업명              | - 수업명 입력 |
+| S4 | 추가하기          | - 클릭 시 시간표 추가 |
 
 11 ) 이용 내역
+|라벨|이름|상세|
+|:---:|:----------------------------:|:---|
+| S0 | 자동차 번호             | - 탑승한 택시의 자동차 번호 |
+| S1 | 날짜         | - 탑승한 날짜 |
+| S2 | 시간              | - 탑승한 시간 |
+| S3 | 출발              | - 탑승 장소 |
+| S4 | 도착          | - 하차 장소 |
+| S5 | 금액             | - 택시 요금 |
+| S6 | 디테일         | - 클릭 시 *차량 상세 정보*페이지로 이동 |
+| S7 | 자동차 모델            | - 탑승한 택시의 자동차 모델 |
+| S8 | 택시 기사 이름         | - 택시 기사의 이름 |
+| S9 | 같이 탄 사람    | - 같이 탄 사람의 정보 |
+
+
 
 
 #### 라. 디렉토리 구조
@@ -433,152 +470,30 @@
 
 | 권민준 | 김태우 | 김효정 | 안선주 | 이지헌 | 정희철 |
 |:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|<img width="80px" alt="MEMBER1" src="https://github.com/pnuswedu/SW-Hackathon-2024/assets/34933690/f5b5df2a-e174-437d-86b2-a5a23d9ee75d" /> | <img width="80px" alt="MEMBER2" src="https://github.com/pnuswedu/SW-Hackathon-2024/assets/34933690/fe4e8910-4565-4f3f-9bd1-f135e74cb39d" /> | <img width="80px" alt="MEMBER3" src="https://github.com/pnuswedu/SW-Hackathon-2024/assets/34933690/675d8471-19b9-4abc-bf8a-be426989b318" /> | <img width="80px" alt="MEMBER3" src="https://github.com/pnuswedu/SW-Hackathon-2024/assets/34933690/675d8471-19b9-4abc-bf8a-be426989b318" /> | <img width="80px" alt="MEMBER3" src="https://github.com/pnuswedu/SW-Hackathon-2024/assets/34933690/675d8471-19b9-4abc-bf8a-be426989b318" /> | <img width="80px" alt="MEMBER3" src="https://github.com/pnuswedu/SW-Hackathon-2024/assets/34933690/675d8471-19b9-4abc-bf8a-be426989b318" /> |
+| <img width="80px" alt="MEMBER3" src="/docs/권민준.png" /> | <img width="80px" alt="MEMBER3" src="/docs/김태우.png" /> | <img width="80px" alt="MEMBER3" src="/docs/김효정.png" /> | <img width="80px" alt="MEMBER3" src="/docs/안선주.png" /> | <img width="80px" alt="MEMBER3" src="/docs/이지헌.png" /> | <img width="80px" alt="MEMBER3" src="/docs/정희철.png" /> |
 | mjiun13@pusan.ac.kr | minecoby@pusan.ac.kr | hyojeong0109@pusan.ac.kr | pusanju83@pusan.ac.kr | leejiheon0516@pusan.ac.kr | gmlcjf0419@pusan.ac.kr |
 | 디자이너 | 인프라 구축 <br/> 백앤드 개발 | 팀장 <br/> 프론트앤드 개발 | 디자이너 | 디자이너 <br/> 프론트앤드 개발 | DB 설계 <br/> 백앤드 개발 |
 
 ### 7. 해커톤 참여 후기
 > 팀원 별 해커톤 참여 후기를 작성하세요.
 
-<br/>
+- 권민준
+  > 안녕하세요
 
+- 김태우
+  > 안녕하세요
 
-## 4. README.md 작성 팁
-- 마크다운 언어를 이용해 README.md 파일을 작성할 때 참고할 수 있는 마크다운 언어 문법을 공유합니다.
-- 다양한 예제와 보다 자세한 문법은 [이 문서](https://www.markdownguide.org/basic-syntax/)를 참고하세요.
+- 김효정
+  > 안녕하세요
 
-### 4.1. 헤더 Header
-```
-# This is a Header 1
-## This is a Header 2
-### This is a Header 3
-#### This is a Header 4
-##### This is a Header 5
-###### This is a Header 6
-####### This is a Header 7 은 지원되지 않습니다.
-```
+- 안선주
+  > 안녕하세요
 
-# This is a Header 1
-## This is a Header 2
-### This is a Header 3
-#### This is a Header 4
-##### This is a Header 5
-###### This is a Header 6
-####### This is a Header 7 은 지원되지 않습니다.
-<br />
+- 이지헌
+  > 안녕하세요
 
-### 4.2. 인용문 BlockQuote
-```
-> This is a first blockqute.
->	> This is a second blockqute.
->	>	> This is a third blockqute.
-```
-> This is a first blockqute.
->	> This is a second blockqute.
->	>	> This is a third blockqute.
-<br />
-
-### 4.3. 목록 List
-* **Ordered List**
-```
-1. first
-2. second
-3. third  
-```
-1. first
-2. second
-3. third
-<br />
-
-* **Unordered List**
-```
-* 하나
-  * 둘
-
-+ 하나
-  + 둘
-
-- 하나
-  - 둘
-```
-* 하나
-  * 둘
-
-+ 하나
-  + 둘
-
-- 하나
-  - 둘
-<br />
-
-### 4.4. 코드 CodeBlock
-* 코드 블럭 이용 '``'
-```
-여러줄 주석 "```" 이용
-"```
-#include <stdio.h>
-int main(void){
-  printf("Hello world!");
-  return 0;
-}
-```"
-
-단어 주석 "`" 이용
-"`Hello world`"
-
-* 큰 따움표(") 없이 사용하세요.
-``` 
-<br />
-
-### 4.5. 링크 Link
-```
-[Title](link)
-[부산대 소프트웨어융합교육원](https://swedu.pusan.ac.kr/swedu/index.do)
-
-<link>
-<https://swedu.pusan.ac.kr>
-``` 
-[부산대 소프트웨어융합교육원](https://swedu.pusan.ac.kr)
-
-<https://swedu.pusan.ac.kr>  
-<br />
-
-### 4.6. 강조 Highlighting
-```
-*single asterisks*
-_single underscores_
-**double asterisks**
-__double underscores__
-~~cancelline~~
-```
-*single asterisks* <br />
-_single underscores_ <br />
-**double asterisks** <br />
-__double underscores__ <br />
-~~cancelline~~  <br />
-<br />
-
-### 4.7. 이미지 Image
-```
-<img src="/path/to/img.jpg" width="600px" title="Title" alt="Alt text"></img>
-![Alt text](/path/to/img.jpg "Optional title")
-```
-<img src="https://github.com/pnuswedu/SW-Hackathon-2024/assets/34933690/be7beb64-490f-4480-b121-f25cde7f2a8d" width="600px" title="부산대학교 소프트웨어융합교육원" alt="부산대학교 소프트웨어융합교육원"></img>
-<br/>
-![부산대학교 소프트웨어융합교육원](https://github.com/pnuswedu/SW-Hackathon-2024/assets/34933690/884154bb-28f6-4498-9f64-a8a878972951, "부산대학교 소프트웨어융합교육원")
-<br/>
-
-
-
-
-
-
-
-
-
-
-
-
+- 정희철
+  > 안녕하세요
 
 
 
