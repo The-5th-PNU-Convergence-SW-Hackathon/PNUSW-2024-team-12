@@ -29,6 +29,7 @@ import 'package:brr/view/driver_page/driver_accept_page_view.dart';
 import 'package:brr/view/driver_page/driver_mypage_view.dart';
 import 'package:brr/view/driver_page/driver_callstart_page_view.dart';
 import 'package:brr/view/driver_page/driver_decide_navigation_page_view.dart';
+import 'package:brr/view/driver_page/driver_complete_view.dart';  
 
 class MainRouter {
   static final List<GetPage> routes = [
@@ -155,6 +156,12 @@ class MainRouter {
     GetPage(name: '/decidenavigation',
         page: () => DriverMainLayout(
               child: DriverDecideNavigationPageView(
+                matchingId: Get.arguments['matching_id'],
+              ),
+            )),
+    GetPage(name: '/drivercomplete',
+        page: () => DriverMainLayout(
+              child: DriverCompletePageView(
                 matchingId: Get.arguments['matching_id'],
               ),
             )),
