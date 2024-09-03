@@ -436,7 +436,7 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 
 4 ) 빠른 매칭
 
-<img src="/img/다_빠른매칭.png" width="200px" title="Title" alt="Alt text"></img>
+<img src="/img/다_빠른매칭.png" width="500px" title="Title" alt="Alt text"></img>
 
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
@@ -448,7 +448,7 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 
 5 ) 매칭 예약
 
-<img src="/img/다_매칭예약.png" width="200px" title="Title" alt="Alt text"></img>
+<img src="/img/다_매칭예약.png" width="500px" title="Title" alt="Alt text"></img>
 
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
