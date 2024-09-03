@@ -98,8 +98,8 @@ class DriverDecideNavigationPageView extends StatelessWidget {
 
   Widget text_Button(String text, String route, [BuildContext? context]) {
   return Container(
-    width: 200,
-    height: 50,
+    width: double.infinity,
+    height: 80,
     child: ElevatedButton(
       onPressed: () {
         if (text == '운행 완료' && context != null) {
@@ -116,13 +116,13 @@ class DriverDecideNavigationPageView extends StatelessWidget {
               ? BorderSide(color: Color(0xFF1479FF), width: 2)
               : null,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(30),
         ),
       ),
       child: Text(
         text,
         style: TextStyle(
-          fontSize: 16, 
+          fontSize: 32, 
           fontWeight: FontWeight.bold,
         ),
       ),
