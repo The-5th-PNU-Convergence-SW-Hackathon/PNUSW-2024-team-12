@@ -156,8 +156,8 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                                       children: [
                                         circleContainer,
                                         const SizedBox(width: 5),
-                                        const Text(
-                                          "목적지 부산역 (고속철도)",
+                                        Text(
+                                          "목적지 $dest",
                                           style: TextStyle(
                                             color: Colors.grey,
                                             fontSize: 12,
@@ -249,8 +249,8 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                                     children: [
                                       BRRcashIcon(),
                                       const SizedBox(width: 10),
-                                      const Text(
-                                        "15,800 캐시",
+                                       Text(
+                                        " 캐시",
                                         style: TextStyle(
                                           fontSize: 30,
                                           color: Colors.blue,
