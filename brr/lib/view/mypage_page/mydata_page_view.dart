@@ -37,7 +37,7 @@ class _MyDataPageViewState extends State<MyDataPageView> {
               ],
             ),
             const SizedBox(height: 25.0),
-            profile_custom(100, 100, 80, Colors.black),
+            profile_custom(100, 100, 80, Colors.blue),
             const SizedBox(height: 10.0),
             Obx(() => Text(
                   _myPageController.nickname.value,
