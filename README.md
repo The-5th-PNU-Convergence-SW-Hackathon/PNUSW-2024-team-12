@@ -426,7 +426,7 @@
 
 9 ) 회원 정보
 
-<img src="/docs/다_회원 정보.png" width="200px" title="Title" alt="Alt text"></img>
+<img src="/docs/다_회원정보.png" width="200px" title="Title" alt="Alt text"></img>
 
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
