@@ -1,6 +1,7 @@
 import 'package:brr/controller/mydata_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:brr/design_materials/design_materials.dart';
 
 class MyDataPageView extends StatefulWidget {
   const MyDataPageView({Key? key}) : super(key: key);
@@ -16,7 +17,10 @@ class _MyDataPageViewState extends State<MyDataPageView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child : SingleChildScrollView(
+          child : Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 45.0),
         child: Column(
           children: [
@@ -33,34 +37,15 @@ class _MyDataPageViewState extends State<MyDataPageView> {
               ],
             ),
             const SizedBox(height: 25.0),
-            const CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
-              child: Icon(
-                Icons.person,
-                color: Colors.white,
-                size: 40,
-              ),
-            ),
+            profile_custom(100, 100, 80, Colors.black),
             const SizedBox(height: 10.0),
             Obx(() => Text(
                   _myPageController.nickname.value,
                   style: TextStyle(
-                    fontSize: 16.0,
+                    fontSize: 25.0,
                     fontWeight: FontWeight.bold,
                   ),
                 )),
-            const SizedBox(height: 50),
-            const Center(
-                child: SizedBox(
-                    width: 140,
-                    child: Column(
-                      children: [
-                        CheckBox(text: '일반 회원 계정'),
-                        CheckBox(text: '기사 계정'),
-                      ],
-                    ))),
             const SizedBox(height: 50),
             Obx(() => mydata_custom('닉네임', _myPageController.nickname.value)),
             const SizedBox(height: 5),
@@ -105,6 +90,9 @@ class _MyDataPageViewState extends State<MyDataPageView> {
           ],
         ),
       ),
+        )
+      ),
+      resizeToAvoidBottomInset: true,
     );
   }
 
@@ -190,50 +178,5 @@ class PassWordTextField extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-class CheckBox extends StatelessWidget {
-  final String text;
-
-  const CheckBox({
-    Key? key,
-    required this.text,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              width: 18,
-              height: 18,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(3),
-              ),
-              child: text == '일반 회원 계정'
-                  ? const Icon(
-                      Icons.check,
-                      size: 12,
-                      color: Colors.blue,
-                    )
-                  : null,
-            ),
-            const SizedBox(width: 10),
-            Text(
-              text,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-          ],
-        ));
   }
 }
