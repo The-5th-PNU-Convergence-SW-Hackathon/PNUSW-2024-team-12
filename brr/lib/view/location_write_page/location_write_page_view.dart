@@ -62,7 +62,7 @@ class _WriteLocationPageViewState extends State<WriteLocationPageView> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.blue),
+            icon: const Icon(Icons.arrow_back, color: Color(0xFF1479FF),),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -74,7 +74,7 @@ class _WriteLocationPageViewState extends State<WriteLocationPageView> {
   centerTitle: true,
           actions: [
             IconButton(
-              icon: const Icon(Icons.check, color: Colors.blue),
+              icon: const Icon(Icons.check, color: Color(0xFF1479FF),),
               onPressed: _saveLocations,
             ),
           ],

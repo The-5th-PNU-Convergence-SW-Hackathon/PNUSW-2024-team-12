@@ -169,7 +169,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                                 ),
                               ],
                             ),
-                            contactRow("기사님께 연락하기...", Icon(Icons.phone, color: Colors.blue, size: 20)),
+                            contactRow("기사님께 연락하기...", Icon(Icons.phone, color: Color(0xFF1479FF), size: 20)),
                             const SizedBox(height: 30),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -192,7 +192,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                               ],
                             ),
                             const SizedBox(height: 10),
-                            contactRow("매칭된 사람들과 연락하기...", Icon(Icons.chat, color: Colors.blue, size: 20)),
+                            contactRow("매칭된 사람들과 연락하기...", Icon(Icons.chat, color: Color(0xFF1479FF), size: 20)),
                             const SizedBox(height: 30),
                             Align(
                               alignment: Alignment.centerLeft,
@@ -229,7 +229,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                                         onPressed: () {},
                                         child: Row(
                                           children: [
-                                            const Icon(Icons.add, size: 15, color: Colors.blue),
+                                            const Icon(Icons.add, size: 15, color: Color(0xFF1479FF),),
                                             const SizedBox(width: 3),
                                             const Text(
                                               '충전하기',
@@ -253,7 +253,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                                         " 캐시",
                                         style: TextStyle(
                                           fontSize: 30,
-                                          color: Colors.blue,
+                                          color: Color(0xFF1479FF),
                                         ),
                                       ),
                                     ],
@@ -344,7 +344,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
             children: [
               const CircleAvatar(
                 radius: 24,
-                backgroundColor: Colors.blue,
+                backgroundColor: Color(0xFF1479FF),
                 child: Icon(Icons.person, color: Colors.white, size: 32),
               ),
               const SizedBox(width: 16),
@@ -407,7 +407,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                 ),
                 const Icon(
                   Icons.near_me,
-                  color: Colors.blue,
+                  color: Color(0xFF1479FF),
                 ),
               ],
             ),

@@ -17,6 +17,10 @@ class QuickMatchController extends GetxController {
     fetchQuickMatches();
   }
 
+  Future<void> refreshQuickMatches() async {
+    fetchQuickMatches();
+  }
+
   void fetchQuickMatches() async {
     try {
       final prefs = await SharedPreferences.getInstance();
