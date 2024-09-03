@@ -363,6 +363,7 @@
 | S4 | 회원가입                        | - 클릭 시 *회원가입 페이지*로 이동 |
 
 3 ) 메인페이지 
+
 <img src="/docs/다_메인페이지.png" width="200px" title="Title" alt="Alt text"></img>
 
 |라벨|이름|상세|
@@ -404,6 +405,7 @@
 | S4 | 채팅          | - 사용자들과 위치 공유를 위한 채팅 |
 
 7 ) 매칭 목록
+
 <img src="/docs/다_매칭 목록.png" width="200px" title="Title" alt="Alt text"></img>
 
 |라벨|이름|상세|
