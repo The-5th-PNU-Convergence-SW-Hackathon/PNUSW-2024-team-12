@@ -4,6 +4,7 @@ import 'package:brr/constants/bottom_navigation/bottom_navigation_controller.dar
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/join_match_controller.dart';
 import 'package:brr/controller/quickmatch_list_controller.dart';
+import 'package:brr/controller/location_controller.dart';  // 추가
 import 'package:brr/util.dart';
 
 class MainPageView extends StatefulWidget {
@@ -17,6 +18,7 @@ class _MainPageViewState extends State<MainPageView> {
   final QuickMatchController quickMatchController = Get.put(QuickMatchController());
   final JoinMatchController joinMatchController = Get.put(JoinMatchController());
   final _bottomNavController = Get.put(MyBottomNavigationBarController());
+  final LocationController locationController = Get.put(LocationController()); 
 
   String courseName = "";
   String startTime = "";
@@ -136,7 +138,7 @@ class _MainPageViewState extends State<MainPageView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          "*** 님의 시간표에 맞는 목적지 입니다.",
+                          "정희철 님의 시간표에 맞는 목적지 입니다.",
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -198,7 +200,7 @@ class _MainPageViewState extends State<MainPageView> {
                                 label: Text(
                                   location,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 12,
                                     overflow: TextOverflow.visible,
                                   ),
@@ -210,7 +212,11 @@ class _MainPageViewState extends State<MainPageView> {
                         ),
                         const SizedBox(height: 15.0),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            // 목적지 선택 시 endLocation 값을 업데이트
+                            locationController.endLocation.value = location;
+                            Get.toNamed('/matching');
+                          },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
                             backgroundColor: Colors.blue,

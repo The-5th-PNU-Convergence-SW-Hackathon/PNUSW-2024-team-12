@@ -16,12 +16,18 @@ class _WriteLocationPageViewState extends State<WriteLocationPageView> {
 
   final LocationController locationController = Get.put(LocationController());
 
+  @override
+  void initState() {
+    super.initState();
+    startLocationController.text = locationController.startLocation.value;
+    endLocationController.text = locationController.endLocation.value;
+  }
+
   Future<void> _saveLocations() async {
     String startLocation = startLocationController.text.trim();
     String endLocation = endLocationController.text.trim();
 
     if (startLocation.isEmpty || endLocation.isEmpty) {
-
       Get.snackbar(
         "입력 오류",
         "출발지와 도착지를 모두 입력해주세요.",
@@ -30,11 +36,9 @@ class _WriteLocationPageViewState extends State<WriteLocationPageView> {
       return;
     }
 
-
     bool success = await locationController.setLocations(startLocation, endLocation);
 
     if (success) {
-
       Get.back(result: true);
     } else {
       Get.snackbar(
