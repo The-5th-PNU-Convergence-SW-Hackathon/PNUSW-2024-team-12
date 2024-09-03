@@ -335,6 +335,11 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 > BRR의 주요 기능입니다.
 
 1 ) 회원가입
+
+<img src="/docs/다_회원가입.png" width="200px" title="Title" alt="Alt text"></img>
+
+
+
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0  | 회원 종류 선택            | - 사용자/택시기사 회원가입 선택 |
