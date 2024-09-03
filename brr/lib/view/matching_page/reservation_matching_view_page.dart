@@ -188,7 +188,7 @@ class _ReservationMatchingPageViewState extends State<ReservationMatchingPageVie
                                   height: 50,
                                   child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.blue,
+                                        backgroundColor: Color(0xFF1479FF),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10),
                                         ),

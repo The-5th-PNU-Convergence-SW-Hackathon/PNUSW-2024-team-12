@@ -91,13 +91,6 @@ class _SignUpState extends State<SignUpPageView> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            '아이디/비밀번호 찾기',
-                            style: TextStyle(fontSize: 12, color: Color(0xff767676), decoration: TextDecoration.underline),
-                          ),
-                        ),
-                        TextButton(
                           onPressed: () {
                             Get.toNamed("/login");
                           },

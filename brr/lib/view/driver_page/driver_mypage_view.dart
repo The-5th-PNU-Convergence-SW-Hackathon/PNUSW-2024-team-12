@@ -58,12 +58,18 @@ class _DriverMyDataPageViewState extends State<DriverMypageView> {
                 Obx(() => mydata_custom('이름', _myPageController.nickname.value),),
                 const SizedBox(height: 15),
                 Obx(() => mydata_custom('아이디', _myPageController.id.value),),
-                const SizedBox(height: 4),
-                buildRow(context, '개인정보 수정', '페이지 이동', ''),
-                buildRow(context, '비밀번호 변경', '페이지 이동', ''),
-                buildRow(context, '소속운수사', '효원운수', ''),
-                buildRow(context, '차량정보 등록/수정', '아이오닉5', ''),
+                const SizedBox(height: 15),
+                mydata_custom('차량번호', '12가 1234'),
+                const SizedBox(height: 15),
+                mydata_custom('차량종류', '1톤트럭'),
                 buildLogout(context, '로그아웃', '/login'),
+                const SizedBox(height: 150),
+                Row(children: [
+                  modify_button('차량정보 수정', '/drivercarmodify'),
+                  const SizedBox(width: 10),
+                  modify_button('개인정보 수정', '/driverpasswordmodify'),
+
+                ],)
               ],
             )));
   }
@@ -86,4 +92,21 @@ class _DriverMyDataPageViewState extends State<DriverMypageView> {
       ],
     );
   }
+}
+
+Widget modify_button(String title, String route) {
+  return Container(
+    width: 160,
+    height: 50,
+    child : ElevatedButton(
+    onPressed: () {
+      Get.toNamed(route);
+    },
+    child: Text(title, style: TextStyle(fontSize: 16, color: Colors.white)),
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Color(0xFF1479FF),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    ),
+  ),
+  );
 }
