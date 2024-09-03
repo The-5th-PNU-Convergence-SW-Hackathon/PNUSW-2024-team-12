@@ -445,7 +445,7 @@
 
 | 권민준 | 김태우 | 김효정 | 안선주 | 이지헌 | 정희철 |
 |:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|<img width="80px" alt="MEMBER1" src="https://github.com/pnuswedu/SW-Hackathon-2024/assets/34933690/f5b5df2a-e174-437d-86b2-a5a23d9ee75d" /> | <img width="80px" alt="MEMBER2" src="https://github.com/pnuswedu/SW-Hackathon-2024/assets/34933690/fe4e8910-4565-4f3f-9bd1-f135e74cb39d" /> | <img width="80px" alt="MEMBER3" src="https://github.com/pnuswedu/SW-Hackathon-2024/assets/34933690/675d8471-19b9-4abc-bf8a-be426989b318" /> | <img width="80px" alt="MEMBER3" src="https://github.com/pnuswedu/SW-Hackathon-2024/assets/34933690/675d8471-19b9-4abc-bf8a-be426989b318" /> | <img width="80px" alt="MEMBER3" src="https://github.com/pnuswedu/SW-Hackathon-2024/assets/34933690/675d8471-19b9-4abc-bf8a-be426989b318" /> | <img width="80px" alt="MEMBER3" src="/docs/정희철.png" /> |
+| <img width="80px" alt="MEMBER3" src="/docs/권민준.png" /> | <img width="80px" alt="MEMBER3" src="/docs/김태우.png" /> | <img width="80px" alt="MEMBER3" src="/docs/김효정.png" /> | <img width="80px" alt="MEMBER3" src="/docs/안선주.png" /> | <img width="80px" alt="MEMBER3" src="/docs/이지헌.png" /> | <img width="80px" alt="MEMBER3" src="/docs/정희철.png" /> |
 | mjiun13@pusan.ac.kr | minecoby@pusan.ac.kr | hyojeong0109@pusan.ac.kr | pusanju83@pusan.ac.kr | leejiheon0516@pusan.ac.kr | gmlcjf0419@pusan.ac.kr |
 | 디자이너 | 인프라 구축 <br/> 백앤드 개발 | 팀장 <br/> 프론트앤드 개발 | 디자이너 | 디자이너 <br/> 프론트앤드 개발 | DB 설계 <br/> 백앤드 개발 |
 
