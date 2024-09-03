@@ -183,21 +183,21 @@ async def complete_drive(
     if matching.current_member < matching.min_member:
         raise HTTPException(status_code=400, detail=f"최소 {matching.min_member}명의 인원이 필요합니다.")
 
-    matching_mate = [name.strip() for name in matching.mate.split(",")]
-    n_amount = amount / matching.current_member
-    for name in matching_mate:
-        user_mate = user_db.query(User_model).filter(User_model.user_name == name).first()
-        user_mate_brr_cash = user_mate.brr_cash
-        user_mate.brr_cash =  user_mate_brr_cash - n_amount
-        user_db.commit()
+    # matching_mate = [name.strip() for name in matching.mate.split(",")]
+    # n_amount = amount / matching.current_member
+    # for name in matching_mate:
+    #     user_mate = user_db.query(User_model).filter(User_model.user_name == name).first()
+    #     user_mate_brr_cash = user_mate.brr_cash
+    #     user_mate.brr_cash =  user_mate_brr_cash - n_amount
+    #     user_db.commit()
 
 
     taxi = taxi_db.query(Taxi_model).filter(Taxi_model.user_id == user.user_id).first()
-    taxi_user = user_db.query(User_model).filter(User_model.user_id == taxi.user_id).first()
-    if taxi_user:
-        current_amout = taxi_user.brr_cash 
-        taxi_user.brr_cash  = current_amout + amount
-        user_db.commit()
+    # taxi_user = user_db.query(User_model).filter(User_model.user_id == taxi.user_id).first()
+    # if taxi_user:
+    #     current_amout = taxi_user.brr_cash 
+    #     taxi_user.brr_cash  = current_amout + amount
+    #     user_db.commit()
 
 
     # history detail 추가하기 : 택시 데이터 추가
