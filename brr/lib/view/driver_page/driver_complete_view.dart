@@ -5,14 +5,16 @@ import 'package:get/get.dart';
 
 class DriverCompletePageView extends StatelessWidget {
   final int matchingId;
+  final int fare;
 
-  DriverCompletePageView({required this.matchingId});
+  DriverCompletePageView({required this.matchingId, required this.fare});
 
   final DriverAcceptController driverAcceptController = Get.put(DriverAcceptController());
 
   @override
   Widget build(BuildContext context) {
     driverAcceptController.fetchCallInfo(matchingId);
+    driverAcceptController.completeCall(matchingId, fare);
 
     return Scaffold(
         appBar: AppBar(
