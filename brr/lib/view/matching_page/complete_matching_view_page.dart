@@ -94,7 +94,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
   Widget build(BuildContext context) {
     final Map<String, dynamic> data = Get.arguments;
 
-    final taxiId = data['taxi_id'];
+    final taxiId = int.parse(data['taxi_id']);
     final driverName = data['driver_name'];
     final carNum = data['car_num'];
     final phoneNumber = data['phone_number'];
@@ -405,7 +405,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
     );
   }
 
-  Widget contactRow(String title, Widget icon, String taxiId) {
+  Widget contactRow(String title, Widget icon, int taxiId) { // taxiId를 int로 선언
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -426,7 +426,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
             ),
           ),
           onPressed: () {
-            Get.toNamed('/chating', arguments: taxiId);
+            Get.toNamed('/chating', arguments: taxiId); // taxiId를 정수로 전달
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
