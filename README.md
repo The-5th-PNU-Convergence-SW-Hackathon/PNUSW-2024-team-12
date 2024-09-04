@@ -1,4 +1,3 @@
-![image](https://github.com/user-attachments/assets/72063124-6a2d-4a3d-85f9-2b08e1a03acb)
 ### 1. 프로젝트 소개
 #### 가. 개발배경 및 필요성
 
