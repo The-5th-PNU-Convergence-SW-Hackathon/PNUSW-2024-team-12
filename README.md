@@ -756,8 +756,13 @@ https://github.com/user-attachments/assets/14b638f0-ce33-4c31-bb9f-9cfa0b518a8b
 
 ### 4. 설치 및 사용 방법
 > 제품을 설치하기 위헤 필요한 소프트웨어 및 설치 방법을 작성하세요.
->
-> 제품을 설치하고 난 후, 실행 할 수 있는 방법을 작성하세요.
+
+```
+$ git clone https://github.com/pnusw-hackathon/PNUSW-2024-team-12.git  
+$ cd PNUSW-2024-team-12/brr                                   
+$ flutter pub get                                                     
+$ flutter run
+```
 
 ### 5. 소개 및 시연 영상
 > 프로젝트에 대한 소개와 시연 영상을 넣으세요.
