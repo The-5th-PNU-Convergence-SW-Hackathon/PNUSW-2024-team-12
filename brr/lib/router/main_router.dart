@@ -138,7 +138,11 @@ class MainRouter {
         page: () => const MainLayout(child: ReservationMatchingPageView())),
     GetPage(
       name: '/chating',
-      page: () => const ChatingPageView(),
+      page: () => MainLayout(
+        child: ChatingPageView(
+          taxiId: Get.arguments, 
+        ),
+      ),
     ),
     GetPage(
         name: '/driveraccept',
