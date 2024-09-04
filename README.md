@@ -777,16 +777,10 @@ $ flutter run
 ### 5. 소개 및 시연 영상
 > 프로젝트에 대한 소개와 시연 영상을 넣으세요.
 
-순서대로 매칭 방을 만드는 사용자, 매칭에 참여하는 타 사용자, 택시기사임.
+순서대로 매칭 방을 만드는 사용자, 택시기사, 매칭에 참여하는 타 사용자
 
 
-https://github.com/user-attachments/assets/d97a1f9e-6c11-42e0-a210-3c8d0ca062af
-
-https://github.com/user-attachments/assets/1c2b7df8-b292-46ed-98ec-8295e627748d
-
-https://github.com/user-attachments/assets/216f65da-90b8-4f77-a630-35f64bfebebc
-
-
+https://youtu.be/UkHAIYrOYEw
 
 ### 6. 팀 소개
 > 팀원 소개 & 구성원 별 역할 분담 & 간단한 연락처를 작성하세요.
