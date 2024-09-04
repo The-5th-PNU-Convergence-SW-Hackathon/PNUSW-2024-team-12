@@ -122,6 +122,9 @@ class _MainPageViewState extends State<MainPageView> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       locationRow_reser(
                                           circleContainer, "출발지", "부산대정문"),

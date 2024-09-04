@@ -108,7 +108,7 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Icon(Icons.person, size: 25, color: Colors.blue),
+                  const Icon(Icons.person, size: 25, color: Color(0xFF1479FF)),
                   const SizedBox(width: 10),
                   Row(
                     children: [
@@ -228,7 +228,7 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
         height: 70,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: Colors.blue,
+          color: const Color(0xFF1479FF),
           boxShadow: const [
             BoxShadow(
               color: Color.fromARGB(255, 235, 241, 249),
@@ -241,7 +241,7 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.black,
-              backgroundColor: Colors.blue,
+              backgroundColor: const Color(0xFF1479FF),
               elevation: 3,
               shadowColor: const Color.fromARGB(255, 28, 137, 226),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
