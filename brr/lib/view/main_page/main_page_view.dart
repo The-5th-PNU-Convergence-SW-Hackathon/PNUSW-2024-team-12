@@ -160,14 +160,15 @@ class _MainPageViewState extends State<MainPageView> {
                   ),
                   const SizedBox(height: 15.0),
                   buildContainer(
+                    width: double.maxFinite,
                     color: const Color(0xFFF3F8FF),
                     sidecolor: const Color(0xFFE2EAF5),
-                    height: 200,
+                    height: 140,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        title_custom("목적지 추천", "시간표", '/schedule'),
+                        title_custom("목적지 추천", "목적지를 이곳으로 선택", '/matching'),
                         if (courseName == '다음 수업이 없습니다.')
                           const Column(
                             children: [
@@ -192,60 +193,63 @@ class _MainPageViewState extends State<MainPageView> {
                           Column(
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    width: 4,
-                                    height: 36,
-                                    color: const Color(0xFF1479FF),
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  Row(
                                     children: [
-                                      Text(
-                                        courseName,
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      Container(
+                                        width: 4,
+                                        height: 36,
+                                        color: const Color(0xFF1479FF),
                                       ),
-                                      Text(
-                                        "$startTime ~ $endTime, $location",
-                                        style: const TextStyle(
-                                          fontSize: 8,
-                                          color: Color.fromARGB(
-                                              255, 153, 153, 153),
-                                        ),
+                                      const SizedBox(width: 4),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            courseName,
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            "$startTime ~ $endTime, $location",
+                                            style: const TextStyle(
+                                              fontSize: 8,
+                                              color: Color.fromARGB(
+                                                  255, 153, 153, 153),
+                                            ),
+                                          ),
+                                          Text(
+                                            getTimeDifferenceString(startTime),
+                                            style: const TextStyle(
+                                              fontSize: 8,
+                                              color: Color.fromARGB(
+                                                  255, 153, 153, 153),
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                      Text(
-                                        getTimeDifferenceString(startTime),
-                                        style: const TextStyle(
-                                          fontSize: 8,
-                                          color: Color.fromARGB(
-                                              255, 153, 153, 153),
-                                        ),
-                                      )
                                     ],
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: 20),
                                   SizedBox(
                                     width: 155,
                                     child: ElevatedButton.icon(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        locationController.endLocation.value = location;
+                                        Get.toNamed('/matching');
+                                      },
                                       style: ElevatedButton.styleFrom(
-                                        foregroundColor: Colors.black,
-                                        backgroundColor: Colors.white,
+                                        foregroundColor: Colors.white,
+                                        backgroundColor: const Color(0xFF1479FF),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(10),
                                         ),
                                       ),
                                       icon: const Icon(
                                         Icons.location_on,
                                         size: 15,
-                                        color: Color(0xFF1479FF),
+                                        color: Colors.white,
                                       ),
                                       label: Text(
                                         location,
@@ -260,28 +264,26 @@ class _MainPageViewState extends State<MainPageView> {
                                   )
                                 ],
                               ),
-                              const SizedBox(height: 15.0),
-                              ElevatedButton(
-                                onPressed: () {
-                                  // 목적지 선택 시 endLocation 값을 업데이트
-                                  locationController.endLocation.value =
-                                      location;
-                                  Get.toNamed('/matching');
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: const Color(0xFF1479FF),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                child: const Text(
-                                  "목적지를 이곳으로 선택",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
+                              // ** 변경된 디자인 적용했는데 일단 코드는 남겨놓음 **
+                              // ElevatedButton(
+                              //   onPressed: () {
+                              //     locationController.endLocation.value = location;
+                              //     Get.toNamed('/matching');
+                              //   },
+                              //   style: ElevatedButton.styleFrom(
+                              //     foregroundColor: Colors.white,
+                              //     backgroundColor: const Color(0xFF1479FF),
+                              //     shape: RoundedRectangleBorder(
+                              //       borderRadius: BorderRadius.circular(10),
+                              //     ),
+                              //   ),
+                              //   child: const Text(
+                              //     "목적지를 이곳으로 선택",
+                              //     style: TextStyle(
+                              //       fontSize: 12,
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           )
                       ],
@@ -383,6 +385,54 @@ class _MainPageViewState extends State<MainPageView> {
     );
   }
 
+  Widget title_custom(String title, String buttonText, String destination) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        if (title == '매칭 목록')
+          Row(
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Get.find<QuickMatchController>().refreshQuickMatches();
+                },
+                icon: const Icon(Icons.refresh, size: 20, color: Colors.black),
+              ),
+            ],
+          )
+        else
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        TextButton(
+          onPressed: () {
+            locationController.endLocation.value = location;
+            Get.toNamed(destination);
+          },
+          child: Text(
+            "$buttonText >",
+            style: TextStyle(
+              color: Colors.black.withOpacity(0.5),
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget buildElevatedButton(String text, IconData icon, String destination) {
     return ElevatedButton.icon(
       onPressed: () {
@@ -404,53 +454,6 @@ class _MainPageViewState extends State<MainPageView> {
       ),
     );
   }
-}
-
-Widget title_custom(String title, String buttonText, String destination) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      if (title == '매칭 목록')
-        Row(
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                Get.find<QuickMatchController>().refreshQuickMatches();
-              },
-              icon: const Icon(Icons.refresh, size: 20, color: Colors.black),
-            ),
-          ],
-        )
-      else
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      TextButton(
-        onPressed: () {
-          Get.toNamed(destination);
-        },
-        child: Text(
-          "$buttonText >",
-          style: TextStyle(
-            color: Colors.black.withOpacity(0.5),
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    ],
-  );
 }
 
 Widget locationRow_reser(Widget icon, String label, String text) {
