@@ -205,7 +205,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                             contactRow(
                                 "기사님께 연락하기...",
                                 const Icon(Icons.phone,
-                                    color: Color(0xFF1479FF), size: 20)),
+                                    color: Color(0xFF1479FF), size: 20),taxiId),
                             const SizedBox(height: 30),
                             const Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -231,7 +231,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                             contactRow(
                                 "매칭된 사람들과 연락하기...",
                                 const Icon(Icons.chat,
-                                    color: Color(0xFF1479FF), size: 20)),
+                                    color: Color(0xFF1479FF), size: 20), taxiId),
                             const SizedBox(height: 30),
                             const Align(
                               alignment: Alignment.centerLeft,
@@ -405,69 +405,69 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
     );
   }
 
-  Widget contactRow(String title, Widget icon) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          width: 300,
-          height: 50,
-          decoration: BoxDecoration(
-            color: Colors.blue[50],
-            borderRadius: BorderRadius.circular(10),
+  Widget contactRow(String title, Widget icon, String taxiId) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Container(
+        width: 300,
+        height: 50,
+        decoration: BoxDecoration(
+          color: Colors.blue[50],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+          onPressed: () {
+            Get.toNamed('/chating', arguments: taxiId);
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
               ),
-            ),
-            onPressed: () {
-              Get.toNamed('/chating');
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
-                const Icon(
-                  Icons.near_me,
-                  color: Color(0xFF1479FF),
-                ),
-              ],
-            ),
+              const Icon(
+                Icons.near_me,
+                color: Color(0xFF1479FF),
+              ),
+            ],
           ),
         ),
-        const SizedBox(width: 10),
-        Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            color: Colors.blue[50],
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              padding: EdgeInsets.zero,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            onPressed: () {},
-            child: icon,
-          ),
+      ),
+      const SizedBox(width: 10),
+      Container(
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(
+          color: Colors.blue[50],
+          borderRadius: BorderRadius.circular(10),
         ),
-      ],
-    );
-  }
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            padding: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          onPressed: () {},
+          child: icon,
+        ),
+      ),
+    ],
+  );
+}
 }

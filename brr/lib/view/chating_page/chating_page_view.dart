@@ -1,65 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:brr/design_materials/design_materials.dart';
+import '../../constants/url.dart';
+import 'package:get/get.dart'; 
 
 class ChatingPageView extends StatefulWidget {
-  const ChatingPageView({super.key});
+  final String taxiId;
+  const ChatingPageView({super.key, required this.taxiId});
 
   @override
   _ChatingPageViewState createState() => _ChatingPageViewState();
 }
 
 class _ChatingPageViewState extends State<ChatingPageView> {
-  final WebSocketChannel channel = WebSocketChannel.connect(
-    Uri.parse('ws://localhost:8000/chat/1/ws'), // 실제 WebSocket 서버 URI
-  );
+  late WebSocketChannel channel; 
   final TextEditingController _controller = TextEditingController();
   final List<Map<String, String>> _messages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    
+
+    String taxiId = widget.taxiId;
+
+
+    channel = WebSocketChannel.connect(
+      Uri.parse('ws://${Urls.wsUrl}/chat/$taxiId/ws'), 
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(100.0),
-          child: Stack(
-            children: [
-              const Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 20),
-                  Text(
-                    '택시 팟이 완성되었어요!',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 12),
-                  Text(
-                    '함께하는 사람들과 필요한 대화를 나누어보세요',
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
-                  ),
-                  SizedBox(height: 12),
-                  Divider(
-                    color: Color(0xFFDBDBDB),
-                    thickness: 2,
-                    indent: 20,
-                    endIndent: 20,
-                  ),
-                ],
-              ),
-              Positioned(
-                top: 30,
-                left: 20,
-                child: gobackButton(),
-              ),
-            ],
-          )),
+        preferredSize: const Size.fromHeight(100.0),
+        child: Stack(
+          children: [
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 20),
+                Text(
+                  '택시 팟이 완성되었어요!',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 12),
+                Text(
+                  '함께하는 사람들과 필요한 대화를 나누어보세요',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+                SizedBox(height: 12),
+                Divider(
+                  color: Color(0xFFDBDBDB),
+                  thickness: 2,
+                  indent: 20,
+                  endIndent: 20,
+                ),
+              ],
+            ),
+            Positioned(
+              top: 30,
+              left: 20,
+              child: gobackButton(),
+            ),
+          ],
+        )
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
             const Text("채팅창",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             Expanded(
               child: StreamBuilder(
                 stream: channel.stream,
