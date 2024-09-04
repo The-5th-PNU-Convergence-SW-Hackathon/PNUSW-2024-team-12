@@ -615,7 +615,7 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 
 &emsp;**11 ) 이용 기록**
 <p align="center"> 
-<img src="/img/다_이용내역.png" width="200px" title="Title" alt="Alt text"></img>
+<img src="/img/다_이용내역.png" width="500px" title="Title" alt="Alt text"></img>
 </p>
 
 <div align="center"> 
