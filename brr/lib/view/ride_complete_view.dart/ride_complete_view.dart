@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RideCompletePageView extends StatelessWidget {
-  final String taxiNumber = '부산 12바 1234';
+  final String taxiNumber = '부산 12바 2901';
   final String carModel = '아이오닉 5';
-  final String driverName = '이지현 기사님';
-  final String date = '24.08.02';
-  final String time = '14:40 - 14:47';
+  final String driverName = '이지헌 기사님';
+  final String date = '24.09.04';
+  final String time = '16:31 - 16:32';
   final String departure = '부산대학교 정문';
   final String destination = '부산대학교 조형관';
   final String fare = '4,800원';
@@ -93,7 +94,7 @@ class RideCompletePageView extends StatelessWidget {
                 height: 40,
                 child : ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Get.offAllNamed('/');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF1479FF),

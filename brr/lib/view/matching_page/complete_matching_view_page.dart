@@ -24,13 +24,12 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
   @override
   void initState() {
     super.initState();
-    setupWebSocketListener(); // WebSocket 메시지 수신을 설정합니다.
+    setupWebSocketListener(); 
   }
 
   void setupWebSocketListener() {
     controllerAdd.currentMemberStatus.listen((status) {
       if (status == '운행완료') {
-        // "운행완료" 메시지를 받으면 다른 페이지로 이동합니다.
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Get.toNamed('/ridecomplete');
         });
@@ -38,7 +37,6 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
     });
     controller.currentMemberCount.listen((status) {
       if (status == '운행완료') {
-        // "운행완료" 메시지를 받으면 다른 페이지로 이동합니다.
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Get.toNamed('/ridecomplete');
         });
