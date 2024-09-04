@@ -520,25 +520,10 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 
 </div>
 
-***
-
-&emsp;**6 ) 매칭 대기**
-
-<div align="center"> 
-
-|라벨|이름|상세|
-|:---:|:----------------------------:|:---|
-| S0 | 출발하기              | - 매칭을 만든 사용자의 기능 <br/> - 클릭 시 택시를 호출 <br/>  - 최소 인원의 조건을 만족해야 택시 호출 가능 |
-| S1 | 매칭 취소          | - 매칭을 만든 사용자의 기능 <br/> - 클릭 시 매칭이 취소 |
-| S2 | 매칭 나가기               | - 매칭에 참여한 사용자의 기능 <br/> - 클릭 시 참여하고 있는 매칭에서 떠날 수 있음 |
-| S3 | 기사 정보              | - 이름, 자동차 번호 등의 정보를 보여줌 |
-| S4 | 채팅          | - 사용자들과 위치 공유를 위한 채팅 |
-
-</div>
 
 ***
 
-&emsp;**7 ) 매칭 목록**
+&emsp;**6 ) 매칭 목록**
 <p align="center"> 
 <img src="/img/다_매칭 목록.png" width="200px" title="Title" alt="Alt text"></img>
 </p>
@@ -556,7 +541,7 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 
 ***
 
-&emsp;**8 ) 마이페이지**
+&emsp;**7 ) 마이페이지**
 <p align="center"> 
 <img src="/img/다_마이페이지.png" width="200px" title="Title" alt="Alt text"></img>
 </p>
@@ -575,7 +560,7 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 
 ***
 
-&emsp;**9 ) 회원 정보**
+&emsp;**8 ) 회원 정보**
 <p align="center"> 
 <img src="/img/다_회원정보.png" width="200px" title="Title" alt="Alt text"></img>
 </p>
@@ -594,7 +579,7 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 
 ***
 
-&emsp;**10 ) 시간표**
+&emsp;**9 ) 시간표**
 <p align="center"> 
 <img src="/img/다_시간표등록.png" width="200px" title="Title" alt="Alt text"></img>
 </p>
@@ -613,7 +598,7 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 
 ***
 
-&emsp;**11 ) 이용 기록**
+&emsp;**10 ) 이용 기록**
 <p align="center"> 
 <img src="/img/다_이용내역.png" width="500px" title="Title" alt="Alt text"></img>
 </p>
@@ -626,21 +611,6 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 | S1 | 디테일         | - 운행 정보의 자세한 내용|
 | S2 | 택시 정보            | - 탑승한 택시의 정보 |
 | S3 | 같이 탄 사람         | - 같이 탄 사람의 정보 |
-
-</div>
-
-&emsp;**12 ) 택시 기사 페이지**
-
-<div align="center"> 
-
-|라벨|이름|상세|
-|:---:|:----------------------------:|:---|
-| S0 | 출근하기            | - 클릭 시 콜 대기 화면으로 이동 |
-| S1 | 콜 멈추기         | - 콜 잡는 것을 멈춤 |
-| S2 | 콜 리스트              | - 사용자가 택시 호출 시 리스트업됨 <br/> 클릭 시 콜 수락 페이지로 이동 |
-| S3 | 운행 정보              | - 출발지와 도착지 등의 운행정보 |
-| S4 | 수락하기 및 거절          | - 수락을 클릭 시 콜을 잡음  |
-| S5 | 운행완료          | - 클릭 시 운행이 종료  |
 
 </div>
 
