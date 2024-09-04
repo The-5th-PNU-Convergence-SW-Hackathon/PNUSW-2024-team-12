@@ -294,7 +294,7 @@ class _MainPageViewState extends State<MainPageView> {
                   buildContainer(
                     color: const Color(0xFFF3F8FF),
                     sidecolor: const Color(0xFFE2EAF5),
-                    height: 290,
+                    height: 300,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -357,6 +357,7 @@ class _MainPageViewState extends State<MainPageView> {
                       ],
                     ),
                   ),
+                  const SizedBox(height: 15),
                 ],
               ),
             ),

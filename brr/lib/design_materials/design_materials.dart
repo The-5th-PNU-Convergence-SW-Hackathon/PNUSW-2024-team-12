@@ -187,7 +187,16 @@ Widget locationRow(Widget icon, String label, String text) {
 
 Widget boardingInfo(String boardingTime) {
   return Text(
-    "오늘 $boardingTime 탑승 예정",
+    "$boardingTime 매칭 시작",
+    style: const TextStyle(
+      fontSize: 10.0,
+    ),
+  );
+}
+
+Widget boardingInfo_reser(String boardingTime) {
+  return Text(
+    "$boardingTime 매칭 예약",
     style: const TextStyle(
       fontSize: 10.0,
     ),
