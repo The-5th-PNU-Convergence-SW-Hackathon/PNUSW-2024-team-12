@@ -163,13 +163,12 @@ class _MainPageViewState extends State<MainPageView> {
                   ),
                   const SizedBox(height: 15.0),
                   buildContainer(
-                    width: double.maxFinite,
                     color: const Color(0xFFF3F8FF),
                     sidecolor: const Color(0xFFE2EAF5),
                     height: 140,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         title_custom("목적지 추천", "목적지를 이곳으로 선택", '/matching'),
                         if (courseName == '다음 수업이 없습니다.')
@@ -196,6 +195,7 @@ class _MainPageViewState extends State<MainPageView> {
                           Column(
                             children: [
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Row(
                                     children: [
@@ -234,9 +234,8 @@ class _MainPageViewState extends State<MainPageView> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(width: 20),
                                   SizedBox(
-                                    width: 155,
+                                    width: 150,
                                     child: ElevatedButton.icon(
                                       onPressed: () {
                                         locationController.endLocation.value = location;
@@ -267,26 +266,6 @@ class _MainPageViewState extends State<MainPageView> {
                                   )
                                 ],
                               ),
-                              // ** 변경된 디자인 적용했는데 일단 코드는 남겨놓음 **
-                              // ElevatedButton(
-                              //   onPressed: () {
-                              //     locationController.endLocation.value = location;
-                              //     Get.toNamed('/matching');
-                              //   },
-                              //   style: ElevatedButton.styleFrom(
-                              //     foregroundColor: Colors.white,
-                              //     backgroundColor: const Color(0xFF1479FF),
-                              //     shape: RoundedRectangleBorder(
-                              //       borderRadius: BorderRadius.circular(10),
-                              //     ),
-                              //   ),
-                              //   child: const Text(
-                              //     "목적지를 이곳으로 선택",
-                              //     style: TextStyle(
-                              //       fontSize: 12,
-                              //     ),
-                              //   ),
-                              // ),
                             ],
                           )
                       ],
