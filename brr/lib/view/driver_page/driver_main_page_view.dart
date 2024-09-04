@@ -171,12 +171,16 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Image.asset(
-                  'assets/images/taxi.png',
-                  height: 160,
-                  width: 160,
-                  // fit: BoxFit.cover,
-                  alignment: Alignment.topLeft,
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                  ),
+                  child: Image.asset(
+                    'assets/images/taxi.png',
+                    height: 160,
+                    width: 160,
+                    alignment: Alignment.topLeft,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Column(
