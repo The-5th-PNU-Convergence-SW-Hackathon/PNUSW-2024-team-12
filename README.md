@@ -195,6 +195,14 @@
 > 
 > ex) React.Js - React14, Node.js - v20.0.2
 
+|이름|버전|
+|:---:|:----------------------------:|
+| python  | 3.12      | 
+| mariadb  | 11.2         | 
+| fastapi  | 0.111.0        | 
+| SQLAlchemy  |  2.0.30           |
+| websocket-client  |  1.8.0    |
+
 ### 3. 개발결과
 #### 가. 전체시스템 흐름도
 &emsp;**1 ) IA(Information Architecture)**
