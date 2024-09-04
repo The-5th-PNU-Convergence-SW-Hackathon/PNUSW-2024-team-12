@@ -46,17 +46,15 @@ class _DriverMyDataPageViewState extends State<DriverMypageView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    profile_custom(90, 90, 80, Colors.blue),
-                    const SizedBox(height: 5.0),
-                    Obx(
-                      () => Text(
-                        _myPageController.nickname.value,
-                        style: const TextStyle(
-                            fontSize: 18,
+                    profile_custom(100, 100, 80, const Color(0xFF1479FF)),
+                    const SizedBox(height: 10.0),
+                    Obx(() => Text(
+                          _myPageController.nickname.value,
+                          style: const TextStyle(
+                            fontSize: 25.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
-                    )
+                          ),
+                        )),
                   ],
                 ),
                 const SizedBox(height: 80),

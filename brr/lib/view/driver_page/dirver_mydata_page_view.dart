@@ -25,10 +25,18 @@ class _DriverDataPageViewState extends State<DriverDataPageView> {
                   const EdgeInsets.symmetric(horizontal: 40.0, vertical: 45.0),
               child: Column(
                 children: [
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
+                      IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
+                            size: 20,
+                          )),
+                      const Text(
                         '기사정보',
                         style: TextStyle(
                           fontSize: 24.0,
@@ -47,22 +55,22 @@ class _DriverDataPageViewState extends State<DriverDataPageView> {
                           fontWeight: FontWeight.bold,
                         ),
                       )),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 80),
                   Obx(() =>
                       mydata_custom('닉네임', _myPageController.nickname.value)),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 15),
                   Obx(() => mydata_custom('아이디', _myPageController.id.value)),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 15),
                   PassWordTextField(
                     text: '현재 비밀번호',
                     controller: _myPageController.pwController,
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 15),
                   PassWordTextField(
                     text: '새 비밀번호',
                     controller: _myPageController.newPwController,
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 15),
                   PassWordTextField(
                     text: '새 비밀번호 확인',
                     controller: _myPageController.newPwCheckController,
