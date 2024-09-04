@@ -127,7 +127,7 @@ class _MainPageViewState extends State<MainPageView> {
                                           circleContainer, "출발지", "부산대정문"),
                                       const SizedBox(height: 5),
                                       locationRow_reser(
-                                          rectangularContainer, "도착지", "부산대정문"),
+                                          rectangularContainer, "도착지", "부산대역"),
                                     ],
                                   ),
                                   const Column(
@@ -148,7 +148,7 @@ class _MainPageViewState extends State<MainPageView> {
                               ),
                               const SizedBox(height: 10),
                               const Text(
-                                '3분 뒤 출발',
+                                '1시간 30분 뒤 출발',
                                 style: TextStyle(
                                     fontSize: 14, color: Colors.black),
                               ),

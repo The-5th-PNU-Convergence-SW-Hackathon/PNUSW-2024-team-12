@@ -4,6 +4,7 @@ import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/mydata_page_controller.dart';
 import 'package:timer_builder/timer_builder.dart';
 import 'package:intl/intl.dart';
+
 class DriverMainPageView extends StatefulWidget {
   const DriverMainPageView({super.key});
 
@@ -17,52 +18,55 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-    automaticallyImplyLeading: false,
-    backgroundColor: Colors.white,
-    titleSpacing: 25.0,
-    title: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        // 왼쪽에 로고와 텍스트 "기사앱"
-        Row(
-          children: [
-            brrLogo(), // 로고 위젯
-            const SizedBox(width: 22),
-            const Text(
-              '기사앱',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: Colors.black, 
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          titleSpacing: 25.0,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // 왼쪽에 로고와 텍스트 "기사앱"
+              Row(
+                children: [
+                  brrLogo(), // 로고 위젯
+                  const SizedBox(width: 22),
+                  const Text(
+                    '기사앱',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
+              TimerBuilder.periodic(const Duration(seconds: 1),
+                  builder: (context) {
+                return Text(
+                  DateFormat('yyyy. M. d. h:mm:ss').format(DateTime.now()),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                  ),
+                );
+              }),
+            ],
+          ),
         ),
-        TimerBuilder.periodic(Duration(seconds: 1), builder: (context) {
-          return Text(
-            "${DateFormat('yyyy. M. d. h:mm:ss').format(DateTime.now())}",
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.black,
-            ),
-          );
-        }),
-      ],
-    ),
-  ),
         backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Obx(()=> driverProfile(_myPageController.nickname.value, '효원운수')),
+              Obx(() =>
+                  driverProfile(_myPageController.nickname.value, '효원운수')),
               const SizedBox(height: 15),
               carProfile('아이오닉5 / 중형/ 모범', '부산 12바 2901'),
               const SizedBox(height: 15),
               workButton(),
               const SizedBox(height: 5),
-              const Text("현재 위치 : 부산광역시 금정구 장전 1동", style: const TextStyle(fontSize: 20, color: Colors.black)),
+              const Text("현재 위치 : 부산광역시 금정구 장전 1동",
+                  style: TextStyle(fontSize: 20, color: Colors.black)),
             ],
           ),
         ));
@@ -74,23 +78,23 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Color(0xFFF3F8FF),
-          boxShadow: [
+          color: const Color(0xFFF3F8FF),
+          boxShadow: const [
             BoxShadow(
               color: Color.fromARGB(255, 235, 241, 249),
               spreadRadius: 1,
               blurRadius: 7,
-              offset: const Offset(0, 3),
+              offset: Offset(0, 3),
             ),
           ],
         ),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             foregroundColor: Colors.black,
-            backgroundColor: Color(0xFFF3F8FF),
+            backgroundColor: const Color(0xFFF3F8FF),
             elevation: 1,
-            shadowColor: Color.fromARGB(255, 235, 241, 249),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            shadowColor: const Color.fromARGB(255, 235, 241, 249),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -108,20 +112,28 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
                   const SizedBox(width: 10),
                   Row(
                     children: [
-                      Text(name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black)),
-                      Text(' 기사님', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black)),
+                      Text(name,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.black)),
+                      const Text(' 기사님',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.black)),
                     ],
                   ),
                   Row(
                     children: [
-                      Text('(', style: const TextStyle(fontSize: 12)),
+                      const Text('(', style: TextStyle(fontSize: 12)),
                       Text(company, style: const TextStyle(fontSize: 12)),
-                      Text(')', style: const TextStyle(fontSize: 12)),
+                      const Text(')', style: TextStyle(fontSize: 12)),
                     ],
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios, size: 20),
+              const Icon(Icons.arrow_forward_ios, size: 20),
             ],
           ),
         ));
@@ -133,23 +145,23 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
         height: 340,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Color(0xFFF3F8FF),
-          boxShadow: [
+          color: const Color(0xFFF3F8FF),
+          boxShadow: const [
             BoxShadow(
               color: Color.fromARGB(255, 235, 241, 249),
               spreadRadius: 1,
               blurRadius: 7,
-              offset: const Offset(0, 3),
+              offset: Offset(0, 3),
             ),
           ],
         ),
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.black,
-              backgroundColor: Color(0xFFF3F8FF),
+              backgroundColor: const Color(0xFFF3F8FF),
               elevation: 1,
-              shadowColor: Color.fromARGB(255, 235, 241, 249),
-              padding: EdgeInsets.fromLTRB(0, 0, 12, 20)
+              shadowColor: const Color.fromARGB(255, 235, 241, 249),
+              padding: const EdgeInsets.fromLTRB(0, 0, 12, 20),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -170,21 +182,29 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(carType, style: const TextStyle(fontSize: 25, color: Colors.black)),
-                    Text(carNumber, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.black)),
+                    Text(carType,
+                        style:
+                            const TextStyle(fontSize: 25, color: Colors.black)),
+                    Text(carNumber,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 40,
+                            color: Colors.black)),
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.black, backgroundColor: Colors.transparent, // 배경색 투명
+                        foregroundColor: Colors.black,
+                        backgroundColor: Colors.transparent, // 배경색 투명
 
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(color: Colors.black),
+                          side: const BorderSide(color: Colors.black),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
                       ),
-                      child: Text(
+                      child: const Text(
                         '차량정보 수정',
                         style: TextStyle(
                           fontSize: 16,
@@ -205,12 +225,12 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           color: Colors.blue,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Color.fromARGB(255, 235, 241, 249),
               spreadRadius: 1,
               blurRadius: 7,
-              offset: const Offset(3, 5),
+              offset: Offset(3, 5),
             ),
           ],
         ),
@@ -220,7 +240,7 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
               backgroundColor: Colors.blue,
               elevation: 3,
               shadowColor: const Color.fromARGB(255, 28, 137, 226),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
@@ -228,10 +248,11 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
             onPressed: () {
               Get.toNamed('/driverwork');
             },
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('출근하기', style: const TextStyle(fontSize: 35, color: Colors.white)),
+                Text('출근하기',
+                    style: TextStyle(fontSize: 35, color: Colors.white)),
               ],
             )));
   }
