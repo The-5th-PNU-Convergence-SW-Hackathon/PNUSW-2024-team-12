@@ -206,26 +206,27 @@
    사용자(손님)는 사람들을 매칭하는 방을 만들어 택시를 호출할 수 있고, *매칭 목록 페이지*에서 이미 만들어진 방에 참여할 수 있습니다.
    
    또한 시간표 등록을 통해 *메인페이지*에서 시간표에 따른 추천 도착지도 설정 가능합니다.
-   
+   <p align="center"> 
    <img src="/img/brr 사용자 전체 페이지.jpg" width="800px" title="사용자 전체 플로우 차트" alt="Alt text"></img>
-
+   </p>
 
    2-2) 기사 전체 플로우 차트
    > 택시기사의 전체 플로우 차트입니다.
 
    기사는 *출근하기* 버튼을 클릭하면 콜대기 화면으로 이동하여 사용자가 택시를 부르면 자동으로 리스트업이 되어 콜 수락을 할 수 있습니다.
-   
+   <p align="center"> 
    <img src="/img/brr 기사 전체 페이지.jpg" width="400px" title="기사 전체 플로우 차트" alt="Alt text"></img>
-
+   </p>
+   
    2-3) 회원가입 플로우 차트
    > 회원가입 플로우 차트입니다.
 
    왼쪽은 사용자의 회원가입 과정, 오른쪽은 택시기사의 회원가입 과정입니다.
 
    사용자는 부산대 학생으로 제한하기 때문에 학번과 이메일 인증 과정을 거칩니다.
-
+   <p align="center"> 
    <img src="/img/전체 회원가입 플로우 차트.jpg" width="800px" title="회원가입 플로우 차트" alt="Alt text"></img>
-   
+   </p>
 3 ) 테스크 플로우 차트
  
    3-1) 로그인 및 회원가입 플로우 차트
@@ -238,9 +239,9 @@
    택시기사는 아이디, 비밀번호, 이름, 전화번호, 자동차 번호, 자동차 모델을 입력합니다.
    
    로그인 시 사용자일 경우 *사용자 페이지*로, 택시 기사의 경우 *택시 기사 페이지*로 이동합니다.
-   
+   <p align="center"> 
    <img src="/img/brr 로그인 및 회원가입 플로우 차트.jpg" width="800px" title="brr 로그인 및 회원가입 플로우 차트" alt="Alt text"></img>
- 
+    </p>
 4 ) 시스템 플로우 차트
  
    4-1) 이메일 인증 플로우 차트
@@ -250,8 +251,9 @@
 
    받은 이메일을 입력한 후 일치하면 이메일 인증이 성공합니다.
    
+   <p align="center"> 
    <img src="/img/brr 이메일 인증 플로우 차트.jpg" width="800px" title="Title" alt="Alt text"></img>
-   
+   </p>
    4-2) 매칭 플로우 차트
    > 매칭 플로우 차트입니다.
 
@@ -264,9 +266,10 @@
    택시기사는 호출된 리스트를 *콜 대기 페이지*에서 볼 수 있고 콜을 수락하면 택시를 탈 수 있습니다.
 
    탑승 후 하차한 경우 택시기사가 *운행 종료* 버튼을 클릭하면 매칭 과정이 종료되고 이용기록이 저장됩니다.
-
+   
+   <p align="center"> 
    <img src="/img/brr 매칭 플로우차트.jpg" width="800px" title="Title" alt="Alt text"></img>
-
+   </p>
    4-3) 결제 로직
    > 결제 플로우 차트입니다.
 
@@ -277,9 +280,9 @@
    만약 조건이 만족되면 각 사용자들에게 환불을 합니다.
 
    이후 운행이 완료되면 실제금액을 바탕으로 n등분한 가격을 결제합니다. 
-
+   <p align="center"> 
    <img src="/img/결제 플로우 차트.jpg" width="800px" title="결제 플로우 차트" alt="Alt text"></img>
-
+   </p>
    
 5 ) ERD
 
@@ -299,8 +302,9 @@
    >>
    >> email_codes : 이메일 인증 코드를 임시로 저장하는 테이블 
    
+   <p align="center"> 
    <img src="/img/ERD.jpg" width="800px" title="Title" alt="Alt text"></img>
-
+   </p>
 
 
 
@@ -397,9 +401,9 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 > BRR의 주요 기능입니다.
 
 1 ) 회원가입
-
+<p align="center"> 
 <img src="/img/다_회원가입.png" width="500px" title="Title" alt="Alt text"></img>
-
+</p>
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0  | 회원 종류 선택            | - 사용자/택시기사 회원가입 선택 |
@@ -421,9 +425,9 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 ***
 
 2 ) 로그인 
-
+<p align="center"> 
 <img src="/img/다_로그인 페이지.png" width="200px" title="Title" alt="Alt text"></img>
-
+</p>
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 아이디            | - 아이디 입력 <br/> - 유효성 검사  |
@@ -435,9 +439,9 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 ***
 
 3 ) 메인페이지 
-
+<p align="center"> 
 <img src="/img/다_메인페이지.png" width="200px" title="Title" alt="Alt text"></img>
-
+</p>
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 빠른 매칭            | - 클릭 시 *빠른 매칭 페이지*로 이동  |
@@ -452,9 +456,9 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 ***
 
 4 ) 빠른 매칭
-
+<p align="center"> 
 <img src="/img/다_빠른매칭.png" width="500px" title="Title" alt="Alt text"></img>
-
+</p>
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 출발지            | - 출발지 검색 기능  |
@@ -465,9 +469,9 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 ***
 
 5 ) 매칭 예약
-
+<p align="center"> 
 <img src="/img/다_매칭예약.png" width="500px" title="Title" alt="Alt text"></img>
-
+</p>
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 출발지            | - 출발지 검색 기능  |
@@ -491,9 +495,9 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 ***
 
 7 ) 매칭 목록
-
+<p align="center"> 
 <img src="/img/다_매칭 목록.png" width="200px" title="Title" alt="Alt text"></img>
-
+</p>
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 매칭 타입              | - 빠른 매칭 또는 예약 매칭 선택 |
@@ -504,9 +508,9 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 ***
 
 8 ) 마이페이지
-
+<p align="center"> 
 <img src="/img/다_마이페이지.png" width="200px" title="Title" alt="Alt text"></img>
-
+</p>
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 회원 이름              | - 회원의 이름을 나타냄 |
@@ -518,9 +522,9 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 ***
 
 9 ) 회원 정보
-
+<p align="center"> 
 <img src="/img/다_회원정보.png" width="200px" title="Title" alt="Alt text"></img>
-
+</p>
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 회원 이름              | - 회원의 이름을 나타냄 |
@@ -532,9 +536,9 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 ***
 
 10 ) 시간표 
-
+<p align="center"> 
 <img src="/img/다_시간표등록.png" width="200px" title="Title" alt="Alt text"></img>
-
+</p>
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 시간표             | - 시간표 등록시 나타남 |
