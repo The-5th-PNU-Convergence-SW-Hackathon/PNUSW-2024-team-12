@@ -149,7 +149,7 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
               backgroundColor: Color(0xFFF3F8FF),
               elevation: 1,
               shadowColor: Color.fromARGB(255, 235, 241, 249),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+              padding: EdgeInsets.fromLTRB(0, 0, 12, 20)
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -160,10 +160,11 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Image.asset(
-                  'assets/images/hachuping.png',
-                  height: 120,
-                  width: 120,
-                  fit: BoxFit.cover,
+                  'assets/images/taxi.png',
+                  height: 160,
+                  width: 160,
+                  // fit: BoxFit.cover,
+                  alignment: Alignment.topLeft,
                 ),
                 const SizedBox(height: 10),
                 Column(
