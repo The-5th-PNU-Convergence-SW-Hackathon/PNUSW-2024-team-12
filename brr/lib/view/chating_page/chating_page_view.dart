@@ -5,7 +5,7 @@ import '../../constants/url.dart';
 import 'package:get/get.dart'; 
 
 class ChatingPageView extends StatefulWidget {
-  final String taxiId;
+  final int taxiId;
   const ChatingPageView({super.key, required this.taxiId});
 
   @override
@@ -22,7 +22,7 @@ class _ChatingPageViewState extends State<ChatingPageView> {
     super.initState();
     
 
-    String taxiId = widget.taxiId;
+    int taxiId = widget.taxiId;
 
 
     channel = WebSocketChannel.connect(
