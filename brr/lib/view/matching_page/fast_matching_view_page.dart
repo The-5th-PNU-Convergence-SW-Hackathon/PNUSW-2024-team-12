@@ -5,6 +5,7 @@ import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/location_controller.dart';
 import 'package:brr/controller/add_match_list_controller.dart';
 import 'package:intl/intl.dart';
+
 class MatchingPageView extends StatefulWidget {
   const MatchingPageView({super.key});
 
@@ -23,14 +24,20 @@ class _MatchingPageViewState extends State<MatchingPageView> {
         locationController.startLongitude.value != 0.0) {
       final startMarker = NMarker(
         id: "startMarker",
-        position: NLatLng(locationController.startLatitude.value, locationController.startLongitude.value),
+        position: NLatLng(locationController.startLatitude.value,
+            locationController.startLongitude.value),
         iconTintColor: Colors.yellow,
       );
       await _mapController.addOverlay(startMarker);
     }
     final cameraUpdate = NCameraUpdate.withParams(
-      target: NLatLng(locationController.startLatitude.value != 0.0 ? locationController.startLatitude.value :35.2339681,
-         locationController.startLongitude.value != 0.0 ? locationController.startLongitude.value :129.0806855 ),
+      target: NLatLng(
+          locationController.startLatitude.value != 0.0
+              ? locationController.startLatitude.value
+              : 35.2339681,
+          locationController.startLongitude.value != 0.0
+              ? locationController.startLongitude.value
+              : 129.0806855),
       zoom: 16,
       bearing: 0,
     );
@@ -40,7 +47,8 @@ class _MatchingPageViewState extends State<MatchingPageView> {
         locationController.endLongitude.value != 0.0) {
       final endMarker = NMarker(
         id: "endMarker",
-        position: NLatLng(locationController.endLatitude.value, locationController.endLongitude.value),
+        position: NLatLng(locationController.endLatitude.value,
+            locationController.endLongitude.value),
         iconTintColor: Colors.green,
       );
       await _mapController.addOverlay(endMarker);
@@ -64,7 +72,7 @@ class _MatchingPageViewState extends State<MatchingPageView> {
 
     setState(() {});
   }
-  
+
   String _getDurationInMinutes(double durationInSeconds) {
     int minutes = (durationInSeconds / 60000).round();
     return minutes.toString();
@@ -72,8 +80,8 @@ class _MatchingPageViewState extends State<MatchingPageView> {
 
   @override
   Widget build(BuildContext context) {
-    final  startLat = locationController.startLatitude.value;
-    final  startLong = locationController.startLongitude.value;
+    final startLat = locationController.startLatitude.value;
+    final startLong = locationController.startLongitude.value;
     print("$startLat, $startLong");
     return Scaffold(
       body: SafeArea(
@@ -83,7 +91,7 @@ class _MatchingPageViewState extends State<MatchingPageView> {
               child: NaverMap(
                 options: NaverMapViewOptions(
                   initialCameraPosition: NCameraPosition(
-                    target: NLatLng(35.2339681, 129.0806855), 
+                    target: NLatLng(35.2339681, 129.0806855),
                     zoom: 15,
                     bearing: 0,
                     tilt: 0,
@@ -163,54 +171,52 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            
-                                  
-                                 Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    width: 200,
-                                    height: 130,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Expanded(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          '라이언 치즈 체크카드',
-                                          style: TextStyle(
-                                            fontSize: 15,
+                                        Container(
+                                          width: 200,
+                                          height: 130,
+                                          decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
                                         ),
-                                        Text(
-                                          'NH농협카드',
-                                          style: TextStyle(
-                                            fontSize: 8,
-                                            color: Colors.grey,
+                                        const SizedBox(width: 10),
+                                        const Expanded(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '라이언 치즈 체크카드',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              Text(
+                                                'NH농협카드',
+                                                style: TextStyle(
+                                                  fontSize: 8,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                              SizedBox(height: 30),
+                                            ],
                                           ),
                                         ),
-                                        SizedBox(height: 30),
-                                        
-                                      ],
-                                    ),
-                                  ),]),
-                                
-                    ]),
-                                
-                              
-                            
+                                      ]),
+                                ]),
                             const SizedBox(height: 20),
                             SizedBox(
                               width: double.infinity,
@@ -223,19 +229,33 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  final AddMatchListController addMatchListController = Get.put(AddMatchListController());
+                                  final AddMatchListController
+                                      addMatchListController =
+                                      Get.put(AddMatchListController());
 
-                                  if (addMatchListController.selectedMinMember.value == 0 &&
-                                      locationController.startLocation.value == '' &&
-                                      locationController.endLocation.value == '') {
-                                    Get.snackbar('Error', '매칭 조건(출발지/도착지/인원)을 모두 채워주세요.');
-                                  } else if (locationController.startLocation.value == '' ||
-                                      locationController.endLocation.value == '') {
+                                  if (addMatchListController
+                                              .selectedMinMember.value ==
+                                          0 &&
+                                      locationController.startLocation.value ==
+                                          '' &&
+                                      locationController.endLocation.value ==
+                                          '') {
+                                    Get.snackbar('Error',
+                                        '매칭 조건(출발지/도착지/인원)을 모두 채워주세요.');
+                                  } else if (locationController
+                                              .startLocation.value ==
+                                          '' ||
+                                      locationController.endLocation.value ==
+                                          '') {
                                     Get.snackbar('Error', '출발지와 도착지를 채워주세요.');
-                                  } else if (addMatchListController.selectedMinMember.value == 0) {
+                                  } else if (addMatchListController
+                                          .selectedMinMember.value ==
+                                      0) {
                                     Get.snackbar('Error', '매칭 할 인원을 선택해주세요.');
                                   } else {
-                                    addMatchListController.sendMatchData(addMatchListController.selectedMinMember.value);
+                                    addMatchListController.sendMatchData(
+                                        addMatchListController
+                                            .selectedMinMember.value);
                                     Get.toNamed('/matchloading');
                                   }
                                 },
@@ -274,7 +294,8 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 5.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
@@ -288,9 +309,19 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              locationRow(circleContainer, '출발지', locationController.startLocation.value.isEmpty ? '' : locationController.startLocation.value),
+                              locationRow(
+                                  circleContainer,
+                                  '출발지',
+                                  locationController.startLocation.value.isEmpty
+                                      ? ''
+                                      : locationController.startLocation.value),
                               const SizedBox(height: 5.0),
-                              locationRow(rectangularContainer, '도착지', locationController.endLocation.value.isEmpty ? '' : locationController.endLocation.value),
+                              locationRow(
+                                  rectangularContainer,
+                                  '도착지',
+                                  locationController.endLocation.value.isEmpty
+                                      ? ''
+                                      : locationController.endLocation.value),
                             ],
                           )),
                     ),
@@ -305,7 +336,8 @@ class _MatchingPageViewState extends State<MatchingPageView> {
   }
 
   Widget _matchpeopleButton(String text, int minMember) {
-    final AddMatchListController addMatchListController = Get.put(AddMatchListController());
+    final AddMatchListController addMatchListController =
+        Get.put(AddMatchListController());
 
     return Padding(
       padding: const EdgeInsets.all(5),
@@ -315,9 +347,17 @@ class _MatchingPageViewState extends State<MatchingPageView> {
           height: 60,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              foregroundColor: addMatchListController.selectedMinMember.value == minMember ? Color(0xFF1479FF) : Colors.white,
-              backgroundColor: addMatchListController.selectedMinMember.value == minMember ? Colors.white : Color(0xFF1479FF),
-              side: addMatchListController.selectedMinMember.value == minMember ? const BorderSide(color: Color(0xFF1479FF), width: 2) : BorderSide.none,
+              foregroundColor:
+                  addMatchListController.selectedMinMember.value == minMember
+                      ? Color(0xFF1479FF)
+                      : Colors.white,
+              backgroundColor:
+                  addMatchListController.selectedMinMember.value == minMember
+                      ? Colors.white
+                      : Color(0xFF1479FF),
+              side: addMatchListController.selectedMinMember.value == minMember
+                  ? const BorderSide(color: Color(0xFF1479FF), width: 2)
+                  : BorderSide.none,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -340,14 +380,20 @@ class _MatchingPageViewState extends State<MatchingPageView> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: addMatchListController.selectedMinMember.value == minMember ? Color(0xFF1479FF) : Colors.white,
+                      color: addMatchListController.selectedMinMember.value ==
+                              minMember
+                          ? Color(0xFF1479FF)
+                          : Colors.white,
                     ),
                   ),
                   Text(
                     _calculateFare(minMember),
                     style: TextStyle(
                       fontSize: 12,
-                      color: addMatchListController.selectedMinMember.value == minMember ? Color(0xFF1479FF) : Colors.white,
+                      color: addMatchListController.selectedMinMember.value ==
+                              minMember
+                          ? Color(0xFF1479FF)
+                          : Colors.white,
                     ),
                   ),
                 ],
@@ -407,8 +453,10 @@ class _MatchingPageViewState extends State<MatchingPageView> {
       height: 35.0,
       child: FloatingActionButton(
         onPressed: () {
-          final AddMatchListController addMatchListController = Get.find<AddMatchListController>();
-          final LocationController locationController = Get.find<LocationController>();
+          final AddMatchListController addMatchListController =
+              Get.find<AddMatchListController>();
+          final LocationController locationController =
+              Get.find<LocationController>();
 
           addMatchListController.selectedMinMember.value = 0;
           locationController.startLocation.value = '';
