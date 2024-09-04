@@ -433,6 +433,9 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 <p align="center"> 
 <img src="/img/다_로그인 페이지.png" width="200px" title="Title" alt="Alt text"></img>
 </p>
+
+<div align="center"> 
+
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 아이디            | - 아이디 입력 <br/> - 유효성 검사  |
@@ -440,6 +443,8 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 | S2 | 로그인 완료 | - 비어 있는 입력 칸이 없는지 검증 <br/> - 조건을 만족하면 로그인 성공  |
 | S3 | 아이디/비밀번호 찾기               | - 클릭 시 *아이디/비밀번호 찾기 페이지*로 이동 |
 | S4 | 회원가입                        | - 클릭 시 *회원가입 페이지*로 이동 |
+
+</div>
 
 ***
 
@@ -504,6 +509,9 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 ***
 
 6 ) 매칭 대기
+
+<div align="center"> 
+
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 출발하기              | - 매칭을 만든 사용자의 기능 <br/> - 클릭 시 택시를 호출 <br/>  - 최소 인원의 조건을 만족해야 택시 호출 가능 |
@@ -511,6 +519,8 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 | S2 | 매칭 나가기               | - 매칭에 참여한 사용자의 기능 <br/> - 클릭 시 참여하고 있는 매칭에서 떠날 수 있음 |
 | S3 | 기사 정보              | - 이름, 자동차 번호 등의 정보를 보여줌 |
 | S4 | 채팅          | - 사용자들과 위치 공유를 위한 채팅 |
+
+</div>
 
 ***
 
@@ -591,6 +601,8 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 
 11 ) 이용 기록
 
+<div align="center"> 
+
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 자동차 번호             | - 탑승한 택시의 자동차 번호 |
@@ -604,8 +616,9 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 | S8 | 택시 기사 이름         | - 택시 기사의 이름 |
 | S9 | 같이 탄 사람    | - 같이 탄 사람의 정보 |
 
+</div>
 
-
+***
 
 #### 라. 디렉토리 구조
 > 위 레포지토리의 디렉토리 구조를 설명하세요.
