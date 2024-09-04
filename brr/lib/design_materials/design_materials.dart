@@ -78,7 +78,11 @@ dynamic brrLogo({double size = 36}) {
               ..color = Colors.black,
           ),
         ),
-        Text('BRR', style: TextStyle(fontSize: size, fontWeight: FontWeight.w900, fontFamily: 'AnonymousPro-BoldItalic'))
+        Text('BRR',
+            style: TextStyle(
+                fontSize: size,
+                fontWeight: FontWeight.w900,
+                fontFamily: 'AnonymousPro-BoldItalic'))
       ],
     ),
   );
@@ -126,11 +130,11 @@ Widget BRRcashIcon() {
   return Container(
     width: 50,
     height: 50,
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
       color: Colors.white,
       shape: BoxShape.circle,
     ),
-    child: Center(
+    child: const Center(
       child: Text(
         "B",
         style: TextStyle(
@@ -151,7 +155,7 @@ ButtonStyle buttonStyle() {
     padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(8.0),
-      side: const BorderSide(color: Color(0xFFF2F2F2), width: 1.0),
+      side: const BorderSide(color: Color(0xFFE2EAF5), width: 1.0),
     ),
     elevation: 0,
   );
@@ -166,14 +170,14 @@ Widget locationRow(Widget icon, String label, String text) {
       Text(
         label,
         style: const TextStyle(
-          fontSize: 10.0,
+          fontSize: 12.0,
         ),
       ),
       const SizedBox(width: 10.0),
       Text(
         text,
         style: const TextStyle(
-          fontSize: 12.0,
+          fontSize: 14.0,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -183,7 +187,16 @@ Widget locationRow(Widget icon, String label, String text) {
 
 Widget boardingInfo(String boardingTime) {
   return Text(
-    "오늘 $boardingTime 탑승 예정",
+    "$boardingTime 매칭 시작",
+    style: const TextStyle(
+      fontSize: 10.0,
+    ),
+  );
+}
+
+Widget boardingInfo_reser(String boardingTime) {
+  return Text(
+    "$boardingTime 매칭 예약",
     style: const TextStyle(
       fontSize: 10.0,
     ),
@@ -202,7 +215,8 @@ Widget profile_custom(double garo, double sero, double iconSize, Color color) {
   );
 }
 
-Widget buildRow(BuildContext context, String title, String buttonText, String routeName) {
+Widget buildRow(
+    BuildContext context, String title, String buttonText, String routeName) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 2.0),
     child: Row(
@@ -238,16 +252,16 @@ Widget buildRow(BuildContext context, String title, String buttonText, String ro
 }
 
 Widget buildLogout(BuildContext context, String buttonText, String routeName) {
-  final MyPageController _myDataPageController = Get.put(MyPageController());
+  final MyPageController myDataPageController = Get.put(MyPageController());
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 3.0),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Spacer(),
+        const Spacer(),
         TextButton(
           onPressed: () {
-            _myDataPageController.logout();
+            myDataPageController.logout();
             Get.offAllNamed(routeName);
           },
           child: Row(

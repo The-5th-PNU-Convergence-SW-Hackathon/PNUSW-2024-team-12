@@ -4,6 +4,7 @@ import 'package:brr/controller/quickmatch_list_controller.dart';
 import 'package:brr/design_materials/design_materials.dart';
 import 'package:brr/controller/reservation_match_list_controller.dart';
 import 'package:brr/controller/join_match_controller.dart';
+import 'package:brr/design_materials/design_materials.dart';
 
 class MatchinglistPageView extends StatefulWidget {
   const MatchinglistPageView({super.key});
@@ -13,9 +14,12 @@ class MatchinglistPageView extends StatefulWidget {
 }
 
 class _MatchinglistPageView extends State<MatchinglistPageView> {
-  final QuickMatchController quickMatchController = Get.put(QuickMatchController());
-  final ReservationMatchController reservationMatchController = Get.put(ReservationMatchController());
-  final JoinMatchController joinMatchController = Get.put(JoinMatchController());
+  final QuickMatchController quickMatchController =
+      Get.put(QuickMatchController());
+  final ReservationMatchController reservationMatchController =
+      Get.put(ReservationMatchController());
+  final JoinMatchController joinMatchController =
+      Get.put(JoinMatchController());
 
   bool isQuickMatch = true;
 
@@ -45,35 +49,41 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                 Expanded(
                   child: TextButton(
                     style: TextButton.styleFrom(
-                      foregroundColor: isQuickMatch ? Colors.black : Colors.grey,
+                      foregroundColor:
+                          isQuickMatch ? Colors.black : Colors.grey,
                     ),
                     onPressed: () {
                       setState(() {
                         isQuickMatch = true;
                       });
                     },
-                    child: const Text('빠른 매칭', style: TextStyle(fontSize: 16.0)),
+                    child:
+                        const Text('빠른 매칭', style: TextStyle(fontSize: 16.0)),
                   ),
                 ),
-                const Text(' / ', style: TextStyle(fontSize: 16.0, color: Colors.black)),
+                const Text(' / ',
+                    style: TextStyle(fontSize: 16.0, color: Colors.black)),
                 Expanded(
                   child: TextButton(
                     style: TextButton.styleFrom(
-                      foregroundColor: isQuickMatch ? Colors.grey : Colors.black,
+                      foregroundColor:
+                          isQuickMatch ? Colors.grey : Colors.black,
                     ),
                     onPressed: () {
                       setState(() {
                         isQuickMatch = false;
                       });
                     },
-                    child: const Text('매칭 예약', style: TextStyle(fontSize: 16.0)),
+                    child:
+                        const Text('매칭 예약', style: TextStyle(fontSize: 16.0)),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 25.0),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
               decoration: BoxDecoration(
                 color: Colors.blue[50],
                 borderRadius: BorderRadius.circular(10),
@@ -92,7 +102,8 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15.0, vertical: 1.0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
@@ -126,10 +137,12 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.transparent),
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
                                   ),
                                   focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.transparent),
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
                                   ),
                                   contentPadding: EdgeInsets.only(bottom: 9.0),
                                 ),
@@ -151,7 +164,8 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                     child: Align(
                       alignment: Alignment.center,
                       child: IconButton(
-                        icon: const Icon(Icons.search, color: Colors.white, size: 20),
+                        icon: const Icon(Icons.search,
+                            color: Colors.white, size: 20),
                         onPressed: () {},
                       ),
                     ),
@@ -165,11 +179,15 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                 return const Center(child: Text("빠른 매칭이 없습니다."));
               }
               return ListView.builder(
-                  itemCount: isQuickMatch ? quickMatchController.quickMatches.length : reservationMatchController.ReservationMatches.length,
+                  itemCount: isQuickMatch
+                      ? quickMatchController.quickMatches.length
+                      : reservationMatchController.ReservationMatches.length,
                   itemBuilder: (context, index) {
                     if (isQuickMatch) {
-                      int reverseIndex = quickMatchController.quickMatches.length - index - 1;
-                      final quickMatch = quickMatchController.quickMatches[reverseIndex];
+                      int reverseIndex =
+                          quickMatchController.quickMatches.length - index - 1;
+                      final quickMatch =
+                          quickMatchController.quickMatches[reverseIndex];
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: ElevatedButton(
@@ -183,20 +201,28 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  locationRow(circleContainer, "출발지", quickMatch.depart),
+                                  locationRow(circleContainer, "출발지",
+                                      quickMatch.depart),
                                   const SizedBox(height: 5.0),
-                                  locationRow(rectangularContainer, "도착지", quickMatch.dest),
+                                  locationRow(rectangularContainer, "도착지",
+                                      quickMatch.dest),
                                 ],
                               ),
                               const Spacer(),
-                              boardingInfo(quickMatch.boardingTime.toString().substring(11, 16)),
+                              boardingInfo(quickMatch.boardingTime
+                                  .toString()
+                                  .substring(11, 16)),
                             ],
                           ),
                         ),
                       );
                     } else {
-                      int reverseIndex = reservationMatchController.ReservationMatches.length - index - 1;
-                      final reservationMatch = reservationMatchController.ReservationMatches[reverseIndex];
+                      int reverseIndex =
+                          reservationMatchController.ReservationMatches.length -
+                              index -
+                              1;
+                      final reservationMatch = reservationMatchController
+                          .ReservationMatches[reverseIndex];
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: ElevatedButton(
@@ -208,13 +234,17 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  locationRow(circleContainer, "출발지", reservationMatch.depart),
+                                  locationRow(circleContainer, "출발지",
+                                      reservationMatch.depart),
                                   const SizedBox(height: 5.0),
-                                  locationRow(rectangularContainer, "도착지", reservationMatch.dest),
+                                  locationRow(rectangularContainer, "도착지",
+                                      reservationMatch.dest),
                                 ],
                               ),
                               const Spacer(),
-                              boardingInfo(reservationMatch.boardingTime.toString().substring(11, 16)),
+                              boardingInfo_reser(reservationMatch.boardingTime
+                                  .toString()
+                                  .substring(11, 16)),
                             ],
                           ),
                         ),
@@ -262,15 +292,6 @@ class _MatchinglistPageView extends State<MatchinglistPageView> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget boardingInfo(String boardingTime) {
-    return Text(
-      "오늘 $boardingTime 탑승 예정",
-      style: const TextStyle(
-        fontSize: 10.0,
-      ),
     );
   }
 }
