@@ -182,20 +182,21 @@ Future<Map<String, dynamic>> getNextSchedule() async {
 String getTimeDifferenceString(String startTimeString) {
   try {
     final now = DateTime.now();
-    final currentTime = DateFormat('HH:mm').parse(getCurrentTime());
+    final currentTime = DateTime(now.year, now.month, now.day, now.hour, now.minute);
+
     final startTime = DateFormat('HH:mm').parse(startTimeString);
+    final startDateTime = DateTime(now.year, now.month, now.day, startTime.hour, startTime.minute);
 
-    final isFuture = startTime.isAfter(currentTime);
-    final targetTime = isFuture
-        ? startTime
-        : DateTime(now.year, now.month, now.day + 1, startTime.hour, startTime.minute);
+    final targetTime = startDateTime.isAfter(currentTime)
+        ? startDateTime
+        : startDateTime.add(const Duration(days: 1)); // 하루 더함
 
-    final difference = targetTime.difference(now);
+    final difference = targetTime.difference(currentTime);
     final hours = difference.inHours;
     final minutes = difference.inMinutes % 60;
 
     return '$hours 시간 $minutes 분 후';
   } catch (e) {
-    return '';
+    return '오류 발생: $e';
   }
 }
