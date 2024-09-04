@@ -11,13 +11,15 @@ class CompleteMatchingViewPage extends StatefulWidget {
   const CompleteMatchingViewPage({super.key});
 
   @override
-  _CompleteMatchingViewPageState createState() => _CompleteMatchingViewPageState();
+  _CompleteMatchingViewPageState createState() =>
+      _CompleteMatchingViewPageState();
 }
 
 class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
   late NaverMapController _mapController;
   final JoinMatchController controller = Get.put(JoinMatchController());
-  final AddMatchListController controllerAdd = Get.put(AddMatchListController());
+  final AddMatchListController controllerAdd =
+      Get.put(AddMatchListController());
 
   @override
   void initState() {
@@ -30,7 +32,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
       if (status == '운행완료') {
         // "운행완료" 메시지를 받으면 다른 페이지로 이동합니다.
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          Get.toNamed('/ridecomplete'); 
+          Get.toNamed('/ridecomplete');
         });
       }
     });
@@ -38,7 +40,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
       if (status == '운행완료') {
         // "운행완료" 메시지를 받으면 다른 페이지로 이동합니다.
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          Get.toNamed('/ridecomplete'); 
+          Get.toNamed('/ridecomplete');
         });
       }
     });
@@ -50,7 +52,8 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
     }).toList();
   }
 
-  void _updateMap(List<List<NLatLng>> latLngLists, NLatLng start, NLatLng end) async {
+  void _updateMap(
+      List<List<NLatLng>> latLngLists, NLatLng start, NLatLng end) async {
     await _mapController.clearOverlays();
 
     final startMarker = NMarker(
@@ -98,7 +101,8 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
     final depart = data['depart'];
     final dest = data['dest'];
     final String pathString = data['path'];
-    final List<Map<String, dynamic>> pathData = List<Map<String, dynamic>>.from(jsonDecode(pathString));
+    final List<Map<String, dynamic>> pathData =
+        List<Map<String, dynamic>>.from(jsonDecode(pathString));
     final List<NLatLng> latLngList = convertToLatLng(pathData);
 
     final start = latLngList.first;
@@ -117,7 +121,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                     bearing: 0,
                     tilt: 0,
                   ),
-                  locale: Locale('kr'),
+                  locale: const Locale('kr'),
                   locationButtonEnable: true,
                 ),
                 onMapReady: (controller) {
@@ -167,7 +171,8 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         circleContainer,
                                         const SizedBox(width: 5),
@@ -186,7 +191,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                                         const SizedBox(width: 5),
                                         Text(
                                           "목적지 $dest",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.grey,
                                             fontSize: 12,
                                           ),
@@ -197,20 +202,23 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                                 ),
                               ],
                             ),
-                            contactRow("기사님께 연락하기...", Icon(Icons.phone, color: Color(0xFF1479FF), size: 20)),
+                            contactRow(
+                                "기사님께 연락하기...",
+                                const Icon(Icons.phone,
+                                    color: Color(0xFF1479FF), size: 20)),
                             const SizedBox(height: 30),
-                            Row(
+                            const Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                const Text(
+                                Text(
                                   "매칭 완료",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18,
                                   ),
                                 ),
-                                const SizedBox(width: 10),
-                                const Text(
+                                SizedBox(width: 10),
+                                Text(
                                   "안선주 이지헌",
                                   style: TextStyle(
                                     color: Colors.grey,
@@ -220,11 +228,14 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                               ],
                             ),
                             const SizedBox(height: 10),
-                            contactRow("매칭된 사람들과 연락하기...", Icon(Icons.chat, color: Color(0xFF1479FF), size: 20)),
+                            contactRow(
+                                "매칭된 사람들과 연락하기...",
+                                const Icon(Icons.chat,
+                                    color: Color(0xFF1479FF), size: 20)),
                             const SizedBox(height: 30),
-                            Align(
+                            const Align(
                               alignment: Alignment.centerLeft,
-                              child: const Text(
+                              child: Text(
                                 "예상 결제 비용",
                                 style: TextStyle(
                                   color: Colors.black,
@@ -233,62 +244,53 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            Container(
-                              height: 180,
-                              width: double.infinity,
-                              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-                              decoration: BoxDecoration(
-                                color: Colors.blue[50],
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: Column(
+                            Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        "부르릉 캐시",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(width: 10),
+                                        Container(
+                                          width: 200,
+                                          height: 130,
+                                          decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
                                         ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {},
-                                        child: Row(
-                                          children: [
-                                            const Icon(Icons.add, size: 15, color: Color(0xFF1479FF),),
-                                            const SizedBox(width: 3),
-                                            const Text(
-                                              '충전하기',
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                color: Colors.grey,
+                                        const SizedBox(width: 10),
+                                        const Expanded(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '라이언 치즈 체크카드',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                              Text(
+                                                'NH농협카드',
+                                                style: TextStyle(
+                                                  fontSize: 8,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                              SizedBox(height: 30),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 15),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      BRRcashIcon(),
-                                      const SizedBox(width: 10),
-                                      const Text(
-                                        " 캐시",
-                                        style: TextStyle(
-                                          fontSize: 30,
-                                          color: Color(0xFF1479FF),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
+                                      ]),
+                                ]),
                           ],
                         ),
                       ),
@@ -307,7 +309,8 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 5.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
@@ -422,7 +425,9 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed('/chating');
+            },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

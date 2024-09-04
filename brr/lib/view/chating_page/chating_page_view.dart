@@ -1,27 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:brr/design_materials/design_materials.dart';
 
-class ChatingPageView extends StatelessWidget {
+class ChatingPageView extends StatefulWidget {
+  const ChatingPageView({super.key});
+
+  @override
+  _ChatingPageViewState createState() => _ChatingPageViewState();
+}
+
+class _ChatingPageViewState extends State<ChatingPageView> {
+  final WebSocketChannel channel = WebSocketChannel.connect(
+    Uri.parse('ws://localhost:8000/chat/1/ws'), // 실제 WebSocket 서버 URI
+  );
+  final TextEditingController _controller = TextEditingController();
+  final List<Map<String, String>> _messages = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100.0),
+          preferredSize: const Size.fromHeight(100.0),
           child: Stack(
             children: [
-              Column(
+              const Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
                   Text(
                     '택시 팟이 완성되었어요!',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
-                    height: 12,
-                  ),
+                  SizedBox(height: 12),
                   Text(
                     '함께하는 사람들과 필요한 대화를 나누어보세요',
                     style: TextStyle(fontSize: 12, color: Colors.grey),
@@ -43,42 +55,42 @@ class ChatingPageView extends StatelessWidget {
             ],
           )),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
-            Text("채팅창", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const Text("채팅창",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             Expanded(
-                child: ListView(
-              padding: EdgeInsets.all(16),
-              children: [
-                ChatBubble(
-                  text: '안녕하세요~',
-                  isMe: false,
-                  nickname: '효정',
-                ),
-                ChatBubble(
-                  text: '다들 어디쯤이세요?? 택시 곧 도착해요!',
-                  isMe: false,
-                  nickname: '효정',
-                ),
-                ChatBubble(
-                  text: '죄송합니다;;; 빨리 갈게요...',
-                  isMe: false,
-                  nickname: '효정',
-                ),
-                ChatBubble(
-                  text: '전 이미 와있어요! 노란 옷 입고 있습니다!!',
-                  isMe: true,
-                  nickname: '나',
-                ),
-              ],
-            )),
+              child: StreamBuilder(
+                stream: channel.stream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    _messages.add({
+                      'nickname': '효정',
+                      'text': snapshot.data.toString(),
+                      'isMe': 'false',
+                    });
+                  }
+                  return ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: _messages.length,
+                    itemBuilder: (context, index) {
+                      return ChatBubble(
+                        text: _messages[index]['text']!,
+                        isMe: _messages[index]['isMe'] == 'true',
+                        nickname: _messages[index]['nickname']!,
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
             Container(
               width: double.infinity,
               height: 50,
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               decoration: BoxDecoration(
-                color: Color(0xFFD3E5FF),
+                color: const Color(0xFFD3E5FF),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(
@@ -86,7 +98,8 @@ class ChatingPageView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextField(
-                      decoration: InputDecoration(
+                      controller: _controller,
+                      decoration: const InputDecoration(
                         hintText: '메시지를 입력하세요...',
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
@@ -95,8 +108,9 @@ class ChatingPageView extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.near_me_outlined, color: Colors.black, size: 30),
-                    onPressed: () {},
+                    icon: const Icon(Icons.near_me_outlined,
+                        color: Colors.black, size: 30),
+                    onPressed: _sendMessage,
                   ),
                 ],
               ),
@@ -106,6 +120,29 @@ class ChatingPageView extends StatelessWidget {
       ),
     );
   }
+
+  void _sendMessage() {
+    if (_controller.text.isNotEmpty) {
+      // 메시지 전송
+      channel.sink.add(_controller.text);
+
+      setState(() {
+        _messages.add({
+          'nickname': '나',
+          'text': _controller.text,
+          'isMe': 'true',
+        });
+      });
+      _controller.clear();
+    }
+  }
+
+  @override
+  void dispose() {
+    channel.sink.close();
+    _controller.dispose();
+    super.dispose();
+  }
 }
 
 class ChatBubble extends StatelessWidget {
@@ -113,7 +150,8 @@ class ChatBubble extends StatelessWidget {
   final bool isMe;
   final String nickname;
 
-  ChatBubble({
+  const ChatBubble({
+    super.key,
     required this.text,
     required this.isMe,
     required this.nickname,
@@ -125,7 +163,8 @@ class ChatBubble extends StatelessWidget {
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment:
+            isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
           if (!isMe)
             Column(
@@ -133,20 +172,21 @@ class ChatBubble extends StatelessWidget {
                 chatProfile(),
                 Text(
                   nickname,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
                   ),
                 ),
               ],
             ),
-          if (!isMe) SizedBox(width: 8),
+          if (!isMe) const SizedBox(width: 8),
           Column(
-            crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            crossAxisAlignment:
+                isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.symmetric(vertical: 5.0),
-                padding: EdgeInsets.all(7.0),
+                margin: const EdgeInsets.symmetric(vertical: 5.0),
+                padding: const EdgeInsets.all(7.0),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black, width: 1.0),
                   borderRadius: BorderRadius.circular(10),
@@ -154,12 +194,12 @@ class ChatBubble extends StatelessWidget {
                 ),
                 child: Text(
                   text,
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
             ],
           ),
-          if (isMe) SizedBox(width: 8),
+          if (isMe) const SizedBox(width: 8),
           if (isMe) chatProfile(),
         ],
       ),
@@ -176,7 +216,7 @@ Widget chatProfile() {
         borderRadius: BorderRadius.circular(10),
         color: Colors.white,
       ),
-      child: Center(
+      child: const Center(
           child: Icon(
         Icons.person_outline,
         size: 20,

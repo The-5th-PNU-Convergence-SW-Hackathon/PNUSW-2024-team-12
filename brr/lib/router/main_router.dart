@@ -31,12 +31,13 @@ import 'package:brr/view/driver_page/driver_callstart_page_view.dart';
 import 'package:brr/view/driver_page/driver_decide_navigation_page_view.dart';
 import 'package:brr/view/driver_page/driver_complete_view.dart';
 import 'package:brr/view/ride_complete_view.dart/ride_complete_view.dart';
+import 'package:brr/view/driver_page/dirver_mydata_page_view.dart';
 
 class MainRouter {
   static final List<GetPage> routes = [
     GetPage(
       name: '/',
-      page: () => MainLayout(
+      page: () => const MainLayout(
         child: MainPageView(),
       ),
     ),
@@ -92,7 +93,7 @@ class MainRouter {
     ),
     GetPage(
       name: '/writelocation',
-      page: () => MainLayout(
+      page: () => const MainLayout(
         child: WriteLocationPageView(),
       ),
     ),
@@ -122,7 +123,7 @@ class MainRouter {
     ),
     GetPage(
       name: '/drivermain',
-      page: () => DriverMainLayout(
+      page: () => const DriverMainLayout(
         child: DriverMainPageView(),
       ),
     ),
@@ -132,10 +133,12 @@ class MainRouter {
         child: DriverWorkPageView(),
       ),
     ),
-    GetPage(name: '/reservation', page: () => const MainLayout(child: ReservationMatchingPageView())),
+    GetPage(
+        name: '/reservation',
+        page: () => const MainLayout(child: ReservationMatchingPageView())),
     GetPage(
       name: '/chating',
-      page: () => ChatingPageView(),
+      page: () => const ChatingPageView(),
     ),
     GetPage(
         name: '/driveraccept',
@@ -146,31 +149,40 @@ class MainRouter {
             )),
     GetPage(
       name: '/drivermypage',
-      page: () => DriverMainLayout(
+      page: () => const DriverMainLayout(
         child: DriverMypageView(),
       ),
     ),
-    GetPage(name: '/callstart',
-        page: () => DriverMainLayout(
+    GetPage(
+        name: '/callstart',
+        page: () => const DriverMainLayout(
               child: DriverCallstartPageView(),
             )),
-    GetPage(name: '/decidenavigation',
+    GetPage(
+        name: '/decidenavigation',
         page: () => DriverMainLayout(
               child: DriverDecideNavigationPageView(
                 matchingId: Get.arguments,
               ),
             )),
-    GetPage(name: '/drivercomplete',
+    GetPage(
+        name: '/drivercomplete',
         page: () => DriverMainLayout(
               child: DriverCompletePageView(
                 matchingId: Get.arguments['matchingId'],
                 fare: Get.arguments['fare'],
               ),
             )),
-            GetPage(
+    GetPage(
       name: '/ridecomplete',
       page: () => const MainLayout(
         child: RideCompletePageView(),
+      ),
+    ),
+    GetPage(
+      name: '/driverdata',
+      page: () => const DriverMainLayout(
+        child: DriverDataPageView(),
       ),
     ),
   ];
