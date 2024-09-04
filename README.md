@@ -286,7 +286,7 @@
    >>
    >> email_codes : 이메일 인증 코드를 임시로 저장하는 테이블 
    
-   <img src="/img/brr ERD.jpg" width="800px" title="Title" alt="Alt text"></img>
+   <img src="/img/ERD.jpg" width="800px" title="Title" alt="Alt text"></img>
 
 
 
