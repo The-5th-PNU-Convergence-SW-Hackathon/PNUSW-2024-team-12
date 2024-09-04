@@ -378,6 +378,10 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 - 매칭 예약에 들어가면 매칭 예약의 목록들을 볼 수 있음
 - 탑승하고 싶은 목록을 클릭하면 매칭에 합류
 
+
+https://github.com/user-attachments/assets/14b638f0-ce33-4c31-bb9f-9cfa0b518a8b
+
+
 &emsp;**6 ) 빠른 매칭**
 - *메인페이지*의 *빠른 매칭* 버튼을 클릭하면 *빠른 매칭 페이지*로 이동
 - 출발지와 도착지를 입력하면 소요시간, 예상 금액, 이동 경로, 지도 등이 표시
@@ -751,7 +755,19 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 
 ### 5. 소개 및 시연 영상
 > 프로젝트에 대한 소개와 시연 영상을 넣으세요.
-> 프로젝트 소개 동영상을 교육원 메일(swedu@pusan.ac.kr)로 제출 이후 센터에서 부여받은 youtube URL주소를 넣으세요.
+
+
+
+
+https://github.com/user-attachments/assets/afeed52b-2e31-47a1-8306-aa8ab0a9f591
+
+
+https://github.com/user-attachments/assets/7bafa44d-e3a8-4452-8ef8-f9873a13e1a6
+
+
+https://github.com/user-attachments/assets/ace546b8-f55c-4606-9c5a-4aa64e033b95
+
+
 
 ### 6. 팀 소개
 > 팀원 소개 & 구성원 별 역할 분담 & 간단한 연락처를 작성하세요.
