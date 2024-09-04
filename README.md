@@ -404,6 +404,9 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 <p align="center"> 
 <img src="/img/다_회원가입.png" width="500px" title="Title" alt="Alt text"></img>
 </p>
+
+<div align="center"> 
+   
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0  | 회원 종류 선택            | - 사용자/택시기사 회원가입 선택 |
@@ -421,6 +424,8 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 | S12 | 기사 사 모델                 | - 기사 차 모델 입력 |
 | S13 | 가입하기                  | - 비어 있는 입력 칸이 없는지 검증 <br/> - 메일 인증 완료했는지 확인 <br/> - 조건을 만족하면 회원가입 성공|
 | S14 | 로그인                        | - 클릭 시 *로그인 페이지*로 이동 |
+
+</div>
 
 ***
 
@@ -442,6 +447,9 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 <p align="center"> 
 <img src="/img/다_메인페이지.png" width="200px" title="Title" alt="Alt text"></img>
 </p>
+
+<div align="center"> 
+
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 빠른 매칭            | - 클릭 시 *빠른 매칭 페이지*로 이동  |
@@ -453,12 +461,17 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 | S6 | 홈                       | - 클릭 시 *홈 페이지*으로 이동 |
 | S7 | 마이페이지                     | - 클릭 시 *마이페이지* 로 이동 |
 
+</div>
+
 ***
 
 4 ) 빠른 매칭
 <p align="center"> 
 <img src="/img/다_빠른매칭.png" width="500px" title="Title" alt="Alt text"></img>
 </p>
+
+<div align="center"> 
+
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 출발지            | - 출발지 검색 기능  |
@@ -466,12 +479,17 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 | S2 | 최소 인원 선택          | - 최소 인원 선택 기능 |
 | S3 | 매칭 시작               | - 택시에 함께 탈 사용자를 매칭 <br/> - 클릭 시 *매칭 대기 페이지*로 이동 |
 
+</div>
+
 ***
 
 5 ) 매칭 예약
 <p align="center"> 
 <img src="/img/다_매칭예약.png" width="500px" title="Title" alt="Alt text"></img>
 </p>
+
+<div align="center"> 
+
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 출발지            | - 출발지 검색 기능  |
@@ -480,6 +498,8 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 | S3 | 매칭 시작               | - 택시에 함께 탈 사용자를 매칭 <br/> - 클릭 시 *매칭 대기 페이지*로 이동 |
 | S4 | 날짜 및 시간            | - 택시를 호출할 날짜 및 시간 선택  |
 | S5 | 다음 단계          | - 출발지와 도착지를 선택하고 매칭하는 화면으로 이동 |
+
+</div>
 
 ***
 
@@ -498,6 +518,9 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 <p align="center"> 
 <img src="/img/다_매칭 목록.png" width="200px" title="Title" alt="Alt text"></img>
 </p>
+
+<div align="center"> 
+
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 매칭 타입              | - 빠른 매칭 또는 예약 매칭 선택 |
@@ -505,12 +528,17 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 | S2 | 검색              | - 출발지, 또는 도착지에 따른 매칭 방 탐색 |
 | S3 | 매칭 정보          | - 현재 매칭 중인 방의 정보 <br/> - 클릭 시 매칭 참여|
 
+</div>
+
 ***
 
 8 ) 마이페이지
 <p align="center"> 
 <img src="/img/다_마이페이지.png" width="200px" title="Title" alt="Alt text"></img>
 </p>
+
+<div align="center"> 
+
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 회원 이름              | - 회원의 이름을 나타냄 |
@@ -519,12 +547,17 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 | S3 | 이용기록 확인              | - 클릭 시 *이용기록 확인 페이지*로 이동 |
 | S4 | 로그아웃          | - 로그아웃 기능 |
 
+</div>
+
 ***
 
 9 ) 회원 정보
 <p align="center"> 
 <img src="/img/다_회원정보.png" width="200px" title="Title" alt="Alt text"></img>
 </p>
+
+<div align="center"> 
+
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 회원 이름              | - 회원의 이름을 나타냄 |
@@ -533,12 +566,17 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 | S3 | 비밀번호 수정란      | - 현재 비밀번호, 새 비밀번호, 확인 입력 |
 | S4 | 비밀번호 수정 버튼        | - 비밀번호 수정란 입력 후 버튼을 누르면 수정됨 |
 
+</div>
+
 ***
 
 10 ) 시간표 
 <p align="center"> 
 <img src="/img/다_시간표등록.png" width="200px" title="Title" alt="Alt text"></img>
 </p>
+
+<div align="center"> 
+
 |라벨|이름|상세|
 |:---:|:----------------------------:|:---|
 | S0 | 시간표             | - 시간표 등록시 나타남 |
@@ -546,6 +584,8 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 | S2 | 수업 장소              | - 수업 장소 입력 |
 | S3 | 수업명         | - 수업명 입력 |
 | S4 | 추가하기             | - 클릭 시 시간표에 등록 |
+
+</div>
 
 ***
 
