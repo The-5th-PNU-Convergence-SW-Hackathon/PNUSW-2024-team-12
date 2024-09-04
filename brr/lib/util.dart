@@ -184,7 +184,7 @@ String getTimeDifferenceString(String startTimeString) {
     final now = DateTime.now();
     final currentTime = DateTime(now.year, now.month, now.day, now.hour, now.minute);
 
-    final startTime = DateFormat('HH:mm').parse(startTimeString);
+    final startTime = DateFormat('HH:mm').parse(startTimeString, false);
     final startDateTime = DateTime(now.year, now.month, now.day, startTime.hour, startTime.minute);
 
     final targetTime = startDateTime.isAfter(currentTime)
