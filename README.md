@@ -666,6 +666,111 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 #### 라. 디렉토리 구조
 > 위 레포지토리의 디렉토리 구조를 설명하세요.
 
+```
+├─.idea
+├─backend
+│  ├─history
+│  │  └─__pycache__
+│  ├─matching
+│  │  └─__pycache__
+│  ├─taxi
+│  │  └─__pycache__
+│  ├─user
+│  │  └─__pycache__
+│  └─__pycache__
+├─brr
+│  ├─android
+│  │  ├─app
+│  │  │  └─src
+│  │  │      ├─debug
+│  │  │      ├─main
+│  │  │      │  ├─kotlin
+│  │  │      │  │  └─com
+│  │  │      │  │      └─example
+│  │  │      │  │          └─brr
+│  │  │      │  └─res
+│  │  │      │      ├─drawable
+│  │  │      │      ├─drawable-v21
+│  │  │      │      ├─mipmap-hdpi
+│  │  │      │      ├─mipmap-mdpi
+│  │  │      │      ├─mipmap-xhdpi
+│  │  │      │      ├─mipmap-xxhdpi
+│  │  │      │      ├─mipmap-xxxhdpi
+│  │  │      │      ├─values
+│  │  │      │      └─values-night
+│  │  │      └─profile
+│  │  └─gradle
+│  │      └─wrapper
+│  ├─assets
+│  │  ├─fonts
+│  │  └─images
+│  ├─ios
+│  │  ├─Flutter
+│  │  ├─Runner
+│  │  │  ├─Assets.xcassets
+│  │  │  │  ├─AppIcon.appiconset
+│  │  │  │  └─LaunchImage.imageset
+│  │  │  └─Base.lproj
+│  │  ├─Runner.xcodeproj
+│  │  │  ├─project.xcworkspace
+│  │  │  │  └─xcshareddata
+│  │  │  └─xcshareddata
+│  │  │      └─xcschemes
+│  │  ├─Runner.xcworkspace
+│  │  │  └─xcshareddata
+│  │  └─RunnerTests
+│  ├─lib
+│  │  ├─constants
+│  │  │  └─bottom_navigation
+│  │  ├─controller
+│  │  ├─design_materials
+│  │  ├─layout
+│  │  ├─model
+│  │  ├─router
+│  │  └─view
+│  │      ├─chating_page
+│  │      ├─driver_page
+│  │      ├─history_page
+│  │      ├─loading_circle
+│  │      ├─loading_page
+│  │      ├─location_write_page
+│  │      ├─login_page
+│  │      ├─main_page
+│  │      ├─matching_page
+│  │      ├─match_list_page
+│  │      ├─mypage_page
+│  │      ├─ride_complete_view.dart
+│  │      ├─schedule_page
+│  │      └─sign_up_page
+│  ├─linux
+│  │  └─flutter
+│  ├─macos
+│  │  ├─Flutter
+│  │  ├─Runner
+│  │  │  ├─Assets.xcassets
+│  │  │  │  └─AppIcon.appiconset
+│  │  │  ├─Base.lproj
+│  │  │  └─Configs
+│  │  ├─Runner.xcodeproj
+│  │  │  ├─project.xcworkspace
+│  │  │  │  └─xcshareddata
+│  │  │  └─xcshareddata
+│  │  │      └─xcschemes
+│  │  ├─Runner.xcworkspace
+│  │  │  └─xcshareddata
+│  │  └─RunnerTests
+│  ├─test
+│  ├─web
+│  │  └─icons
+│  └─windows
+│      ├─flutter
+│      └─runner
+│          └─resources
+├─docs
+└─img
+```
+<br/>
+
 #### 마. 산업체 멘토링 의견 반영사항
 &emsp;1 ) 피드백: 사용자 이탈을 막고 신규 사용자를 끌어들일 수 있는 Key Features 추가에 대한 고민이 필요하므로 카카오T, Uber Taxi 등 주요 택시어플을 분석하고 부르릉앱만의 경쟁력이 될 수 있는 기능을 지속적으로 추가할 것을 권장함
   > - 공공 서비스로 제작하여 수수료를 징수하지 않고 수익 그대로를 택시 기사에게 전달함으로서 택시 기사를 끌어들일 수 있는 요소를 추가하였고, 카카오택시, 우버택시에 밀려 어려움을 겪고 있는 지역 운수사와의 제휴를 통해 택시를 공급할 예정임
