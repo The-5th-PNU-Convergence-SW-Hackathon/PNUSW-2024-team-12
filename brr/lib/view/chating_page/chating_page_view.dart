@@ -15,19 +15,39 @@ class ChatingPageView extends StatefulWidget {
 class _ChatingPageViewState extends State<ChatingPageView> {
   late WebSocketChannel channel; 
   final TextEditingController _controller = TextEditingController();
-  final List<Map<String, String>> _messages = [];
+  final List<Map<String, dynamic>> _messages = [];  
+  final String myNickname = "나"; 
 
   @override
   void initState() {
     super.initState();
-    
-
     int taxiId = widget.taxiId;
 
-
+  
     channel = WebSocketChannel.connect(
-      Uri.parse('ws://${Urls.wsUrl}/chat/$taxiId/ws'), 
+      Uri.parse('ws://${Urls.wsUrl}chat/$taxiId/ws'), 
     );
+    
+  
+    channel.stream.listen((message) {
+   
+      var receivedMessage = parseMessage(message); 
+
+      setState(() {
+        _messages.add({
+          'nickname': receivedMessage['nickname'],  
+          'text': receivedMessage['text'],  
+          'isMe': receivedMessage['nickname'] == myNickname,  
+        });
+      });
+    });
+  }
+
+  Map<String, dynamic> parseMessage(String message) {
+    return {
+      'nickname': '상대방', 
+      'text': message
+    };
   }
 
   @override
@@ -64,38 +84,25 @@ class _ChatingPageViewState extends State<ChatingPageView> {
             Positioned(
               top: 30,
               left: 20,
-              child: gobackButton(),
+              child: gobackButton(),  
             ),
           ],
-        )
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
-            const Text("채팅창",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const Text("채팅창", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             Expanded(
-              child: StreamBuilder(
-                stream: channel.stream,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    _messages.add({
-                      'nickname': '효정',
-                      'text': snapshot.data.toString(),
-                      'isMe': 'false',
-                    });
-                  }
-                  return ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: _messages.length,
-                    itemBuilder: (context, index) {
-                      return ChatBubble(
-                        text: _messages[index]['text']!,
-                        isMe: _messages[index]['isMe'] == 'true',
-                        nickname: _messages[index]['nickname']!,
-                      );
-                    },
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: _messages.length,
+                itemBuilder: (context, index) {
+                  return ChatBubble(
+                    text: _messages[index]['text'],
+                    isMe: _messages[index]['isMe'],
+                    nickname: _messages[index]['nickname'],
                   );
                 },
               ),
@@ -117,14 +124,11 @@ class _ChatingPageViewState extends State<ChatingPageView> {
                       decoration: const InputDecoration(
                         hintText: '메시지를 입력하세요...',
                         border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
                       ),
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.near_me_outlined,
-                        color: Colors.black, size: 30),
+                    icon: const Icon(Icons.near_me_outlined, color: Colors.black, size: 30),
                     onPressed: _sendMessage,
                   ),
                 ],
@@ -138,23 +142,25 @@ class _ChatingPageViewState extends State<ChatingPageView> {
 
   void _sendMessage() {
     if (_controller.text.isNotEmpty) {
-      // 메시지 전송
-      channel.sink.add(_controller.text);
-
+      var message = _controller.text;
+      
       setState(() {
         _messages.add({
-          'nickname': '나',
-          'text': _controller.text,
-          'isMe': 'true',
+          'nickname': myNickname,  
+          'text': message,
+          'isMe': true, 
         });
       });
+
+      channel.sink.add(message);
+
       _controller.clear();
     }
   }
 
   @override
   void dispose() {
-    channel.sink.close();
+    channel.sink.close();  
     _controller.dispose();
     super.dispose();
   }
@@ -178,8 +184,7 @@ class ChatBubble extends StatelessWidget {
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment:
-            isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
           if (!isMe)
             Column(
@@ -187,32 +192,20 @@ class ChatBubble extends StatelessWidget {
                 chatProfile(),
                 Text(
                   nickname,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                 ),
               ],
             ),
           if (!isMe) const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment:
-                isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-            children: [
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 5.0),
-                padding: const EdgeInsets.all(7.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black, width: 1.0),
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                ),
-                child: Text(
-                  text,
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ),
-            ],
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 5.0),
+            padding: const EdgeInsets.all(7.0),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black, width: 1.0),
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+            ),
+            child: Text(text, style: const TextStyle(fontSize: 16)),
           ),
           if (isMe) const SizedBox(width: 8),
           if (isMe) chatProfile(),
@@ -220,10 +213,9 @@ class ChatBubble extends StatelessWidget {
       ),
     );
   }
-}
 
-Widget chatProfile() {
-  return Container(
+  Widget chatProfile() {
+    return Container(
       width: 30,
       height: 30,
       decoration: BoxDecoration(
@@ -232,9 +224,8 @@ Widget chatProfile() {
         color: Colors.white,
       ),
       child: const Center(
-          child: Icon(
-        Icons.person_outline,
-        size: 20,
-        color: Colors.black,
-      )));
+        child: Icon(Icons.person_outline, size: 20, color: Colors.black),
+      ),
+    );
+  }
 }

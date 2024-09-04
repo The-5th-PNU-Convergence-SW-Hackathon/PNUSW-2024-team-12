@@ -94,7 +94,7 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
   Widget build(BuildContext context) {
     final Map<String, dynamic> data = Get.arguments;
 
-    final taxiId = int.parse(data['taxi_id']);
+    final taxiId = data['taxi_id'];
     final driverName = data['driver_name'];
     final carNum = data['car_num'];
     final phoneNumber = data['phone_number'];
