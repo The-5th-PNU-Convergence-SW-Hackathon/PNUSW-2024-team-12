@@ -6,9 +6,10 @@ import 'package:get/get.dart';
 class CallAcceptPageView extends StatelessWidget {
   final int matchingId;
 
-  CallAcceptPageView({required this.matchingId});
+  CallAcceptPageView({super.key, required this.matchingId});
 
-  final DriverAcceptController driverAcceptController = Get.put(DriverAcceptController());
+  final DriverAcceptController driverAcceptController =
+      Get.put(DriverAcceptController());
 
   @override
   Widget build(BuildContext context) {
@@ -23,24 +24,25 @@ class CallAcceptPageView extends StatelessWidget {
               children: [
                 brrLogo(),
                 const SizedBox(width: 22),
-                const Text('기사앱', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold))
+                const Text('기사앱',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold))
               ],
             )),
         backgroundColor: Colors.white,
         body: Obx(() {
           if (driverAcceptController.callInfo.isEmpty) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else {
             var callInfo = driverAcceptController.callInfo;
             return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25),
+                padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     locationInfo('출발', callInfo['depart'], '현재 위치에서 3km'),
                     CustomPaint(
-                      size: Size(40, 40),
+                      size: const Size(40, 40),
                       painter: ArrowPainter(),
                     ),
                     locationInfo('도착', callInfo['dest'], ''),
@@ -48,7 +50,8 @@ class CallAcceptPageView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        detailInfo('예상요금/거리', '${callInfo['taxi_fare']}원/${callInfo['distance']}km'),
+                        detailInfo('예상요금/거리',
+                            '${callInfo['taxi_fare']}원/${callInfo['distance']}km'),
                         detailInfo('소요시간', '${callInfo['duration']}분'),
                       ],
                     ),
@@ -56,12 +59,13 @@ class CallAcceptPageView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        callButton('수락하기', Colors.blue, Colors.white, 200, () {
+                        callButton('수락하기', 200, () {
                           driverAcceptController.acceptCall(matchingId);
-                          Get.toNamed('/decidenavigation', arguments: matchingId);
+                          Get.toNamed('/decidenavigation',
+                              arguments: matchingId);
                         }),
-                        const SizedBox(width: 15),
-                        callButton('거절', const Color.fromARGB(255, 218, 218, 218), Colors.black, 120, () {
+                        const SizedBox(width: 10),
+                        callButton('거절', 120, () {
                           Navigator.pop(context);
                         }),
                       ],
@@ -74,8 +78,8 @@ class CallAcceptPageView extends StatelessWidget {
 
   Widget locationInfo(String title, String location, String length) {
     final isDeparture = title == '출발';
-    final titleStyle = TextStyle(fontSize: 30);
-    final locationStyle = TextStyle(fontSize: 40, fontWeight: FontWeight.bold);
+    const titleStyle = TextStyle(fontSize: 30);
+    const locationStyle = TextStyle(fontSize: 40, fontWeight: FontWeight.bold);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,8 +88,10 @@ class CallAcceptPageView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(title, style: titleStyle),
-            if (isDeparture && length.isNotEmpty) SizedBox(width: 8),
-            if (isDeparture && length.isNotEmpty) Text(length, style: TextStyle(fontSize: 20, color: Colors.grey)),
+            if (isDeparture && length.isNotEmpty) const SizedBox(width: 8),
+            if (isDeparture && length.isNotEmpty)
+              Text(length,
+                  style: const TextStyle(fontSize: 20, color: Colors.grey)),
           ],
         ),
         Text(location, style: locationStyle),
@@ -97,29 +103,35 @@ class CallAcceptPageView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: TextStyle(fontSize: 15, color: Colors.black)),
-        Text(text, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
+        Text(title, style: const TextStyle(fontSize: 15, color: Colors.black)),
+        Text(text,
+            style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
       ],
     );
   }
 
-  Widget callButton(String text, Color backgroundColor, Color textColor, double width, VoidCallback onPressed) {
-    return Container(
+  Widget callButton(String text, double width, VoidCallback onPressed) {
+    return SizedBox(
       width: width,
       height: 70,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          foregroundColor: textColor,
-          backgroundColor: backgroundColor,
+          foregroundColor:
+              text == '수락하기' ? Colors.white : const Color(0xFF1479FF),
+          backgroundColor:
+              text == '수락하기' ? const Color(0xFF1479FF) : Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-          textStyle: TextStyle(
+              borderRadius: BorderRadius.circular(30.0),
+              side: const BorderSide(color: Color(0xFF1479FF), width: 2)),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          textStyle: const TextStyle(
             fontSize: 32.0,
             fontWeight: FontWeight.w600,
           ),
-          elevation: 7,
+          elevation: 0,
           shadowColor: Colors.blue.withOpacity(0.3),
         ),
         onPressed: onPressed,
