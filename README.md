@@ -485,7 +485,7 @@ https://github.com/user-attachments/assets/14b638f0-ce33-4c31-bb9f-9cfa0b518a8b
 
 &emsp;**3 ) 메인페이지**
 <p align="center"> 
-<img src="/img/다_메인페이지.png" width="200px" title="Title" alt="Alt text"></img>
+<img src="/img/다_메인 페이지.png" width="200px" title="Title" alt="Alt text"></img>
 </p>
 
 <div align="center"> 
