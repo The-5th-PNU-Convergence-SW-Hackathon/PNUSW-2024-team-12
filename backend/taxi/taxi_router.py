@@ -244,9 +244,14 @@ def get_taxi_main(
     ):
 
     user = get_current_user(credentials, user_db)
-    
-    taxi_data = taxi_db.query(Taxi_model).filter(Taxi_model.driver_name == user.user_name).first()
 
-    return taxi_data
+    taxi_data = taxi_db.query(Taxi_model).filter(Taxi_model.driver_name == user.user_name).first()
+    ret = TaxiMain(
+        user_id=user.user_id,
+        driver_name=taxi_data.driver_name,
+        car_num=taxi_data.car_num,
+        car_model=taxi_data.car_model
+    )
+    return ret
 
 

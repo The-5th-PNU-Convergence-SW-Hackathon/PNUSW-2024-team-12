@@ -33,6 +33,7 @@ class CallInfo(BaseModel):
     duration: int
     
 class TaxiMain(BaseModel):
+    user_id: str
     driver_name: str
     car_num: str
     car_model: str
