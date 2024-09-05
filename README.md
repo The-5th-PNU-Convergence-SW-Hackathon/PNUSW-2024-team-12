@@ -386,7 +386,6 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 - 등록한 시간표에 따라 *메인페이지*의 *목적지 추천*에 시간표에 해당하는 목적지를 자동으로 추천
 - *목적지를 이곳으로 선택* 버튼을 클릭하면 매칭화면으로 넘어가 도착지를 자동으로 설정
 
-https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
   
 &emsp;**5 ) 매칭 목록**
 - 예약 목록은 빠른 매칭과 매칭 예약으로 나뉨
@@ -395,7 +394,7 @@ https://github.com/user-attachments/assets/922ab5c6-ccc8-4119-8c00-fef44005ce6b
 - 탑승하고 싶은 목록을 클릭하면 매칭에 합류
 
 
-https://github.com/user-attachments/assets/14b638f0-ce33-4c31-bb9f-9cfa0b518a8b
+
 
 
 &emsp;**6 ) 빠른 매칭**
@@ -409,7 +408,9 @@ https://github.com/user-attachments/assets/14b638f0-ce33-4c31-bb9f-9cfa0b518a8b
 - *다음 단계로 넘어가기* 버튼을 클릭
 - 출발지와 도착지를 입력하면 소요시간, 예상 금액, 이동 경로, 지도 등이 표시
 - 최소인원을 설정하고 *매칭 시작하기*버튼을 클릭하면 매칭이 시작
-  
+
+https://github.com/user-attachments/assets/14b638f0-ce33-4c31-bb9f-9cfa0b518a8b
+
 &emsp;**8 ) 채팅**
 - 매칭 대기화면에서 채팅버튼을 클릭하면 채팅화면으로 이동
 - 채팅을 통해 현재 위치를 공유할 수 있음
