@@ -366,7 +366,7 @@
   - 인증번호가 일치할 시 인증 완료
   - 불일치할 시 재인증
 
-  https://github.com/user-attachments/assets/02b5049c-3781-4717-83ce-2250f2eba1ce
+
 
 
 &emsp;**2 ) 로그인**
