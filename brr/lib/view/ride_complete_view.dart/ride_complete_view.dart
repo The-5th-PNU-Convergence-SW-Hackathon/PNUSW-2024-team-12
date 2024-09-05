@@ -2,25 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RideCompletePageView extends StatelessWidget {
-  final String taxiNumber = '부산 12바 2901';
-  final String carModel = '아이오닉 5';
-  final String driverName = '이지헌 기사님';
-  final String date = '24.09.04';
-  final String time = '16:31 - 16:32';
-  final String departure = '부산대학교 정문';
-  final String destination = '부산대학교 조형관';
-  final String fare = '4,800원';
 
   const RideCompletePageView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> data = Get.arguments;
+
+    final driver_name = data['driver_name'];
+    final car_num = data['car_num'];
+    final car_model = data['car_model'];
+    final date = data['date'];
+    final depart = data['depart'];
+    final dest = data['dest'];
+    final boarding_time = data['boarding_time'];
+    final quit_time = data['quit_time'];
+    final amount = data['amount'];
     return SafeArea(child: 
     Scaffold(
       backgroundColor: Colors.white,
       body : Padding(padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 45.0),
       child : Column(children: [
-        const Column(
+        Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -36,8 +39,8 @@ class RideCompletePageView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Text(
-              '총 4,800원이 자동결제 되었어요!',
+                    Text(
+              '총 ${amount}원이 자동결제 되었어요!',
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.black,
@@ -67,9 +70,9 @@ class RideCompletePageView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  buildInfoRow('차량 번호', taxiNumber),
-                  buildInfoRow('차종', carModel),
-                  buildInfoRow('기사 이름', driverName),
+                  buildInfoRow('차량 번호', car_num),
+                  buildInfoRow('차종', car_model),
+                  buildInfoRow('기사 이름', driver_name),
                   const SizedBox(height: 20),
                   const Text(
                     '운행정보',
@@ -80,10 +83,10 @@ class RideCompletePageView extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   buildInfoRow('날짜', date),
-                  buildInfoRow('시간', time),
-                  buildInfoRow('출발', departure),
-                  buildInfoRow('도착', destination),
-                  buildInfoRow('금액', fare),
+                  buildInfoRow('시간', '$boarding_time - $quit_time'),
+                  buildInfoRow('출발', depart),
+                  buildInfoRow('도착', dest),
+                  buildInfoRow('금액', amount.toString()),
                 ],
               ),
             ),

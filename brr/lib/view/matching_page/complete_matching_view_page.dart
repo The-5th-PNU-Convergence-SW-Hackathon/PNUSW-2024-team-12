@@ -28,17 +28,22 @@ class _CompleteMatchingViewPageState extends State<CompleteMatchingViewPage> {
   }
 
   void setupWebSocketListener() {
+    Map<String, dynamic>? parsedData;
     controllerAdd.currentMemberStatus.listen((status) {
-      if (status == '운행완료') {
+      if (status.contains('car_model')) {
+        final message = status;
+        parsedData = jsonDecode(message);
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          Get.toNamed('/ridecomplete');
+          Get.toNamed('/ridecomplete', arguments: parsedData);
         });
       }
     });
     controller.currentMemberCount.listen((status) {
-      if (status == '운행완료') {
+      if (status.contains('car_model')) {
+        final message = status;
+        parsedData = jsonDecode(message);
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          Get.toNamed('/ridecomplete');
+          Get.toNamed('/ridecomplete', arguments: parsedData);
         });
       }
     });

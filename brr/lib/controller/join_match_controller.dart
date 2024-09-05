@@ -7,12 +7,15 @@ import 'package:brr/constants/url.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:web_socket_channel/web_socket_channel.dart';
-
+import 'package:web_socket_channel/status.dart' as status;
 class JoinMatchController extends GetxController {
   var joinedMatches = <JoinMatchModel>[].obs;
-  late WebSocketChannel channel;
+  late WebSocketChannel channel = WebSocketChannel.connect(
+    Uri.parse('ws://placeholder'), 
+  ); 
   RxString currentMemberCount = '0'.obs;
   RxInt lobbyId = 0.obs;
+
   Future<void> joinMatch(int id) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -34,7 +37,7 @@ class JoinMatchController extends GetxController {
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(utf8.decode(response.bodyBytes));
-        lobbyId.value = responseData['id']; // 서버로부터 받은 lobby_id를 설정
+        lobbyId.value = responseData['id']; 
         if (responseData is Map<String, dynamic>) {
           JoinMatchModel match = JoinMatchModel.fromJson(responseData);
           joinedMatches.add(match);
@@ -42,7 +45,6 @@ class JoinMatchController extends GetxController {
           Get.toNamed('/joinloading');
         }
 
-        // WebSocket 연결을 설정합니다.
         joinLobby(lobbyId.value);
       } else if (response.statusCode == 401) {
         Get.offAllNamed('/login');
@@ -61,15 +63,16 @@ class JoinMatchController extends GetxController {
     }
   }
 
-  // WebSocket 연결 설정
   void joinLobby(int lobbyId) {
+    channel.sink.close(status.goingAway);
+
     final url = 'ws://${Urls.wsUrl}matching/lobbies/$lobbyId/ws';
     channel = WebSocketChannel.connect(Uri.parse(url));
 
     channel.stream.listen((message) {
       print("Received message: $message");
       currentMemberCount.value = message;
-      print("서버연결이 완료되었음");
+      print("서버 연결이 완료되었습니다");
     }, onError: (error) {
       print('WebSocket error: $error');
     }, onDone: () {
