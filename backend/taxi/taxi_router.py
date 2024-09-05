@@ -184,22 +184,7 @@ async def complete_drive(
     if matching.current_member < matching.min_member:
         raise HTTPException(status_code=400, detail=f"최소 {matching.min_member}명의 인원이 필요합니다.")
 
-    # matching_mate = [name.strip() for name in matching.mate.split(",")]
-    # n_amount = amount / matching.current_member
-    # for name in matching_mate:
-    #     user_mate = user_db.query(User_model).filter(User_model.user_name == name).first()
-    #     user_mate_brr_cash = user_mate.brr_cash
-    #     user_mate.brr_cash =  user_mate_brr_cash - n_amount
-    #     user_db.commit()
-
-
     taxi = taxi_db.query(Taxi_model).filter(Taxi_model.user_id == user.user_id).first()
-    # taxi_user = user_db.query(User_model).filter(User_model.user_id == taxi.user_id).first()
-    # if taxi_user:
-    #     current_amout = taxi_user.brr_cash 
-    #     taxi_user.brr_cash  = current_amout + amount
-    #     user_db.commit()
-
 
     # history detail 추가하기 : 택시 데이터 추가
     history_data = HistoryCreate(
@@ -216,9 +201,22 @@ async def complete_drive(
     create_history(history=history_data, user_id=matching.created_by, db=history_db)
 
     # 매칭 삭제
-    match_db.delete(matching)
+    match_db.delete(matching)  
     match_db.commit()
-    await lobby_manager.broadcast(matching_id, message="운행완료")
+    taxi_complete_data = {
+        "driver_name" : user.user_name,
+        "car_num" : taxi.car_num,
+        "car_model":taxi.car_model,
+        "date":datetime.now(),
+        "boarding_time":matching.boarding_time.strftime("%H:%M"),  
+        "quit_time":datetime.now().strftime("%H:%M"),  
+        "depart":matching.depart,
+        "dest":matching.dest,
+        "amount":amount
+    }
+    
+    await lobby_manager.broadcast(matching_id, message=json.dumps(taxi_complete_data))
+    
     return {"message": "운행이 완료되어 매칭 정보가 기록되었습니다."}
 
 
@@ -251,9 +249,4 @@ def get_taxi_main(
 
     return taxi_data
 
-# @router.get("/complete/quit", response_model=TaxiDriveComplete)
-# def get_taxi_complete(matching_id : int,
-#                       car_num: str,
-
-#                       ):
 
