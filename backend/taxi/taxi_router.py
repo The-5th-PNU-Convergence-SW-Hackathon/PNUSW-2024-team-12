@@ -207,7 +207,7 @@ async def complete_drive(
         "driver_name" : user.user_name,
         "car_num" : taxi.car_num,
         "car_model":taxi.car_model,
-        "date":datetime.now(),
+        "date":datetime.now().strftime("%y.%m.%d"),
         "boarding_time":matching.boarding_time.strftime("%H:%M"),  
         "quit_time":datetime.now().strftime("%H:%M"),  
         "depart":matching.depart,
@@ -216,7 +216,7 @@ async def complete_drive(
     }
     
     await lobby_manager.broadcast(matching_id, message=json.dumps(taxi_complete_data))
-    
+
     return {"message": "운행이 완료되어 매칭 정보가 기록되었습니다."}
 
 
