@@ -386,6 +386,9 @@ https://github.com/user-attachments/assets/4bb5e971-b62a-4b6f-9045-67f0c4ceb874
 - 등록한 시간표에 따라 *메인페이지*의 *목적지 추천*에 시간표에 해당하는 목적지를 자동으로 추천
 - *목적지를 이곳으로 선택* 버튼을 클릭하면 매칭화면으로 넘어가 도착지를 자동으로 설정
 
+
+https://github.com/user-attachments/assets/6ac487c6-1036-456b-be69-1e8cdd0bbcad
+
   
 &emsp;**5 ) 매칭 목록**
 - 예약 목록은 빠른 매칭과 매칭 예약으로 나뉨
@@ -485,7 +488,7 @@ https://github.com/user-attachments/assets/14b638f0-ce33-4c31-bb9f-9cfa0b518a8b
 
 &emsp;**3 ) 메인페이지**
 <p align="center"> 
-<img src="/img/다_메인페이지.png" width="200px" title="Title" alt="Alt text"></img>
+<img src="/img/다_메인 페이지.png" width="200px" title="Title" alt="Alt text"></img>
 </p>
 
 <div align="center"> 
