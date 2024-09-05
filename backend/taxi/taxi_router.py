@@ -6,7 +6,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from database import get_matchdb, get_userdb, get_historydb, get_taxidb
 from models import Matching as Matching_model, Lobby as Lobby_model, User as User_model, Taxi as Taxi_model
-from taxi.taxi_schema import CallInfo, TaxiResponse
+from taxi.taxi_schema import CallInfo, TaxiResponse, TaxiDriveComplete, TaxiMain
 # user
 from user.user_func import get_current_user
 
@@ -237,3 +237,23 @@ def path(
     print(path)
     return path
     
+
+@router.get("/taxi_main", response_model=TaxiMain)
+def get_taxi_main(
+    credentials: HTTPAuthorizationCredentials = Security(security),
+    user_db: Session = Depends(get_userdb),
+    taxi_db: Session = Depends(get_taxidb)
+    ):
+
+    user = get_current_user(credentials, user_db)
+    
+    taxi_data = taxi_db.query(Taxi_model).filter(Taxi_model.driver_name == user.user_name).first()
+
+    return taxi_data
+
+# @router.get("/complete/quit", response_model=TaxiDriveComplete)
+# def get_taxi_complete(matching_id : int,
+#                       car_num: str,
+
+#                       ):
+

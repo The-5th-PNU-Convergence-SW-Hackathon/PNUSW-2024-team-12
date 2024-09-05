@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 class TaxiResponse(BaseModel):
     taxi_id: int
@@ -31,8 +32,15 @@ class CallInfo(BaseModel):
     distance: int
     duration: int
     
+class TaxiMain(BaseModel):
+    driver_name: str
+    car_num: str
+    car_model: str
 
-
-
-
-
+class TaxiDriveComplete(TaxiMain):
+    date: datetime
+    boarding_time: str
+    quit_time: str
+    depart: str
+    dest: str
+    amount: int
