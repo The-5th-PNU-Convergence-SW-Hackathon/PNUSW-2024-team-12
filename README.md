@@ -784,7 +784,7 @@ $ flutter run
 순서대로 매칭 방을 만드는 사용자, 택시기사, 매칭에 참여하는 타 사용자
 
 
-https://youtu.be/UkHAIYrOYEw
+https://youtu.be/cT4UYSdCUgM
 
 ### 6. 팀 소개
 > 팀원 소개 & 구성원 별 역할 분담 & 간단한 연락처를 작성하세요.
