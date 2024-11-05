@@ -61,7 +61,7 @@ class _DriverMainPageViewState extends State<DriverMainPageView> {
               Obx(() =>
                   driverProfile(_myPageController.nickname.value, '효원운수')),
               const SizedBox(height: 15),
-              carProfile('아이오닉5 / 중형/ 모범', '부산 12바 2901'),
+              carProfile(_myPageController.car_model.value, _myPageController.car_num.value),
               const SizedBox(height: 15),
               workButton(),
               const SizedBox(height: 5),

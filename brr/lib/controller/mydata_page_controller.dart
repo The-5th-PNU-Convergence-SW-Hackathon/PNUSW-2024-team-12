@@ -12,6 +12,8 @@ class MyPageController extends GetxController {
   final newPwCheckController = TextEditingController();
 
   var nickname = ''.obs;
+  var car_num = ''.obs;
+  var car_model = ''.obs;
   var id = ''.obs;
 
   @override
@@ -34,7 +36,7 @@ class MyPageController extends GetxController {
   Future<void> showInfo() async {
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString('access_token');
-    String apiUrl = '${Urls.apiUrl}user/get_user';
+    String apiUrl = '${Urls.apiUrl}taxi/taxi_main';
     try {
       var response = await http.get(Uri.parse(apiUrl), headers: {
         'Content-Type': 'application/json',
@@ -44,8 +46,10 @@ class MyPageController extends GetxController {
       if (response.statusCode == 200) {
         String bodyUtf8 = utf8.decode(response.bodyBytes);
         var data = mypage_info.fromJson(json.decode(bodyUtf8));
-        nickname.value = data.user_name;
-        id.value = data.user_id;
+        nickname.value = data.driver_name;
+        car_num.value = data.car_num;
+        car_model.value = data.car_model;
+        id.value = data.id;
       } else {}
     } catch (e) {
       Get.snackbar(
